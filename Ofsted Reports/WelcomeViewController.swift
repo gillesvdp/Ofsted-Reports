@@ -30,13 +30,13 @@ class WelcomeViewController: UIViewController {
             return
         }
         
+        
+        /// COMMENTED TO AVOID ACCESSING THE API WHILE SETTING UP OTHER APP FUNCTIONS
+        /*
         // Saving the newSearch
         let newSearch = CoreDataStackManager.sharedInstance.saveNewSearch(self.textFieldOutlet.text!)
         
         // Searching for schools through the Api
-        
-        /// COMMENTED TO AVOID ACCESSING THE API WHILE SETTING UP OTHER APP FUNCTIONS
-        /*
         accessApi.get(textFieldOutlet.text!,
             completionHandler: {(schoolsInfoArray, errorString) -> Void in
                 dispatch_async(dispatch_get_main_queue(), {

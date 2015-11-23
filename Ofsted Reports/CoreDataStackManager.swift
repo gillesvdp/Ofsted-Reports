@@ -77,8 +77,9 @@ class CoreDataStackManager {
         }
     }
     
-    // MARK: - Data
+    // MARK: Data Management
     
+    /// Functions for WelcomeViewController
     func saveNewSearch(postCode: String) -> Search {
         let newSearch = Search(postCode: postCode, context: managedObjectContext)
         saveContext()
@@ -106,5 +107,21 @@ class CoreDataStackManager {
             newSchool.search = search
         }
         saveContext()
+    }
+    
+    /// Functions for MapView
+    func retrieveSchoolsOfSearch() -> [School] {
+        var funcReturn = [School]()
+        
+        let request = NSFetchRequest(entityName: "School")
+        request.returnsObjectsAsFaults = false
+        
+        do {
+            funcReturn = try managedObjectContext.executeFetchRequest(request) as! [School]
+        } catch {
+            print(error)
+        }
+        
+        return funcReturn
     }
 }
