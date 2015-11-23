@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -22,10 +23,10 @@
             </objects>
             <point key="canvasLocation" x="-382" y="389"/>
         </scene>
-        <!--View Controller-->
+        <!--Welcome View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Ofsted_Reports" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="WelcomeViewController" customModule="Ofsted_Reports" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -33,21 +34,58 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wms-sQ-XvQ">
+                                <rect key="frame" x="20" y="285" width="560" height="30"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter a Post Code" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OwL-Pf-d02">
+                                <rect key="frame" x="231.5" y="234.5" width="137.5" height="20.5"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dlv-zO-mAG">
+                                <rect key="frame" x="218" y="345" width="165" height="30"/>
+                                <animations/>
+                                <state key="normal" title="Check Schools Near Me"/>
+                                <connections>
+                                    <action selector="buttonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Mcw-UR-DEC"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Dlv-zO-mAG" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="6Nk-3A-SI9"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="wms-sQ-XvQ" secondAttribute="trailing" id="InS-ro-95b"/>
+                            <constraint firstItem="Dlv-zO-mAG" firstAttribute="top" secondItem="wms-sQ-XvQ" secondAttribute="bottom" constant="30" id="JdV-7g-rbd"/>
+                            <constraint firstItem="wms-sQ-XvQ" firstAttribute="top" secondItem="OwL-Pf-d02" secondAttribute="bottom" constant="30" id="SAH-zp-R53"/>
+                            <constraint firstItem="wms-sQ-XvQ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="bt1-Sm-yPE"/>
+                            <constraint firstItem="wms-sQ-XvQ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="f1M-hd-rMI"/>
+                            <constraint firstItem="OwL-Pf-d02" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="gWg-55-7wH"/>
+                            <constraint firstItem="wms-sQ-XvQ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="yCa-iF-dih"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="wqs-g5-Gkk"/>
                     <connections>
+                        <outlet property="buttonOutlet" destination="Dlv-zO-mAG" id="nBy-pe-vD6"/>
+                        <outlet property="labelOutlet" destination="OwL-Pf-d02" id="Isa-uX-8vs"/>
+                        <outlet property="textFieldOutlet" destination="wms-sQ-XvQ" id="F1I-rJ-Mql"/>
                         <segue destination="E0X-RA-xxc" kind="show" identifier="showMap" id="2gJ-ny-gji"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="320" y="389"/>
         </scene>
-        <!--View Controller-->
+        <!--Map View Controller-->
         <scene sceneID="cIq-DD-Tr2">
             <objects>
-                <viewController id="E0X-RA-xxc" sceneMemberID="viewController">
+                <viewController id="E0X-RA-xxc" customClass="MapViewController" customModule="Ofsted_Reports" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="xJc-4k-O0y"/>
                         <viewControllerLayoutGuide type="bottom" id="xZV-si-rWr"/>
@@ -71,6 +109,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="mapView" destination="iXt-Ld-JSo" id="ODJ-bx-gBK"/>
                         <segue destination="Hw6-mS-xYm" kind="show" identifier="showSchoolDetails" id="Waw-bY-HMO"/>
                     </connections>
                 </viewController>
@@ -78,17 +117,17 @@
             </objects>
             <point key="canvasLocation" x="1008" y="389"/>
         </scene>
-        <!--Table View Controller-->
+        <!--School Details Table View Controller-->
         <scene sceneID="0dv-HR-E1B">
             <objects>
-                <tableViewController id="Hw6-mS-xYm" sceneMemberID="viewController">
+                <tableViewController id="Hw6-mS-xYm" customClass="SchoolDetailsTableViewController" customModule="Ofsted_Reports" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="GAg-gF-yKS">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="csE-gI-QX5">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="csE-gI-QX5">
                                 <rect key="frame" x="0.0" y="92" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="csE-gI-QX5" id="uoq-JK-OUc">

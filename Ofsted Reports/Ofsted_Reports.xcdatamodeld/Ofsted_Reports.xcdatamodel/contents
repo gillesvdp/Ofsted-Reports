@@ -1,4 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="Test1.xcdatamodel" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
-    <elements/>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9057" systemVersion="15B42" minimumToolsVersion="Automatic">
+    <entity name="School" representedClassName=".School" syncable="YES">
+        <attribute name="distanceMetres" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="lastInspectionDate" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastInspectionUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="leadershipAndManagement" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="overallEffectiveness" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="phase" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="photoLocalUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="photoWebUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="qualityOfTeaching" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="schoolName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="typeOfEstablishment" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="urn" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="search" maxCount="1" deletionRule="Nullify" destinationEntity="Search" inverseName="schools" inverseEntity="Search" syncable="YES"/>
+    </entity>
+    <entity name="Search" representedClassName=".Search" syncable="YES">
+        <attribute name="date" attributeType="Date" syncable="YES"/>
+        <attribute name="postCode" attributeType="String" syncable="YES"/>
+        <relationship name="schools" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="School" inverseName="search" inverseEntity="School" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="School" positionX="-63" positionY="-18" width="128" height="270"/>
+        <element name="Search" positionX="-396" positionY="162" width="128" height="88"/>
+    </elements>
 </model>
