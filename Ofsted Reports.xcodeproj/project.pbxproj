@@ -1,0 +1,524 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		98B7730A1C03458200BC37E3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B773091C03458200BC37E3 /* AppDelegate.swift */; };
+		98B7730C1C03458200BC37E3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B7730B1C03458200BC37E3 /* ViewController.swift */; };
+		98B7730F1C03458200BC37E3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98B7730D1C03458200BC37E3 /* Main.storyboard */; };
+		98B773121C03458200BC37E3 /* Ofsted_Reports.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 98B773101C03458200BC37E3 /* Ofsted_Reports.xcdatamodeld */; };
+		98B773141C03458200BC37E3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98B773131C03458200BC37E3 /* Assets.xcassets */; };
+		98B773171C03458200BC37E3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98B773151C03458200BC37E3 /* LaunchScreen.storyboard */; };
+		98B773221C03458200BC37E3 /* Ofsted_ReportsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B773211C03458200BC37E3 /* Ofsted_ReportsTests.swift */; };
+		98B7732D1C03458200BC37E3 /* Ofsted_ReportsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B7732C1C03458200BC37E3 /* Ofsted_ReportsUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		98B7731E1C03458200BC37E3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98B772FE1C03458200BC37E3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 98B773051C03458200BC37E3;
+			remoteInfo = "Ofsted Reports";
+		};
+		98B773291C03458200BC37E3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98B772FE1C03458200BC37E3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 98B773051C03458200BC37E3;
+			remoteInfo = "Ofsted Reports";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		98B773061C03458200BC37E3 /* Ofsted Reports.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Ofsted Reports.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		98B773091C03458200BC37E3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		98B7730B1C03458200BC37E3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		98B7730E1C03458200BC37E3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		98B773111C03458200BC37E3 /* Ofsted_Reports.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Ofsted_Reports.xcdatamodel; sourceTree = "<group>"; };
+		98B773131C03458200BC37E3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		98B773161C03458200BC37E3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		98B773181C03458200BC37E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		98B7731D1C03458200BC37E3 /* Ofsted ReportsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Ofsted ReportsTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		98B773211C03458200BC37E3 /* Ofsted_ReportsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ofsted_ReportsTests.swift; sourceTree = "<group>"; };
+		98B773231C03458200BC37E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		98B773281C03458200BC37E3 /* Ofsted ReportsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Ofsted ReportsUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		98B7732C1C03458200BC37E3 /* Ofsted_ReportsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ofsted_ReportsUITests.swift; sourceTree = "<group>"; };
+		98B7732E1C03458200BC37E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		98B773031C03458200BC37E3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		98B7731A1C03458200BC37E3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		98B773251C03458200BC37E3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		98B772FD1C03458200BC37E3 = {
+			isa = PBXGroup;
+			children = (
+				98B773081C03458200BC37E3 /* Ofsted Reports */,
+				98B773201C03458200BC37E3 /* Ofsted ReportsTests */,
+				98B7732B1C03458200BC37E3 /* Ofsted ReportsUITests */,
+				98B773071C03458200BC37E3 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		98B773071C03458200BC37E3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				98B773061C03458200BC37E3 /* Ofsted Reports.app */,
+				98B7731D1C03458200BC37E3 /* Ofsted ReportsTests.xctest */,
+				98B773281C03458200BC37E3 /* Ofsted ReportsUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		98B773081C03458200BC37E3 /* Ofsted Reports */ = {
+			isa = PBXGroup;
+			children = (
+				98B773091C03458200BC37E3 /* AppDelegate.swift */,
+				98B7730B1C03458200BC37E3 /* ViewController.swift */,
+				98B7730D1C03458200BC37E3 /* Main.storyboard */,
+				98B773131C03458200BC37E3 /* Assets.xcassets */,
+				98B773151C03458200BC37E3 /* LaunchScreen.storyboard */,
+				98B773181C03458200BC37E3 /* Info.plist */,
+				98B773101C03458200BC37E3 /* Ofsted_Reports.xcdatamodeld */,
+			);
+			path = "Ofsted Reports";
+			sourceTree = "<group>";
+		};
+		98B773201C03458200BC37E3 /* Ofsted ReportsTests */ = {
+			isa = PBXGroup;
+			children = (
+				98B773211C03458200BC37E3 /* Ofsted_ReportsTests.swift */,
+				98B773231C03458200BC37E3 /* Info.plist */,
+			);
+			path = "Ofsted ReportsTests";
+			sourceTree = "<group>";
+		};
+		98B7732B1C03458200BC37E3 /* Ofsted ReportsUITests */ = {
+			isa = PBXGroup;
+			children = (
+				98B7732C1C03458200BC37E3 /* Ofsted_ReportsUITests.swift */,
+				98B7732E1C03458200BC37E3 /* Info.plist */,
+			);
+			path = "Ofsted ReportsUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		98B773051C03458200BC37E3 /* Ofsted Reports */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 98B773311C03458200BC37E3 /* Build configuration list for PBXNativeTarget "Ofsted Reports" */;
+			buildPhases = (
+				98B773021C03458200BC37E3 /* Sources */,
+				98B773031C03458200BC37E3 /* Frameworks */,
+				98B773041C03458200BC37E3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Ofsted Reports";
+			productName = "Ofsted Reports";
+			productReference = 98B773061C03458200BC37E3 /* Ofsted Reports.app */;
+			productType = "com.apple.product-type.application";
+		};
+		98B7731C1C03458200BC37E3 /* Ofsted ReportsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 98B773341C03458200BC37E3 /* Build configuration list for PBXNativeTarget "Ofsted ReportsTests" */;
+			buildPhases = (
+				98B773191C03458200BC37E3 /* Sources */,
+				98B7731A1C03458200BC37E3 /* Frameworks */,
+				98B7731B1C03458200BC37E3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				98B7731F1C03458200BC37E3 /* PBXTargetDependency */,
+			);
+			name = "Ofsted ReportsTests";
+			productName = "Ofsted ReportsTests";
+			productReference = 98B7731D1C03458200BC37E3 /* Ofsted ReportsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		98B773271C03458200BC37E3 /* Ofsted ReportsUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 98B773371C03458200BC37E3 /* Build configuration list for PBXNativeTarget "Ofsted ReportsUITests" */;
+			buildPhases = (
+				98B773241C03458200BC37E3 /* Sources */,
+				98B773251C03458200BC37E3 /* Frameworks */,
+				98B773261C03458200BC37E3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				98B7732A1C03458200BC37E3 /* PBXTargetDependency */,
+			);
+			name = "Ofsted ReportsUITests";
+			productName = "Ofsted ReportsUITests";
+			productReference = 98B773281C03458200BC37E3 /* Ofsted ReportsUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		98B772FE1C03458200BC37E3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0710;
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = gillesvdp;
+				TargetAttributes = {
+					98B773051C03458200BC37E3 = {
+						CreatedOnToolsVersion = 7.1;
+					};
+					98B7731C1C03458200BC37E3 = {
+						CreatedOnToolsVersion = 7.1;
+						TestTargetID = 98B773051C03458200BC37E3;
+					};
+					98B773271C03458200BC37E3 = {
+						CreatedOnToolsVersion = 7.1;
+						TestTargetID = 98B773051C03458200BC37E3;
+					};
+				};
+			};
+			buildConfigurationList = 98B773011C03458200BC37E3 /* Build configuration list for PBXProject "Ofsted Reports" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 98B772FD1C03458200BC37E3;
+			productRefGroup = 98B773071C03458200BC37E3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				98B773051C03458200BC37E3 /* Ofsted Reports */,
+				98B7731C1C03458200BC37E3 /* Ofsted ReportsTests */,
+				98B773271C03458200BC37E3 /* Ofsted ReportsUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		98B773041C03458200BC37E3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				98B773171C03458200BC37E3 /* LaunchScreen.storyboard in Resources */,
+				98B773141C03458200BC37E3 /* Assets.xcassets in Resources */,
+				98B7730F1C03458200BC37E3 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		98B7731B1C03458200BC37E3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		98B773261C03458200BC37E3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		98B773021C03458200BC37E3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				98B7730C1C03458200BC37E3 /* ViewController.swift in Sources */,
+				98B7730A1C03458200BC37E3 /* AppDelegate.swift in Sources */,
+				98B773121C03458200BC37E3 /* Ofsted_Reports.xcdatamodeld in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		98B773191C03458200BC37E3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				98B773221C03458200BC37E3 /* Ofsted_ReportsTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		98B773241C03458200BC37E3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				98B7732D1C03458200BC37E3 /* Ofsted_ReportsUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		98B7731F1C03458200BC37E3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 98B773051C03458200BC37E3 /* Ofsted Reports */;
+			targetProxy = 98B7731E1C03458200BC37E3 /* PBXContainerItemProxy */;
+		};
+		98B7732A1C03458200BC37E3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 98B773051C03458200BC37E3 /* Ofsted Reports */;
+			targetProxy = 98B773291C03458200BC37E3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		98B7730D1C03458200BC37E3 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				98B7730E1C03458200BC37E3 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		98B773151C03458200BC37E3 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				98B773161C03458200BC37E3 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		98B7732F1C03458200BC37E3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		98B773301C03458200BC37E3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		98B773321C03458200BC37E3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "Ofsted Reports/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.gillesvdp.Ofsted-Reports";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		98B773331C03458200BC37E3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "Ofsted Reports/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.gillesvdp.Ofsted-Reports";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		98B773351C03458200BC37E3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = "Ofsted ReportsTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.gillesvdp.Ofsted-ReportsTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Ofsted Reports.app/Ofsted Reports";
+			};
+			name = Debug;
+		};
+		98B773361C03458200BC37E3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = "Ofsted ReportsTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.gillesvdp.Ofsted-ReportsTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Ofsted Reports.app/Ofsted Reports";
+			};
+			name = Release;
+		};
+		98B773381C03458200BC37E3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "Ofsted ReportsUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.gillesvdp.Ofsted-ReportsUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = "Ofsted Reports";
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		98B773391C03458200BC37E3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "Ofsted ReportsUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.gillesvdp.Ofsted-ReportsUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = "Ofsted Reports";
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		98B773011C03458200BC37E3 /* Build configuration list for PBXProject "Ofsted Reports" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				98B7732F1C03458200BC37E3 /* Debug */,
+				98B773301C03458200BC37E3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		98B773311C03458200BC37E3 /* Build configuration list for PBXNativeTarget "Ofsted Reports" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				98B773321C03458200BC37E3 /* Debug */,
+				98B773331C03458200BC37E3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		98B773341C03458200BC37E3 /* Build configuration list for PBXNativeTarget "Ofsted ReportsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				98B773351C03458200BC37E3 /* Debug */,
+				98B773361C03458200BC37E3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		98B773371C03458200BC37E3 /* Build configuration list for PBXNativeTarget "Ofsted ReportsUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				98B773381C03458200BC37E3 /* Debug */,
+				98B773391C03458200BC37E3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		98B773101C03458200BC37E3 /* Ofsted_Reports.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				98B773111C03458200BC37E3 /* Ofsted_Reports.xcdatamodel */,
+			);
+			currentVersion = 98B773111C03458200BC37E3 /* Ofsted_Reports.xcdatamodel */;
+			path = Ofsted_Reports.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 98B772FE1C03458200BC37E3 /* Project object */;
+}
