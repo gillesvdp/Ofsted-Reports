@@ -27,10 +27,15 @@ class AccessAPI {
             
             do {
                 let parsedResult = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments)
+                print(parsedResult)
+                
+                guard parsedResult["schools"] != nil else {
+                    completionHandler(schoolsInfoArray: nil, errorString: "API error")
+                    return
+                }
                 
                 let schoolsInfoArray = parsedResult["schools"] as! [[String : AnyObject]]
                 
-                CoreDataStackManager.sharedInstance.saveContext()
                 completionHandler(schoolsInfoArray: schoolsInfoArray, errorString: nil)
                 
             } catch {
@@ -59,9 +64,13 @@ class AccessAPI {
                     let parsedResult = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments)
                     print(parsedResult)
                     
+                    guard parsedResult["schools"] != nil else {
+                        completionHandler(schoolsInfoArray: nil, errorString: "API error")
+                        return
+                    }
+                    
                     let schoolsInfoArray = parsedResult["schools"] as! [[String : AnyObject]]
                     
-                    CoreDataStackManager.sharedInstance.saveContext()
                     completionHandler(schoolsInfoArray: schoolsInfoArray, errorString: nil)
                     
                 } catch {

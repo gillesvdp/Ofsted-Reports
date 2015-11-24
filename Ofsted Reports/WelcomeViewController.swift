@@ -19,6 +19,7 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
             return Int(sliderOutlet.value) - Int(sliderOutlet.value) % 100
         }
     }
+    var forceCenterOnUserLocation : Bool!
     
     @IBOutlet weak var segmentedControlOutlet: UISegmentedControl!
     @IBOutlet weak var tableView: UITableView!
@@ -28,6 +29,8 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
     @IBOutlet weak var sliderValueLabelOutlet: UILabel!
     @IBOutlet weak var buttonOutlet: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet var longPressOutlet: UILongPressGestureRecognizer!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,21 +42,24 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
     
     override func viewWillAppear(animated: Bool) {
         mapView.hidden = true
+        mapView.showsUserLocation = false
         segmentedControlOutlet.enabled = true
         segmentedControlOutlet.selectedSegmentIndex = 1
+        forceCenterOnUserLocation = true
+        longPressOutlet.enabled = false
     }
     
     override func viewDidDisappear(animated: Bool) {
-        mapView.showsUserLocation = false
         locationManager.stopUpdatingLocation()
     }
     
     @IBAction func segmentedControlPressed(sender: AnyObject) {
         switch segmentedControlOutlet.selectedSegmentIndex {
         case 0:
-            // Current location
-            mapView.hidden = false
+            // My location
             textFieldOutlet.hidden = true
+            mapView.hidden = false
+            longPressOutlet.enabled = false
             
             // Request the authorization to use the user's current location
             locationManager.requestWhenInUseAuthorization()
@@ -64,12 +70,20 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
             
         case 1:
             // Post Code
-            mapView.hidden = true
             textFieldOutlet.hidden = false
+            forceCenterOnUserLocation = true
+            mapView.hidden = true
+            
         case 2:
             // Other location
-            mapView.hidden = false
             textFieldOutlet.hidden = true
+            forceCenterOnUserLocation = true
+            mapView.hidden = false
+            
+            locationManager.stopUpdatingLocation()
+            mapView.showsUserLocation = false
+            longPressOutlet.enabled = true
+            
         default:
             break; 
         }
@@ -88,19 +102,61 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
     func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         locationManager.startUpdatingLocation()
         displayCurrentUserLocation()
+        displayRadiusCircle()
     }
     
     func displayCurrentUserLocation() {
         mapView.showsUserLocation = true
         if let location = locationManager.location {
-            let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-            let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.007, longitudeDelta: 0.007))
-            mapView.setRegion(region, animated: true)
+            if self.forceCenterOnUserLocation == true { // Allows to set the region only once. Then the user is free to change the region and zoom manually without the code resetting it continuously.
+                self.forceCenterOnUserLocation = false
+                let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+                let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.007, longitudeDelta: 0.007))
+                mapView.setRegion(region, animated: true)
+            }
         }
     }
     
+    func displayRadiusCircle() {
+        /*
+        var center = CLLocationCoordinate2D()
+        if segmentedControlOutlet.selectedSegmentIndex == 0 {
+            if let location = locationManager.location {
+                center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+            }
+        }
+        if segmentedControlOutlet.selectedSegmentIndex == 2 {
+            if let annotation = mapView.annotations.first {
+                center = CLLocationCoordinate2D(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude)
+            }
+        }
+        let rad = CLLocationDistance(searchRadius)
+        let circle = MKCircle(centerCoordinate: center, radius: rad)
+        mapView.addOverlay(circle)
+        let renderer = MKOverlayRenderer(overlay: circle)
+        renderer.alpha = 0.5
+        renderer.setNeedsDisplay()
+        */
+    }
+    
+    @IBAction func longPressAction(sender: AnyObject) {
+        if sender.state == UIGestureRecognizerState.Began {
+            longPressOutlet.enabled = false
+            longPressOutlet.conformsToProtocol(MKMapViewDelegate)
+            let touchPoint = longPressOutlet.locationInView(mapView)
+            let newCoordinates = mapView.convertPoint(touchPoint, toCoordinateFromView: mapView)
+            
+            let pinAnnotation = MKPointAnnotation()
+            pinAnnotation.coordinate = newCoordinates
+            mapView.addAnnotation(pinAnnotation)
+            print(newCoordinates)
+        }
+    }
+    
+    
     @IBAction func sliderMoved(sender: AnyObject) {
         sliderValueLabelOutlet.text = String(searchRadius) + " m"
+        displayRadiusCircle()
     }
     
     
@@ -113,7 +169,8 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
         if segmentedControlOutlet.selectedSegmentIndex == 0 {
             guard locationManager.location == nil else {
                 segmentedControlOutlet.enabled = true
-                showAlertViewController(ConstantStrings.sharedInstance.noLocationErrorMessage)
+                activityIndicator.stopAnimating()
+                showAlertViewController(ConstantStrings.sharedInstance.noUserLocationErrorMessage)
                 return
             }
             
@@ -121,21 +178,17 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
             let latitude = locationManager.location!.coordinate.latitude
             let longitude = locationManager.location!.coordinate.longitude
             
-            let newSearch = CoreDataStackManager.sharedInstance.saveNewSearchByLocation(latitude, longitude: longitude, radius: radius)
-            
-            searchSchoolsByCoordinates(newSearch, latitude: latitude, longitude: longitude, radius: radius)
+            searchSchoolsByCoordinates(latitude, longitude: longitude, radius: radius)
         }
         
         // Search by Post Code
         if segmentedControlOutlet.selectedSegmentIndex == 1 {
             guard textFieldOutlet.text != "" else {
                 segmentedControlOutlet.enabled = true
+                activityIndicator.stopAnimating()
                 showAlertViewController(ConstantStrings.sharedInstance.noPostCodeErrorMessage)
                 return
             }
-            
-            // Saving the newSearch
-            let newSearch = CoreDataStackManager.sharedInstance.saveNewSearchByPostcode(self.textFieldOutlet.text!, radius: radius)
             
             // Searching for schools through postCode through the Api
             accessApi.getWithPostCode(textFieldOutlet.text!, radius: radius,
@@ -151,7 +204,10 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
                         self.showAlertViewController(ConstantStrings.sharedInstance.noSchoolsInAreaError)
                         return
                     }
-            
+                    
+                    // Saving the newSearch
+                    let newSearch = CoreDataStackManager.sharedInstance.saveNewSearchByPostcode(self.textFieldOutlet.text!, radius: radius)
+                    
                     // Saving the schools retrieved from the Api
                     CoreDataStackManager.sharedInstance.saveNewSchools(newSearch, schoolsInfoArray: schoolsInfoArray!)
             
@@ -162,13 +218,23 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         
         // Search by Other location
-        // if
-        
-        
-        
+        if segmentedControlOutlet.selectedSegmentIndex == 2 {
+            guard mapView.annotations.count != 0 else {
+                segmentedControlOutlet.enabled = true
+                activityIndicator.stopAnimating()
+                showAlertViewController(ConstantStrings.sharedInstance.noSelectedLocationErrorMessage)
+                return
+            }
+            
+            // Saving the newSearch
+            let latitude = mapView.annotations.first?.coordinate.latitude
+            let longitude = mapView.annotations.first?.coordinate.longitude
+            
+            searchSchoolsByCoordinates(latitude!, longitude: longitude!, radius: radius)
+        }
     }
     
-    func searchSchoolsByCoordinates(newSearch: Search, latitude: Double, longitude: Double, radius: Int) {
+    func searchSchoolsByCoordinates(latitude: Double, longitude: Double, radius: Int) {
         accessApi.getWithCoordinates(latitude, longitude: longitude, radius: radius,
             completionHandler: {(schoolsInfoArray, errorString) -> Void in
                 dispatch_async(dispatch_get_main_queue(), {
@@ -180,8 +246,13 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
                     
                     guard schoolsInfoArray!.count != 0 else {
                         self.showAlertViewController(ConstantStrings.sharedInstance.noSchoolsInAreaError)
+                        self.mapView.removeAnnotations(self.mapView.annotations)
+                        self.longPressOutlet.enabled = true
                         return
                     }
+                    
+                    // Saving the search
+                    let newSearch = CoreDataStackManager.sharedInstance.saveNewSearchByLocation(latitude, longitude: longitude, radius: radius)
                     
                     // Saving the schools retrieved from the Api
                     CoreDataStackManager.sharedInstance.saveNewSchools(newSearch, schoolsInfoArray: schoolsInfoArray!)
@@ -214,10 +285,10 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as UITableViewCell
-        if previousSearches[indexPath.row].postCode != nil || previousSearches[indexPath.row].postCode != "" {
+        if previousSearches[indexPath.row].postCode != nil {
             cell.textLabel!.text = previousSearches[indexPath.row].postCode! + ", " + String(previousSearches[indexPath.row].radius!)
         } else {
-            cell.textLabel!.text = String(previousSearches[indexPath.row].latitude) + ", " + String(previousSearches[indexPath.row].longitude) + ", " + String(previousSearches[indexPath.row].radius!) + " m"
+            cell.textLabel!.text = String(previousSearches[indexPath.row].latitude!) + ", " + String(previousSearches[indexPath.row].longitude!) + ", " + String(previousSearches[indexPath.row].radius!) + " m"
         }
         return cell
     }
@@ -227,23 +298,8 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let destinationVC = segue.destinationViewController as! MapViewController
+        // let destinationVC = segue.destinationViewController as! UINavigationController
         
-        if let _ = sender as? UIButton {
-            if segmentedControlOutlet.selectedSegmentIndex == 0 { // User's current location
-                
-            }
-            if segmentedControlOutlet.selectedSegmentIndex == 1 { // Postcode
-                destinationVC.viewTitle = textFieldOutlet.text!
-            }
-            if segmentedControlOutlet.selectedSegmentIndex == 2 { // Other location
-                
-            }
-        }
-        if let cell = sender as? UITableViewCell {
-            destinationVC.viewTitle = cell.textLabel!.text!
-        }
-
         // destinationVC.search = newSearch
         
     }

@@ -160,7 +160,6 @@ class CoreDataStackManager {
                     funcReturn = school.urn as! Int
                 }
             }
-            
         } catch {
             print(error)
         }
@@ -182,11 +181,9 @@ class CoreDataStackManager {
                     funcReturn = school
                 }
             }
-            
         } catch {
             print(error)
         }
-        
         return funcReturn
     }
 }
