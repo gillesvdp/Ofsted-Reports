@@ -16,7 +16,7 @@
 		98B773221C03458200BC37E3 /* Ofsted_ReportsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B773211C03458200BC37E3 /* Ofsted_ReportsTests.swift */; };
 		98B7732D1C03458200BC37E3 /* Ofsted_ReportsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B7732C1C03458200BC37E3 /* Ofsted_ReportsUITests.swift */; };
 		98B7733B1C03467000BC37E3 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B7733A1C03467000BC37E3 /* MapViewController.swift */; };
-		98B7733D1C0346A400BC37E3 /* SchoolDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B7733C1C0346A400BC37E3 /* SchoolDetailsTableViewController.swift */; };
+		98B7733D1C0346A400BC37E3 /* PreviousSe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B7733C1C0346A400BC37E3 /* PreviousSe.swift */; };
 		98B773401C034A5A00BC37E3 /* AccessAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B7733F1C034A5A00BC37E3 /* AccessAPI.swift */; };
 		98B773421C034A6E00BC37E3 /* ConstantStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B773411C034A6E00BC37E3 /* ConstantStrings.swift */; };
 		98B773451C034AAE00BC37E3 /* CoreDataStackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B773441C034AAE00BC37E3 /* CoreDataStackManager.swift */; };
@@ -57,7 +57,7 @@
 		98B7732C1C03458200BC37E3 /* Ofsted_ReportsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ofsted_ReportsUITests.swift; sourceTree = "<group>"; };
 		98B7732E1C03458200BC37E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		98B7733A1C03467000BC37E3 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
-		98B7733C1C0346A400BC37E3 /* SchoolDetailsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolDetailsTableViewController.swift; sourceTree = "<group>"; };
+		98B7733C1C0346A400BC37E3 /* PreviousSe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviousSe.swift; sourceTree = "<group>"; };
 		98B7733F1C034A5A00BC37E3 /* AccessAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessAPI.swift; sourceTree = "<group>"; };
 		98B773411C034A6E00BC37E3 /* ConstantStrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstantStrings.swift; sourceTree = "<group>"; };
 		98B773441C034AAE00BC37E3 /* CoreDataStackManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStackManager.swift; sourceTree = "<group>"; };
@@ -148,7 +148,7 @@
 			children = (
 				98B7730B1C03458200BC37E3 /* WelcomeViewController.swift */,
 				98B7733A1C03467000BC37E3 /* MapViewController.swift */,
-				98B7733C1C0346A400BC37E3 /* SchoolDetailsTableViewController.swift */,
+				98B7733C1C0346A400BC37E3 /* PreviousSe.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -300,7 +300,7 @@
 				98B773421C034A6E00BC37E3 /* ConstantStrings.swift in Sources */,
 				98B773451C034AAE00BC37E3 /* CoreDataStackManager.swift in Sources */,
 				98B7730C1C03458200BC37E3 /* WelcomeViewController.swift in Sources */,
-				98B7733D1C0346A400BC37E3 /* SchoolDetailsTableViewController.swift in Sources */,
+				98B7733D1C0346A400BC37E3 /* PreviousSe.swift in Sources */,
 				98B7730A1C03458200BC37E3 /* AppDelegate.swift in Sources */,
 				98B773121C03458200BC37E3 /* Ofsted_Reports.xcdatamodeld in Sources */,
 				98B773491C0358D300BC37E3 /* School.swift in Sources */,

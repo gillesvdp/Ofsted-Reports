@@ -80,8 +80,29 @@ class CoreDataStackManager {
     // MARK: Data Management
     
     /// Functions for WelcomeViewController
-    func saveNewSearch(postCode: String) -> Search {
-        let newSearch = Search(postCode: postCode, context: managedObjectContext)
+    func fetchPreviousSearches() -> [Search] {
+        var funcReturn = [Search]()
+        
+        let request = NSFetchRequest(entityName: "Search")
+        request.returnsObjectsAsFaults = false
+        do {
+            let results = try managedObjectContext.executeFetchRequest(request) as! [Search]
+            funcReturn = results
+            
+        } catch {
+            print(error)
+        }
+        return funcReturn
+    }
+    
+    func saveNewSearchByPostcode(postCode: String, radius: Int) -> Search {
+        let newSearch = Search(postCode: postCode, latitude: nil, longitude: nil, radius: radius, context: managedObjectContext)
+        saveContext()
+        return newSearch
+    }
+    
+    func saveNewSearchByLocation(latitude: Double, longitude: Double, radius: Int) -> Search {
+        let newSearch = Search(postCode: nil, latitude: latitude, longitude: longitude, radius: radius, context: managedObjectContext)
         saveContext()
         return newSearch
     }
@@ -118,6 +139,50 @@ class CoreDataStackManager {
         
         do {
             funcReturn = try managedObjectContext.executeFetchRequest(request) as! [School]
+        } catch {
+            print(error)
+        }
+        
+        return funcReturn
+    }
+    
+    func retrieveSchoolUrn(latitude: Double, longitude: Double) -> Int {
+        var funcReturn = Int()
+        
+        let request = NSFetchRequest(entityName: "School")
+        request.returnsObjectsAsFaults = false
+        
+        do {
+            let allSchools = try managedObjectContext.executeFetchRequest(request) as! [School]
+            
+            for school in allSchools {
+                if school.latitude == latitude && school.longitude == longitude {
+                    funcReturn = school.urn as! Int
+                }
+            }
+            
+        } catch {
+            print(error)
+        }
+        
+        return funcReturn
+    }
+    
+    func retrieveSchoolWithUrn(schoolUrn: Int) -> School {
+        var funcReturn : School!
+        
+        let request = NSFetchRequest(entityName: "School")
+        request.returnsObjectsAsFaults = false
+        
+        do {
+            let schools = try managedObjectContext.executeFetchRequest(request) as! [School]
+            
+            for school in schools {
+                if school.urn == schoolUrn {
+                    funcReturn = school
+                }
+            }
+            
         } catch {
             print(error)
         }

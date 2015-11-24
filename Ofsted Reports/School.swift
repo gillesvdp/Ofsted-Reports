@@ -27,7 +27,7 @@ class School: NSManagedObject {
     @NSManaged var photoLocalUrl: String?
     @NSManaged var photoWebUrl: String?
     @NSManaged var search: Search?
-
+    
     struct Keys {
         static let distanceMetres = "distanceMetres"
         static let lastInspectionDate = "lastInspectionDate"

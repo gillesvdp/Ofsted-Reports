@@ -19,11 +19,14 @@
     </entity>
     <entity name="Search" representedClassName=".Search" syncable="YES">
         <attribute name="date" attributeType="Date" syncable="YES"/>
-        <attribute name="postCode" attributeType="String" syncable="YES"/>
+        <attribute name="latitude" optional="YES" attributeType="Double" syncable="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Double" syncable="YES"/>
+        <attribute name="postCode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="radius" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <relationship name="schools" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="School" inverseName="search" inverseEntity="School" syncable="YES"/>
     </entity>
     <elements>
         <element name="School" positionX="-63" positionY="-18" width="128" height="270"/>
-        <element name="Search" positionX="-396" positionY="162" width="128" height="88"/>
+        <element name="Search" positionX="-396" positionY="162" width="128" height="133"/>
     </elements>
 </model>
