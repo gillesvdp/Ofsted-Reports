@@ -30,6 +30,7 @@ class ConstantStrings {
     let errorOk = "Ok"
     let noPostCodeErrorMessage = "Please type your prefered post code."
     let noLocationErrorMessage = "Could not determine your location. Please use another method."
+    let noSchoolsInAreaError = "No schools could be found in this area. Please try again with a larger search radius or in another area."
     
     /// MapViewController
     let mapAnnotationReuseIdentifier = "pin"

@@ -14,8 +14,12 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
 
     let accessApi = AccessAPI()
     let locationManager = CLLocationManager()
+    var searchRadius : Int {
+        get {
+            return Int(sliderOutlet.value) - Int(sliderOutlet.value) % 100
+        }
+    }
     
-    @IBOutlet weak var titleOutlet: UILabel!
     @IBOutlet weak var segmentedControlOutlet: UISegmentedControl!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var textFieldOutlet: UITextField!
@@ -23,6 +27,7 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
     @IBOutlet weak var sliderOutlet: UISlider!
     @IBOutlet weak var sliderValueLabelOutlet: UILabel!
     @IBOutlet weak var buttonOutlet: UIButton!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +35,6 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
         tableView.delegate = self
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -96,17 +100,18 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     @IBAction func sliderMoved(sender: AnyObject) {
-        sliderValueLabelOutlet.text = String(Int(sliderOutlet.value)) + " m"
+        sliderValueLabelOutlet.text = String(searchRadius) + " m"
     }
     
     
     @IBAction func buttonPressed(sender: AnyObject) {
+        activityIndicator.startAnimating()
         segmentedControlOutlet.enabled = false
-        let radius = Int(sliderOutlet.value)
+        let radius = searchRadius
         
         // Search by Current Location
         if segmentedControlOutlet.selectedSegmentIndex == 0 {
-            guard locationManager.location != nil else {
+            guard locationManager.location == nil else {
                 segmentedControlOutlet.enabled = true
                 showAlertViewController(ConstantStrings.sharedInstance.noLocationErrorMessage)
                 return
@@ -136,8 +141,14 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
             accessApi.getWithPostCode(textFieldOutlet.text!, radius: radius,
             completionHandler: {(schoolsInfoArray, errorString) -> Void in
                 dispatch_async(dispatch_get_main_queue(), {
+                    self.activityIndicator.stopAnimating()
                     guard errorString == nil else {
                         self.showAlertViewController(errorString!)
+                        return
+                    }
+                    
+                    guard schoolsInfoArray!.count != 0 else {
+                        self.showAlertViewController(ConstantStrings.sharedInstance.noSchoolsInAreaError)
                         return
                     }
             
@@ -161,8 +172,14 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
         accessApi.getWithCoordinates(latitude, longitude: longitude, radius: radius,
             completionHandler: {(schoolsInfoArray, errorString) -> Void in
                 dispatch_async(dispatch_get_main_queue(), {
-                    guard errorString != nil else {
+                    self.activityIndicator.stopAnimating()
+                    guard errorString == nil else {
                         self.showAlertViewController(errorString!)
+                        return
+                    }
+                    
+                    guard schoolsInfoArray!.count != 0 else {
+                        self.showAlertViewController(ConstantStrings.sharedInstance.noSchoolsInAreaError)
                         return
                     }
                     
@@ -174,6 +191,7 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
                 })
         })
     }
+    
     
     func showAlertViewController(errorMessage: String) {
         let alert = UIAlertController(title: ConstantStrings.sharedInstance.errorTitle, message: errorMessage, preferredStyle: .Alert)
@@ -199,9 +217,8 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
         if previousSearches[indexPath.row].postCode != nil || previousSearches[indexPath.row].postCode != "" {
             cell.textLabel!.text = previousSearches[indexPath.row].postCode! + ", " + String(previousSearches[indexPath.row].radius!)
         } else {
-            cell.textLabel!.text = String(previousSearches[indexPath.row].latitude) + ", " + String(previousSearches[indexPath.row].longitude) + ", " + String(previousSearches[indexPath.row].radius!)
+            cell.textLabel!.text = String(previousSearches[indexPath.row].latitude) + ", " + String(previousSearches[indexPath.row].longitude) + ", " + String(previousSearches[indexPath.row].radius!) + " m"
         }
-        
         return cell
     }
     
