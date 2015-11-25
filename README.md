@@ -37,6 +37,8 @@ The _'Search Schools'_ buttun will initiate a new search and access the network.
 
 Below this, a _'Previous Searches'_ table displays previous searches and the search radius that was used for that research. If the search was based on a postcode, the postcode is displayed on the left of the cell. If a GPS coordinate was used for the search, a geocoded string description of the place is displayed.
 
+Previous searches can be deleted by swiping from right to left on the selected cell.
+
 Tapping on a previous search cell will load the results of that search and a segue to the MapViewController is executed.
 
 **2. MapViewController (embedded in a NavigationController)**
