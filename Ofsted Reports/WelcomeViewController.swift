@@ -307,6 +307,16 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
         performSegueWithIdentifier(ConstantStrings.sharedInstance.showMap, sender: tableView.cellForRowAtIndexPath(indexPath))
     }
     
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+            // Deleting the search from the CoreDataStackManager
+            CoreDataStackManager.sharedInstance.deleteSearchAndItsSchools(previousSearches[indexPath.row])
+            
+            // Deleting the row from the table
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+        }
+    }
+    
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textFieldOutlet.resignFirstResponder()
         return true

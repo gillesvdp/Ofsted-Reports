@@ -36,6 +36,12 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         loadPins()
     }
     
+    override func viewDidAppear(animated: Bool) {
+        if self.title == "0 schools" {
+            showAlertViewController("Warning", errorMessage: "There are schools in the location and search radius selected, but no schools match the current set of filters. Please adapt your filters to see schools in this area.")
+        }
+    }
+    
     func loadPins() {
         if let _ = search {
             let schools = CoreDataStackManager.sharedInstance.retrieveSchoolsOfSearch(search!)
@@ -133,4 +139,12 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             destinationVC.school = CoreDataStackManager.sharedInstance.retrieveSchool(selectedPin.annotation!.coordinate.latitude, longitude: selectedPin.annotation!.coordinate.longitude)
         }
     }
+    
+    func showAlertViewController(title: String, errorMessage: String) {
+        let alert = UIAlertController(title: title, message: errorMessage, preferredStyle: .Alert)
+        let okAction = UIAlertAction(title: ConstantStrings.sharedInstance.errorOk, style: .Cancel, handler: nil)
+        alert.addAction(okAction)
+        presentViewController(alert, animated: true, completion: nil)
+    }
+    
 }

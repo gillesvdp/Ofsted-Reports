@@ -35,7 +35,7 @@
                                     <constraint firstAttribute="height" constant="150" id="vEF-JH-Pak"/>
                                 </constraints>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" textLabel="jcI-95-var" detailTextLabel="4Ce-4c-pgY" style="IBUITableViewCellStyleValue1" id="f6c-vD-N4Y">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" shouldIndentWhileEditing="NO" reuseIdentifier="cell" textLabel="jcI-95-var" detailTextLabel="4Ce-4c-pgY" style="IBUITableViewCellStyleValue1" id="f6c-vD-N4Y">
                                         <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="f6c-vD-N4Y" id="bD1-gu-IW7">

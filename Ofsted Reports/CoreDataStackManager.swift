@@ -128,6 +128,15 @@ class CoreDataStackManager {
         saveContext()
     }
     
+    
+    func deleteSearchAndItsSchools(search: Search) {
+        for school in search.schools! {
+            managedObjectContext.deleteObject(school as! NSManagedObject)
+        }
+        managedObjectContext.deleteObject(search)
+        saveContext()
+    }
+    
     /// Functions for MapView
     func retrieveSchoolsOfSearch(search: Search) -> [School] {
         var funcReturn = [School]()
