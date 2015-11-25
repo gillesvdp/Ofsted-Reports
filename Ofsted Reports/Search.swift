@@ -17,6 +17,7 @@ class Search: NSManagedObject {
     @NSManaged var latitude: NSNumber?
     @NSManaged var longitude: NSNumber?
     @NSManaged var radius: NSNumber?
+    @NSManaged var textForTableCell: String?
     @NSManaged var schools: NSOrderedSet?
     
     struct Keys {
@@ -25,6 +26,7 @@ class Search: NSManagedObject {
         static let latitude = "latitude"
         static let longitude = "longitude"
         static let radius = "radius"
+        static let textForTableCell = "textForTableCell"
         static let schools = "schools"
     }
     
@@ -32,7 +34,7 @@ class Search: NSManagedObject {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
     }
     
-    init(postCode: String?, latitude: Double?, longitude: Double?, radius: Int?, context: NSManagedObjectContext) {
+    init(postCode: String?, latitude: Double?, longitude: Double?, radius: Int?, textForTableCell: String?, context: NSManagedObjectContext) {
         let entity = NSEntityDescription.entityForName("Search", inManagedObjectContext: context)!
         super.init(entity: entity, insertIntoManagedObjectContext: context)
         
@@ -48,6 +50,10 @@ class Search: NSManagedObject {
         
         if let _ = latitude {
             self.latitude = latitude! as NSNumber
+        }
+        
+        if let _ = textForTableCell {
+            self.textForTableCell = textForTableCell
         }
         
         self.radius = radius! as NSNumber

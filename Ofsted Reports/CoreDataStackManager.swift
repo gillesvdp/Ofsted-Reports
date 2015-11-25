@@ -95,16 +95,15 @@ class CoreDataStackManager {
         return funcReturn
     }
     
-    func saveNewSearchByPostcode(postCode: String, radius: Int) -> Search {
-        let newSearch = Search(postCode: postCode, latitude: nil, longitude: nil, radius: radius, context: managedObjectContext)
+    func saveNewSearch(postCode: String?, latitude: Double?, longitude: Double?, radius: Int, textForTableCell: String) -> Search {
+        let newSearch = Search(postCode: postCode, latitude: latitude, longitude: longitude, radius: radius, textForTableCell: textForTableCell, context: managedObjectContext)
         saveContext()
         return newSearch
     }
     
-    func saveNewSearchByLocation(latitude: Double, longitude: Double, radius: Int) -> Search {
-        let newSearch = Search(postCode: nil, latitude: latitude, longitude: longitude, radius: radius, context: managedObjectContext)
+    func updateSearchDescription(search: Search, textForTableCell: String) {
+        search.textForTableCell = textForTableCell
         saveContext()
-        return newSearch
     }
     
     func saveNewSchools(search: Search, schoolsInfoArray: [[String: AnyObject]]) {

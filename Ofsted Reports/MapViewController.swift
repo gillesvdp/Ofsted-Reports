@@ -105,7 +105,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         } else {
             print("no search was given to load the map")
         }
-        
     }
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {

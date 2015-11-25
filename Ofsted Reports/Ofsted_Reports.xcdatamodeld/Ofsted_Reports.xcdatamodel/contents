@@ -23,10 +23,11 @@
         <attribute name="longitude" optional="YES" attributeType="Double" syncable="YES"/>
         <attribute name="postCode" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="radius" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="textForTableCell" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="schools" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="School" inverseName="search" inverseEntity="School" syncable="YES"/>
     </entity>
     <elements>
         <element name="School" positionX="-63" positionY="-18" width="128" height="270"/>
-        <element name="Search" positionX="-396" positionY="162" width="128" height="133"/>
+        <element name="Search" positionX="-396" positionY="162" width="128" height="150"/>
     </elements>
 </model>
