@@ -96,9 +96,9 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 }
                 schoolPins.append(schoolPin)
             }
-            self.title = "Found \(schoolPins.count) schools"
+            self.title = "\(schoolPins.count) schools"
             if schoolPins.count == 1{
-                self.title = "Found 1 school"
+                self.title = "1 school"
             }
             mapView.showAnnotations(schoolPins, animated: true)
             mapView.addAnnotations(schoolPins)

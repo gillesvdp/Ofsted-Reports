@@ -31,6 +31,8 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
     @IBOutlet weak var buttonOutlet: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet var longPressOutlet: UILongPressGestureRecognizer!
+    @IBOutlet weak var longPressInstruction: UILabel!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,6 +50,7 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
         segmentedControlOutlet.selectedSegmentIndex = 1
         forceCenterOnUserLocation = true
         longPressOutlet.enabled = false
+        longPressInstruction.hidden = true
     }
     
     @IBAction func segmentedControlPressed(sender: AnyObject) {
@@ -55,8 +58,11 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
         case 0:
             // My location
             textFieldOutlet.hidden = true
+            textFieldOutlet.endEditing(true)
             mapView.hidden = false
+            mapView.removeAnnotations(mapView.annotations)
             longPressOutlet.enabled = false
+            longPressInstruction.hidden = true
             locationManager.requestWhenInUseAuthorization()
             displayCurrentUserLocation()
             
@@ -65,13 +71,16 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
             textFieldOutlet.hidden = false
             forceCenterOnUserLocation = true
             mapView.hidden = true
+            mapView.removeAnnotations(mapView.annotations)
+            longPressInstruction.hidden = true
             
         case 2:
             // Other location
             textFieldOutlet.hidden = true
+            textFieldOutlet.endEditing(true)
             forceCenterOnUserLocation = true
             mapView.hidden = false
-            
+            longPressInstruction.hidden = false
             locationManager.stopUpdatingLocation()
             mapView.showsUserLocation = false
             longPressOutlet.enabled = true
@@ -187,13 +196,16 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
                     }
                     
                     // Saving the search
-                    
                     var textForTableCell = String()
-                    
                     if let _ = postCode {
                         textForTableCell = postCode!
                     } else {
-                        textForTableCell = "Near \(latitude), \(longitude)"
+                        let formatter = NSNumberFormatter()
+                        formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+                        formatter.maximumFractionDigits = 2
+                        let latShortString = formatter.stringFromNumber(latitude!)
+                        let lonShortString = formatter.stringFromNumber(longitude!)
+                        textForTableCell = "Near \(latShortString!), \(lonShortString!)"
                     }
                     
                     let newSearch = CoreDataStackManager.sharedInstance.saveNewSearch(postCode, latitude: latitude, longitude: longitude, radius: radius, textForTableCell: textForTableCell)

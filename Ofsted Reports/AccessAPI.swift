@@ -36,7 +36,6 @@ class AccessAPI {
                 
             do {
                 let parsedResult = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments)
-                print(parsedResult)
                 
                 guard let noData = parsedResult["schools"] as? [AnyObject]? where noData != nil else {
                     if let error = parsedResult["error"] as? String? {
