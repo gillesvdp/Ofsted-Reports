@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class WelcomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate {
+class WelcomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate, UITextFieldDelegate {
 
     let accessApi = AccessAPI()
     let locationManager = CLLocationManager()
@@ -20,6 +20,7 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
         }
     }
     var forceCenterOnUserLocation : Bool!
+    var search : Search?
     
     @IBOutlet weak var segmentedControlOutlet: UISegmentedControl!
     @IBOutlet weak var tableView: UITableView!
@@ -31,12 +32,12 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet var longPressOutlet: UILongPressGestureRecognizer!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = ConstantStrings.sharedInstance.welcomeViewControllerTitle
         tableView.delegate = self
         locationManager.delegate = self
+        textFieldOutlet.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
     }
     
@@ -167,10 +168,10 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
         
         // Search by Current Location
         if segmentedControlOutlet.selectedSegmentIndex == 0 {
-            guard locationManager.location == nil else {
+            guard locationManager.location != nil else {
                 segmentedControlOutlet.enabled = true
                 activityIndicator.stopAnimating()
-                showAlertViewController(ConstantStrings.sharedInstance.noUserLocationErrorMessage)
+                showAlertViewController(ConstantStrings.sharedInstance.noUserLocationErrorTitle, errorMessage: ConstantStrings.sharedInstance.noUserLocationErrorMessage)
                 return
             }
             
@@ -186,22 +187,23 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
             guard textFieldOutlet.text != "" else {
                 segmentedControlOutlet.enabled = true
                 activityIndicator.stopAnimating()
-                showAlertViewController(ConstantStrings.sharedInstance.noPostCodeErrorMessage)
+                showAlertViewController(ConstantStrings.sharedInstance.noPostCodeErrorTitle, errorMessage: ConstantStrings.sharedInstance.noPostCodeErrorMessage)
                 return
             }
             
             // Searching for schools through postCode through the Api
-            accessApi.getWithPostCode(textFieldOutlet.text!, radius: radius,
+            //accessApi.getWithPostCode(textFieldOutlet.text!, radius: radius,
+            accessApi.get(textFieldOutlet.text!, latitude: nil, longitude: nil, radius: radius,
             completionHandler: {(schoolsInfoArray, errorString) -> Void in
                 dispatch_async(dispatch_get_main_queue(), {
                     self.activityIndicator.stopAnimating()
                     guard errorString == nil else {
-                        self.showAlertViewController(errorString!)
+                        self.showAlertViewController(ConstantStrings.sharedInstance.errorTitle, errorMessage: errorString!)
                         return
                     }
                     
                     guard schoolsInfoArray!.count != 0 else {
-                        self.showAlertViewController(ConstantStrings.sharedInstance.noSchoolsInAreaError)
+                        self.showAlertViewController(ConstantStrings.sharedInstance.noSchoolsInAreaErrorTitle, errorMessage: ConstantStrings.sharedInstance.noSchoolsInAreaErrorMessage)
                         return
                     }
                     
@@ -212,7 +214,9 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
                     CoreDataStackManager.sharedInstance.saveNewSchools(newSearch, schoolsInfoArray: schoolsInfoArray!)
             
                     // Moving to the mapView
+                    self.search = newSearch
                     self.performSegueWithIdentifier(ConstantStrings.sharedInstance.showMap, sender: self)
+                    
                 })
             })
         }
@@ -222,30 +226,30 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
             guard mapView.annotations.count != 0 else {
                 segmentedControlOutlet.enabled = true
                 activityIndicator.stopAnimating()
-                showAlertViewController(ConstantStrings.sharedInstance.noSelectedLocationErrorMessage)
+                showAlertViewController(ConstantStrings.sharedInstance.noSelectedLocationErrorTitle, errorMessage: ConstantStrings.sharedInstance.noSelectedLocationErrorMessage)
                 return
             }
             
             // Saving the newSearch
             let latitude = mapView.annotations.first?.coordinate.latitude
             let longitude = mapView.annotations.first?.coordinate.longitude
-            
             searchSchoolsByCoordinates(latitude!, longitude: longitude!, radius: radius)
         }
     }
     
     func searchSchoolsByCoordinates(latitude: Double, longitude: Double, radius: Int) {
-        accessApi.getWithCoordinates(latitude, longitude: longitude, radius: radius,
+        //accessApi.getWithCoordinates(latitude, longitude: longitude, radius: radius,
+        accessApi.get(nil, latitude: latitude, longitude: longitude, radius: radius,
             completionHandler: {(schoolsInfoArray, errorString) -> Void in
                 dispatch_async(dispatch_get_main_queue(), {
                     self.activityIndicator.stopAnimating()
                     guard errorString == nil else {
-                        self.showAlertViewController(errorString!)
+                        self.showAlertViewController(ConstantStrings.sharedInstance.errorTitle, errorMessage: errorString!)
                         return
                     }
                     
                     guard schoolsInfoArray!.count != 0 else {
-                        self.showAlertViewController(ConstantStrings.sharedInstance.noSchoolsInAreaError)
+                        self.showAlertViewController(ConstantStrings.sharedInstance.noSchoolsInAreaErrorTitle, errorMessage: ConstantStrings.sharedInstance.noSchoolsInAreaErrorMessage)
                         self.mapView.removeAnnotations(self.mapView.annotations)
                         self.longPressOutlet.enabled = true
                         return
@@ -258,19 +262,18 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
                     CoreDataStackManager.sharedInstance.saveNewSchools(newSearch, schoolsInfoArray: schoolsInfoArray!)
                     
                     // Moving to the mapView
+                    self.search = newSearch
                     self.performSegueWithIdentifier(ConstantStrings.sharedInstance.showMap, sender: self)
                 })
         })
     }
     
-    
-    func showAlertViewController(errorMessage: String) {
-        let alert = UIAlertController(title: ConstantStrings.sharedInstance.errorTitle, message: errorMessage, preferredStyle: .Alert)
+    func showAlertViewController(title: String, errorMessage: String) {
+        let alert = UIAlertController(title: title, message: errorMessage, preferredStyle: .Alert)
         let okAction = UIAlertAction(title: ConstantStrings.sharedInstance.errorOk, style: .Cancel, handler: nil)
         alert.addAction(okAction)
         presentViewController(alert, animated: true, completion: nil)
     }
-    
     
     //// TableView Functions
     var previousSearches : [Search] {
@@ -288,20 +291,30 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
         if previousSearches[indexPath.row].postCode != nil {
             cell.textLabel!.text = previousSearches[indexPath.row].postCode! + ", " + String(previousSearches[indexPath.row].radius!)
         } else {
-            cell.textLabel!.text = String(previousSearches[indexPath.row].latitude!) + ", " + String(previousSearches[indexPath.row].longitude!) + ", " + String(previousSearches[indexPath.row].radius!) + " m"
+            cell.textLabel!.text = String(previousSearches[indexPath.row].date!) + ", " + String(previousSearches[indexPath.row].radius!) + " m"
         }
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        search = previousSearches[indexPath.row]
         performSegueWithIdentifier(ConstantStrings.sharedInstance.showMap, sender: tableView.cellForRowAtIndexPath(indexPath))
     }
     
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textFieldOutlet.resignFirstResponder()
+        return true
+    }
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        view.endEditing(true)
+        super.touchesBegan(touches, withEvent: event)
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // let destinationVC = segue.destinationViewController as! UINavigationController
-        
-        // destinationVC.search = newSearch
-        
+        let destinationVC = segue.destinationViewController as! NavigationViewController
+        let mapViewController = destinationVC.topViewController as! MapViewController
+        mapViewController.search = search
     }
 }
 

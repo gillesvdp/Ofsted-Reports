@@ -11,7 +11,7 @@ import UIKit
 class SchoolDetailsViewController: UIViewController {
 
     var schoolUrn = Int()
-    var school: School!
+    var school: School?
     var schoolReportUrl = String()
     
     @IBOutlet weak var schoolName: UILabel!
@@ -28,38 +28,37 @@ class SchoolDetailsViewController: UIViewController {
         super.viewDidLoad()
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .Plain, target: nil, action: nil)
         
-        school = CoreDataStackManager.sharedInstance.retrieveSchoolWithUrn(schoolUrn)
-        schoolName.text = school.schoolName
+        schoolName.text = school!.schoolName
         
-        if let phase = school.phase {
+        if let phase = school!.phase {
             label1.text = phase
         }
         
-        if let typeOfEstablishment = school.typeOfEstablishment {
+        if let typeOfEstablishment = school!.typeOfEstablishment {
             label2.text = typeOfEstablishment
         }
         
-        if let overallEffectiveness = school.overallEffectiveness {
+        if let overallEffectiveness = school!.overallEffectiveness {
             label3.text = ratingAsText(overallEffectiveness as Int)
         }
         
-        if let leadershipAndManagement = school.leadershipAndManagement {
+        if let leadershipAndManagement = school!.leadershipAndManagement {
             label4.text = ratingAsText(leadershipAndManagement as Int)
         }
         
-        if let qualityOfTeaching = school.qualityOfTeaching {
+        if let qualityOfTeaching = school!.qualityOfTeaching {
             label5.text = ratingAsText(qualityOfTeaching as Int)
         }
         
-        if let urn = school.urn {
+        if let urn = school!.urn {
             label6.text = String(urn)
         }
         
-        if let lastInspectionDate = school.lastInspectionDate {
+        if let lastInspectionDate = school!.lastInspectionDate {
             label7.text = lastInspectionDate
         }
         
-        if let url = school.lastInspectionUrl {
+        if let url = school!.lastInspectionUrl {
             if url.containsString("ofsted.gov.uk") {
                 self.schoolReportUrl = url
             }

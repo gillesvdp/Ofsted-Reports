@@ -19,9 +19,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dlv-zO-mAG">
-                                <rect key="frame" x="218" y="399" width="165" height="30"/>
+                                <rect key="frame" x="244" y="397" width="113" height="32"/>
                                 <animations/>
-                                <state key="normal" title="Check Schools Near Me"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                <state key="normal" title="Search Schools"/>
                                 <connections>
                                     <action selector="buttonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Mcw-UR-DEC"/>
                                 </connections>
@@ -60,29 +61,32 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="vee-Tz-J1q"/>
                                 </connections>
                             </tableView>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Na0-be-gDQ">
-                                <rect key="frame" x="20" y="89" width="560" height="29"/>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Na0-be-gDQ">
+                                <rect key="frame" x="20" y="45" width="560" height="26"/>
                                 <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="kR4-vN-ajN"/>
+                                </constraints>
                                 <segments>
-                                    <segment title="My Location"/>
+                                    <segment title="Near Me"/>
                                     <segment title="Post Code"/>
-                                    <segment title="Other location on a Map"/>
+                                    <segment title="Location"/>
                                 </segments>
                                 <connections>
                                     <action selector="segmentedControlPressed:" destination="BYZ-38-t0r" eventType="valueChanged" id="6Hk-Ou-qeU"/>
                                 </connections>
                             </segmentedControl>
                             <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OM6-nK-J8y">
-                                <rect key="frame" x="20" y="124" width="560" height="213"/>
+                                <rect key="frame" x="20" y="77" width="560" height="258"/>
                                 <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a post code" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vs1-ee-vng">
-                                        <rect key="frame" x="0.0" y="49" width="560" height="30"/>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter a post code" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vs1-ee-vng">
+                                        <rect key="frame" x="0.0" y="49" width="560" height="160"/>
                                         <animations/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="ogd-EQ-i1S">
-                                        <rect key="frame" x="0.0" y="0.0" width="560" height="213"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="560" height="258"/>
                                         <animations/>
                                         <gestureRecognizers/>
                                         <connections>
@@ -103,36 +107,36 @@
                                     <constraint firstItem="ogd-EQ-i1S" firstAttribute="centerY" secondItem="vs1-ee-vng" secondAttribute="centerY" id="szm-Fj-88c"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Search Radius:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MgW-2o-iHS">
-                                <rect key="frame" x="20" y="341" width="114.5" height="20.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Search Radius:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MgW-2o-iHS">
+                                <rect key="frame" x="20" y="339.5" width="108.5" height="19.5"/>
                                 <animations/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="2000 m" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PLC-zg-dZh">
-                                <rect key="frame" x="520" y="341" width="60" height="20.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="2000 m" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PLC-zg-dZh">
+                                <rect key="frame" x="523" y="339.5" width="56.5" height="19.5"/>
                                 <animations/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y9X-vS-vmM">
-                                <rect key="frame" x="300" y="351" width="0.0" height="0.0"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y9X-vS-vmM">
+                                <rect key="frame" x="300" y="349" width="0.0" height="0.0"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <slider opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="2000" minValue="100" maxValue="4000" translatesAutoresizingMaskIntoConstraints="NO" id="uZE-mi-1rF">
-                                <rect key="frame" x="18" y="359" width="564" height="116"/>
+                                <rect key="frame" x="18" y="357" width="564" height="31"/>
                                 <animations/>
                                 <connections>
                                     <action selector="sliderMoved:" destination="BYZ-38-t0r" eventType="valueChanged" id="dtx-s8-1VI"/>
                                 </connections>
                             </slider>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="jH1-Ln-8Rg">
-                                <rect key="frame" x="415" y="404" width="20" height="20"/>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="jH1-Ln-8Rg">
+                                <rect key="frame" x="382" y="403" width="20" height="20"/>
                                 <animations/>
                             </activityIndicatorView>
                         </subviews>
@@ -157,7 +161,7 @@
                             <constraint firstItem="y9X-vS-vmM" firstAttribute="centerY" secondItem="PLC-zg-dZh" secondAttribute="centerY" id="cXR-51-9Ve"/>
                             <constraint firstItem="Dlv-zO-mAG" firstAttribute="centerX" secondItem="OM6-nK-J8y" secondAttribute="centerX" id="cdF-l8-Mza"/>
                             <constraint firstItem="Na0-be-gDQ" firstAttribute="trailing" secondItem="OM6-nK-J8y" secondAttribute="trailing" id="iqP-xB-Xed"/>
-                            <constraint firstItem="y9X-vS-vmM" firstAttribute="top" secondItem="ogd-EQ-i1S" secondAttribute="bottom" constant="14" id="kJ9-IB-fAm"/>
+                            <constraint firstItem="y9X-vS-vmM" firstAttribute="top" secondItem="ogd-EQ-i1S" secondAttribute="bottom" constant="25" id="kJ9-IB-fAm"/>
                             <constraint firstItem="jH1-Ln-8Rg" firstAttribute="leading" secondItem="Dlv-zO-mAG" secondAttribute="trailing" constant="25" id="qXa-MF-DAh"/>
                             <constraint firstItem="Dlv-zO-mAG" firstAttribute="top" secondItem="uZE-mi-1rF" secondAttribute="bottom" constant="10" id="sMj-9h-5gO"/>
                             <constraint firstItem="XwH-M9-QOk" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="txE-q9-JnG"/>
@@ -235,10 +239,10 @@
             </objects>
             <point key="canvasLocation" x="1008" y="389"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Navigation View Controller-->
         <scene sceneID="Y6J-oM-tKa">
             <objects>
-                <navigationController id="LvU-ja-roy" sceneMemberID="viewController">
+                <navigationController id="LvU-ja-roy" customClass="NavigationViewController" customModule="Ofsted_Reports" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="nka-yu-ZJa">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>

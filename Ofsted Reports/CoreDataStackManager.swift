@@ -131,23 +131,27 @@ class CoreDataStackManager {
     }
     
     /// Functions for MapView
-    func retrieveSchoolsOfSearch() -> [School] {
+    func retrieveSchoolsOfSearch(search: Search) -> [School] {
         var funcReturn = [School]()
         
         let request = NSFetchRequest(entityName: "School")
         request.returnsObjectsAsFaults = false
         
         do {
-            funcReturn = try managedObjectContext.executeFetchRequest(request) as! [School]
+            let results = try managedObjectContext.executeFetchRequest(request) as! [School]
+            for school in results {
+                if school.search == search {
+                    funcReturn.append(school)
+                }
+            }
         } catch {
             print(error)
         }
-        
         return funcReturn
     }
     
-    func retrieveSchoolUrn(latitude: Double, longitude: Double) -> Int {
-        var funcReturn = Int()
+    func retrieveSchool(latitude: Double, longitude: Double) -> School? {
+        var funcReturn : School?
         
         let request = NSFetchRequest(entityName: "School")
         request.returnsObjectsAsFaults = false
@@ -157,28 +161,8 @@ class CoreDataStackManager {
             
             for school in allSchools {
                 if school.latitude == latitude && school.longitude == longitude {
-                    funcReturn = school.urn as! Int
-                }
-            }
-        } catch {
-            print(error)
-        }
-        
-        return funcReturn
-    }
-    
-    func retrieveSchoolWithUrn(schoolUrn: Int) -> School {
-        var funcReturn : School!
-        
-        let request = NSFetchRequest(entityName: "School")
-        request.returnsObjectsAsFaults = false
-        
-        do {
-            let schools = try managedObjectContext.executeFetchRequest(request) as! [School]
-            
-            for school in schools {
-                if school.urn == schoolUrn {
                     funcReturn = school
+                    break
                 }
             }
         } catch {

@@ -8,9 +8,7 @@
 
 import UIKit
 
-class NavicationViewController: UINavigationController {
-
-    var viewTitle = String()
+class NavigationViewController: UINavigationController {
     
     override func viewDidLoad() {
         super.viewDidLoad()

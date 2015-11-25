@@ -28,15 +28,22 @@ class ConstantStrings {
     let welcomeViewControllerTitle = "Ofsted Reports"
     let errorTitle = "Error"
     let errorOk = "Ok"
-    let noPostCodeErrorMessage = "Please type your prefered post code."
-    let noUserLocationErrorMessage = "Could not determine your location. Please use another method."
+    
+    let noPostCodeErrorTitle = "Missing Post Code"
+    let noPostCodeErrorMessage = "Please type your prefered post code to proceed."
+    
+    let noUserLocationErrorTitle = "Location error"
+    let noUserLocationErrorMessage = "We could not determine your location. Please use another method."
+    
+    let noSelectedLocationErrorTitle = "Missing location"
     let noSelectedLocationErrorMessage = "Please choose a location on the map using a long-press over the map."
-    let noSchoolsInAreaError = "No schools could be found in this area. Please try again with a larger search radius or in another area."
+    
+    let noSchoolsInAreaErrorTitle = "No schools in this area"
+    let noSchoolsInAreaErrorMessage = "Please try again with a larger search radius or in another area. Note we only cover England at the moment."
     
     /// MapViewController
     let mapAnnotationReuseIdentifier = "pin"
     
     /// SchoolDetailTableViewController
     let tableReuseIdentifier = "cell"
-    
 }
