@@ -41,6 +41,8 @@ Previous searches can be deleted by swiping from right to left on the selected c
 
 Tapping on a previous search cell will load the results of that search and a segue to the MapViewController is executed.
 
+The values of the outlets on this view are set with standard values on app launch. However, if the user is coming back to this view from the MapViewController, the outlet values are set to what they were when the user left the screen. These values are kept in an dictionary stored in NSUserDefaults. This dictionary is deleted from NSUserDefaults just before the app termines (in AppDelegate).
+
 **2. MapViewController (embedded in a NavigationController)**
 
 A map occupies the entire space below the navigationBar.
