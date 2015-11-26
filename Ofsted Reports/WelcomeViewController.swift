@@ -59,7 +59,7 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
     func setOutletValues() {
         // If there are saved values for welcomeScreen outlets, let's load these.
         // These values typically exist if the user is coming back from the map, and trying to do a new search.
-        // In this case, the welcome screen is set-up exactly the same way the user left it, so as to provide a seemless experience.
+        // In this case, the welcome screen is the same way the user left it, so as to provide a seemless experience.
         
         guard defaults.valueForKey("welcomeScreenOutletValues") == nil else {
             let savedOutledValues = defaults.valueForKey("welcomeScreenOutletValues") as! [String: AnyObject]
@@ -69,8 +69,11 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
             
             mapView.hidden = savedOutledValues["mapViewIsHidden"] as! Bool
             mapView.showsUserLocation = savedOutledValues["mapViewShowsUserLocation"] as! Bool
-            forceCenterOnUserLocation = false
             
+            // Note the map content is upated upon reload the screen:
+            // If showing user location: the map refocuses on the user location, and draws a circle.
+            // If showing the map to select a location, the map is shown empty: no pins and no circle.
+            forceCenterOnUserLocation = false
             if segmentedControlOutlet.selectedSegmentIndex == 0 {
                 if let _ = locationManager.location {
                     forceCenterOnUserLocation = true
