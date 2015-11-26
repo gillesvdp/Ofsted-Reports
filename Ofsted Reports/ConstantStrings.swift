@@ -11,12 +11,18 @@ import Foundation
 class ConstantStrings {
     static var sharedInstance = ConstantStrings()
     
-    // API Key
+    // AccessApi
     let cityContextApiUrl = "http://api.citycontext.com/beta/"
     let cityContextApiByPostCode = "postcodes/"
     let cityContextApiByCoordinates = "@"
     let cityContextApiSearchRadiusUrl = "&school_search_radius="
     let cityContextApiKey = "f49d89dd7d5ca9a30d9cf5fbd3db7680"
+    let networkError = "Please check your network connection"
+    let apiKeyError = "Incorrect API Key, please contact us"
+    let unknownPostCodeError = "Unknown post code, please try with another postcode"
+    let otherError = "Error, Please contact us"
+    let parsingError = "Error while parsing the data, please contact us"
+    
     
     // Segues
     let showMap = "showMap"

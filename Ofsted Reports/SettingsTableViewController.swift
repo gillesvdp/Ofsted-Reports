@@ -10,11 +10,14 @@ import UIKit
 
 class SettingsTableViewController: UITableViewController {
     
-    var filterPrefs : [[String]]!
+    /// MARK: Variables & related function
     
+    var filterPrefs : [[String]]!
     func saveFilterPrefs(filterPrefs: [[String]]) {
         NSUserDefaults.standardUserDefaults().setValue(filterPrefs, forKey: "filterPrefs")
     }
+    
+    /// MARK: View Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,7 +25,8 @@ class SettingsTableViewController: UITableViewController {
         filterPrefs = NSUserDefaults.standardUserDefaults().valueForKey("filterPrefs") as! [[String]]
     }
     
-    /// Table data
+    /// MARK: Table data & functions
+    
     let sectionTitles = ["School Phase","Latest Ofsted Rating"]
     let rowTitles = [["Secondary", "Primary", "Others"],["Outstanding", "Good", "Requires improvement", "Inadequate"]]
     

@@ -10,6 +10,8 @@ import UIKit
 
 class SchoolDetailsViewController: UIViewController {
 
+    // MARK: Variables & IB Outlets
+    
     var schoolUrn = Int()
     var school: School?
     var schoolReportUrl = String()
@@ -24,10 +26,20 @@ class SchoolDetailsViewController: UIViewController {
     @IBOutlet weak var label7: UILabel!
     @IBOutlet weak var btnOutlet: UIButton!
     
+    // MARK: View LifeCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .Plain, target: nil, action: nil)
         
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        // Basic screen set up
+        btnOutlet.enabled = true
+        btnOutlet.setTitle("Access Ofsted Report", forState: .Normal)
+        
+        // Customizing screen based on the school info to be displayed
         schoolName.text = school!.schoolName
         
         if let phase = school!.phase {
@@ -68,14 +80,13 @@ class SchoolDetailsViewController: UIViewController {
         }
     }
     
-    override func viewWillDisappear(animated: Bool) {
-        btnOutlet.enabled = true
-        btnOutlet.setTitle("Access Ofsted Report", forState: .Normal)
-    }
-
+    /// MARK: IB Actions
+    
     @IBAction func btnPressed(sender: AnyObject) {
         UIApplication.sharedApplication().openURL(NSURL(string: schoolReportUrl)!)
     }
+    
+    /// MARK: General Functions
     
     func ratingAsText(rating: Int) -> String {
         var funcReturn = String()

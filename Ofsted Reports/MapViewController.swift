@@ -10,12 +10,16 @@ import UIKit
 import MapKit
 
 class MapViewController: UIViewController, MKMapViewDelegate {
+    
+    /// MARK: Constants and Variables
 
     @IBOutlet weak var mapView: MKMapView!
     var viewTitle = String()
     var filterPrefs = [[String]]()
     var search : Search?
     var selectedSchool : School?
+    
+    /// MARK: View LifeCycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,6 +45,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             showAlertViewController("Warning", errorMessage: "There are schools in the location and search radius selected, but no schools match the current set of filters. Please adapt your filters to see schools in this area.")
         }
     }
+    
+    /// MARK: MapView functions
     
     func loadPins() {
         if let _ = search {
@@ -132,13 +138,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == ConstantStrings.sharedInstance.showSchoolDetails {
-            let destinationVC = segue.destinationViewController as! SchoolDetailsViewController
-            let selectedPin = sender as! MKPinAnnotationView
-            destinationVC.school = CoreDataStackManager.sharedInstance.retrieveSchool(selectedPin.annotation!.coordinate.latitude, longitude: selectedPin.annotation!.coordinate.longitude)
-        }
-    }
+    
+    /// MARK: General UI Functions
     
     func showAlertViewController(title: String, errorMessage: String) {
         let alert = UIAlertController(title: title, message: errorMessage, preferredStyle: .Alert)
@@ -147,4 +148,11 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         presentViewController(alert, animated: true, completion: nil)
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == ConstantStrings.sharedInstance.showSchoolDetails {
+            let destinationVC = segue.destinationViewController as! SchoolDetailsViewController
+            let selectedPin = sender as! MKPinAnnotationView
+            destinationVC.school = CoreDataStackManager.sharedInstance.retrieveSchool(selectedPin.annotation!.coordinate.latitude, longitude: selectedPin.annotation!.coordinate.longitude)
+        }
+    }
 }

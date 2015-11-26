@@ -15,10 +15,10 @@ class AccessAPI {
         
         let requestUrlPart1 = ConstantStrings.sharedInstance.cityContextApiUrl
         var requestUrlPart2 = String()
-        if postCode != nil { // Searching by postcode
+        if postCode != nil { // If searching by postcode
             requestUrlPart2 = ConstantStrings.sharedInstance.cityContextApiByPostCode + postCode!
             
-        } else { // Searching by GPS Coordinates
+        } else { // If searching by GPS Coordinates
             requestUrlPart2 = ConstantStrings.sharedInstance.cityContextApiByCoordinates + String(latitude!) + "," + String(longitude!)
         }
         let requestUrlPart3 = "?user_key=" + ConstantStrings.sharedInstance.cityContextApiKey + ConstantStrings.sharedInstance.cityContextApiSearchRadiusUrl +  String(radius)
@@ -28,24 +28,26 @@ class AccessAPI {
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request) {
             data, response, error in
-                
+            
+            // If there is an network connection error
             guard error == nil else {
-                completionHandler(schoolsInfoArray: nil, errorString: "Please check your network connection")
+                completionHandler(schoolsInfoArray: nil, errorString: ConstantStrings.sharedInstance.networkError)
                 return
             }
                 
             do {
                 let parsedResult = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments)
                 
+                // If the api returns errors
                 guard let noData = parsedResult["schools"] as? [AnyObject]? where noData != nil else {
                     if let error = parsedResult["error"] as? String? {
                         if error == "user key \(ConstantStrings.sharedInstance.cityContextApiKey) is invalid" {
-                            completionHandler(schoolsInfoArray: nil, errorString: "Incorrect API Key, please contact us")
+                            completionHandler(schoolsInfoArray: nil, errorString: ConstantStrings.sharedInstance.apiKeyError)
                         } else if error == "Postcode not found" {
-                            completionHandler(schoolsInfoArray: nil, errorString: "Incorrect post code, please try with another postcode")
+                            completionHandler(schoolsInfoArray: nil, errorString: ConstantStrings.sharedInstance.unknownPostCodeError)
                         }
                     } else {
-                        completionHandler(schoolsInfoArray: nil, errorString: "Please contact us") // Other error messages
+                        completionHandler(schoolsInfoArray: nil, errorString: ConstantStrings.sharedInstance.otherError)
                     }
                     return
                 }
@@ -54,7 +56,7 @@ class AccessAPI {
                 completionHandler(schoolsInfoArray: schoolsInfoArray, errorString: nil)
                     
             } catch {
-                completionHandler(schoolsInfoArray: nil, errorString: "Error parsing the data")
+                completionHandler(schoolsInfoArray: nil, errorString: ConstantStrings.sharedInstance.parsingError)
             }
         }
         task.resume()

@@ -10,8 +10,5 @@ import UIKit
 
 class NavigationViewController: UINavigationController {
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-
+    // Note: Class required only to allow the WelcomeViewController to pass information to the MapViewController in the prepareForSegue method.
 }
