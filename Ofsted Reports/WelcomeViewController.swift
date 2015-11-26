@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class WelcomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate, UITextFieldDelegate {
+class WelcomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate, UITextFieldDelegate, MKMapViewDelegate {
 
     /// MARK: Variables and constants
     let accessApi = AccessAPI()
@@ -20,6 +20,7 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
             return Int(sliderOutlet.value) - Int(sliderOutlet.value) % 100
         }
     }
+    var circleOverlay : MKCircle?
     var forceCenterOnUserLocation : Bool!
     var search : Search?
     let defaults = NSUserDefaults.standardUserDefaults()
@@ -42,6 +43,7 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
         self.title = ConstantStrings.sharedInstance.welcomeViewControllerTitle
         tableView.delegate = self
         locationManager.delegate = self
+        mapView.delegate = self
         textFieldOutlet.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
     }
@@ -136,21 +138,37 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
             textFieldOutlet.endEditing(true)
             
             // Remove view elements needed for case 2
+            mapView.removeAnnotations(mapView.annotations)
+            mapView.removeOverlays(mapView.overlays)
             longPressOutlet.enabled = false
             longPressInstruction.hidden = true
             
             // Prepare view elements for case 0
             mapView.hidden = false
             locationManager.requestWhenInUseAuthorization()
-            mapView.showsUserLocation = true
-            forceCenterOnUserLocation = true
-            centerMapOnCurrentUserLocation(0.007)
+            
+            if let location = locationManager.location {
+                
+                // Show the user location on the map
+                mapView.showsUserLocation = true
+                forceCenterOnUserLocation = true
+                centerMapOnCurrentUserLocation(0.06)
+                
+                // Add the circle on the map
+                let coordinates = location.coordinate
+                circleOverlay = MKCircle(centerCoordinate: coordinates, radius: Double(sliderOutlet.value))
+                mapView.addOverlay(circleOverlay!)
+            }
             
         case 1: // Search by Post Code
-            // Remove view elements needed for case 0
+            // Remove view elements needed for case 0 and 2
+            mapView.removeOverlays(mapView.overlays)
+            
+            // Remove view elements needed for case 0 only
             mapView.hidden = true
             
-            // Remove view elements needed for case 2
+            // Remove view elements needed for case 2 only
+            mapView.removeAnnotations(mapView.annotations)
             mapView.hidden = true
             longPressOutlet.enabled = false
             longPressInstruction.hidden = true
@@ -160,7 +178,7 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
             
         case 2: // Search by selecting a location
             // Remove view elements needed for case 0
-            // none
+            mapView.showsUserLocation = false
             
             // Remove view elements needed for case 1
             textFieldOutlet.hidden = true
@@ -168,10 +186,10 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
             
             // Prepare view elements for case 2
             mapView.removeAnnotations(mapView.annotations)
-            mapView.showsUserLocation = false
+            mapView.removeOverlays(mapView.overlays)
             mapView.hidden = false
             forceCenterOnUserLocation = true
-            centerMapOnCurrentUserLocation(0.1)
+            centerMapOnCurrentUserLocation(0.12)
             longPressInstruction.hidden = false
             longPressOutlet.enabled = true
             
@@ -184,16 +202,35 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
         if sender.state == UIGestureRecognizerState.Began {
             longPressOutlet.enabled = false
             longPressOutlet.conformsToProtocol(MKMapViewDelegate)
+            
+            // Add the pin annotation on the map
             let touchPoint = longPressOutlet.locationInView(mapView)
-            let newCoordinates = mapView.convertPoint(touchPoint, toCoordinateFromView: mapView)
+            let coordinates = mapView.convertPoint(touchPoint, toCoordinateFromView: mapView)
             let pinAnnotation = MKPointAnnotation()
-            pinAnnotation.coordinate = newCoordinates
+            pinAnnotation.coordinate = coordinates
             mapView.addAnnotation(pinAnnotation)
+            
+            // Add the circle on the map
+            circleOverlay = MKCircle(centerCoordinate: coordinates, radius: Double(sliderOutlet.value))
+            mapView.addOverlay(circleOverlay!)
         }
     }
     
     @IBAction func sliderMoved(sender: AnyObject) {
         sliderValueLabelOutlet.text = String(searchRadius) + " m"
+        if let _ = circleOverlay {
+            // If showing the user location
+            if segmentedControlOutlet.selectedSegmentIndex == 0 {
+                updateCircleOverlay()
+            }
+            
+            // If showing a selected location, show the circle only if there is an annotation already.
+            if segmentedControlOutlet.selectedSegmentIndex == 2 {
+                if mapView.annotations.count > 0 {
+                    updateCircleOverlay()
+                }
+            }
+        }
     }
     
     @IBAction func buttonPressed(sender: AnyObject) {
@@ -307,12 +344,13 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if segmentedControlOutlet.selectedSegmentIndex == 0 {
-            centerMapOnCurrentUserLocation(0.007)
+            centerMapOnCurrentUserLocation(0.06)
             mapView.showsUserLocation = true
         } else if segmentedControlOutlet.selectedSegmentIndex == 2 {
-            centerMapOnCurrentUserLocation(0.1)
+            centerMapOnCurrentUserLocation(0.12)
             mapView.showsUserLocation = false
         }
+        updateCircleOverlay()
     }
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
@@ -322,20 +360,56 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
     func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         locationManager.startUpdatingLocation()
         if segmentedControlOutlet.selectedSegmentIndex == 0 {
-            centerMapOnCurrentUserLocation(0.007)
+            centerMapOnCurrentUserLocation(0.06)
         } else if segmentedControlOutlet.selectedSegmentIndex == 2 {
-            centerMapOnCurrentUserLocation(0.1)
+            centerMapOnCurrentUserLocation(0.12)
         }
     }
     
     func centerMapOnCurrentUserLocation(span: Double) {
         if let location = locationManager.location {
-            if self.forceCenterOnUserLocation == true { // Allows to set the region only once. Then the user is free to change the region and zoom manually without the map refocusing around the user continuously.
-                self.forceCenterOnUserLocation = false
-                let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-                let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: span, longitudeDelta: span))
-                mapView.setRegion(region, animated: true)
+            if let _ = forceCenterOnUserLocation {
+                if self.forceCenterOnUserLocation == true {
+                    // Above if condition allows to set the region only once. Then the user is free to change the region and zoom manually without the map refocusing around the user continuously.
+                    
+                    self.forceCenterOnUserLocation = false
+                    let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+                    let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: span, longitudeDelta: span))
+                    mapView.setRegion(region, animated: true)
+                }
             }
+        }
+    }
+    
+    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
+        let circleRenderer = MKCircleRenderer(overlay: overlay)
+        circleRenderer.strokeColor = UIColor.redColor()
+        circleRenderer.fillColor = UIColor.orangeColor()
+        circleRenderer.alpha = 0.5
+        return circleRenderer
+    }
+    
+    func updateCircleOverlay() {
+        
+        var coordinates : CLLocationCoordinate2D?
+        if segmentedControlOutlet.selectedSegmentIndex == 0 {
+            if let _ = locationManager.location {
+                coordinates = locationManager.location?.coordinate
+            }
+            
+        }
+        if segmentedControlOutlet.selectedSegmentIndex == 2 {
+            if mapView.annotations.count > 0 {
+                if let _ = circleOverlay {
+                    coordinates = circleOverlay!.coordinate
+                }
+            }
+        }
+        
+        if let _ = coordinates {
+            let updatedCircleOverlay = MKCircle(centerCoordinate: coordinates!, radius: Double(sliderOutlet.value))
+            mapView.removeOverlays(mapView.overlays)
+            mapView.addOverlay(updatedCircleOverlay)
         }
     }
     
