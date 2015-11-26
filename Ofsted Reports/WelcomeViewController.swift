@@ -17,7 +17,7 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
     let locationManager = CLLocationManager()
     var searchRadius : Int {
         get {
-            return Int(sliderOutlet.value) - Int(sliderOutlet.value) % 100
+            return Int(sliderOutlet.value) - Int(sliderOutlet.value) % 10
         }
     }
     var circleOverlay : MKCircle?
@@ -69,7 +69,16 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
             
             mapView.hidden = savedOutledValues["mapViewIsHidden"] as! Bool
             mapView.showsUserLocation = savedOutledValues["mapViewShowsUserLocation"] as! Bool
-            forceCenterOnUserLocation = savedOutledValues["forceCenterOnUserLocation"] as! Bool
+            forceCenterOnUserLocation = false
+            
+            if segmentedControlOutlet.selectedSegmentIndex == 0 {
+                if let _ = locationManager.location {
+                    forceCenterOnUserLocation = true
+                    let coordinates = locationManager.location!.coordinate
+                    circleOverlay = MKCircle(centerCoordinate: coordinates, radius: Double(sliderOutlet.value))
+                    mapView.addOverlay(circleOverlay!)
+                }
+            }
             
             let mapViewRegion = savedOutledValues["mapViewRegion"] as! [String: Double]
             let center = CLLocationCoordinate2D(
@@ -108,7 +117,6 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
             "segmentedControlSelectedIndex" : segmentedControlOutlet.selectedSegmentIndex,
             "mapViewIsHidden" : mapView.hidden,
             "mapViewShowsUserLocation" : mapView.showsUserLocation,
-            "forceCenterOnUserLocation" : forceCenterOnUserLocation!,
             
             "mapViewRegion" : [
                 "latitude" : mapView.region.center.latitude,
@@ -408,8 +416,9 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
         
         if let _ = coordinates {
             let updatedCircleOverlay = MKCircle(centerCoordinate: coordinates!, radius: Double(sliderOutlet.value))
-            mapView.removeOverlays(mapView.overlays)
             mapView.addOverlay(updatedCircleOverlay)
+            mapView.removeOverlays([mapView.overlays.first!])
+            
         }
     }
     
