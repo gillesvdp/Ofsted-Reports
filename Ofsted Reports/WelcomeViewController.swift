@@ -20,8 +20,9 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
             return Int(sliderOutlet.value) - Int(sliderOutlet.value) % 100
         }
     }
-    var forceCenterOnUserLocation : Bool?
+    var forceCenterOnUserLocation : Bool!
     var search : Search?
+    let defaults = NSUserDefaults.standardUserDefaults()
     
     @IBOutlet weak var segmentedControlOutlet: UISegmentedControl!
     @IBOutlet weak var tableView: UITableView!
@@ -46,14 +47,83 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     override func viewWillAppear(animated: Bool) {
-        mapView.hidden = true
-        mapView.showsUserLocation = false
+        setOutletValues()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        saveOutletCurrentValues()
+    }
+    
+    func setOutletValues() {
+        // If there are saved values for welcomeScreen outlets, let's load these.
+        // These values typically exist if the user is coming back from the map, and trying to do a new search.
+        // In this case, the welcome screen is set-up exactly the same way the user left it, so as to provide a seemless experience.
+        
+        guard defaults.valueForKey("welcomeScreenOutletValues") == nil else {
+            let savedOutledValues = defaults.valueForKey("welcomeScreenOutletValues") as! [String: AnyObject]
+            
+            segmentedControlOutlet.enabled = savedOutledValues["segmentedControlIsEnabled"] as! Bool
+            segmentedControlOutlet.selectedSegmentIndex = savedOutledValues["segmentedControlSelectedIndex"] as! Int
+            
+            mapView.hidden = savedOutledValues["mapViewIsHidden"] as! Bool
+            mapView.showsUserLocation = savedOutledValues["mapViewShowsUserLocation"] as! Bool
+            forceCenterOnUserLocation = savedOutledValues["forceCenterOnUserLocation"] as! Bool
+            
+            let mapViewRegion = savedOutledValues["mapViewRegion"] as! [String: Double]
+            let center = CLLocationCoordinate2D(
+                latitude: mapViewRegion["latitude"]!,
+                longitude: mapViewRegion["longitude"]!
+            )
+            let span = MKCoordinateSpan(
+                latitudeDelta: mapViewRegion["latitudeSpan"]!,
+                longitudeDelta: mapViewRegion["latitudeSpan"]!
+            )
+            mapView.region = MKCoordinateRegion(center: center, span: span)
+            
+            longPressOutlet.enabled = savedOutledValues["longPressOutletIsEnabled"] as! Bool
+            longPressInstruction.hidden = savedOutledValues["longPressInstructionIsHidden"] as! Bool
+            
+            textFieldOutlet.hidden = savedOutledValues["textFieldOutletIsHidden"] as! Bool
+            sliderValueLabelOutlet.text = savedOutledValues["sliderValueLabelOutletText"] as? String
+            sliderOutlet.value = savedOutledValues["sliderOutletValue"] as! Float
+            return
+        }
+        
+        // Otherwise, load standard values
         segmentedControlOutlet.enabled = true
         segmentedControlOutlet.selectedSegmentIndex = 1
+        mapView.hidden = true
+        mapView.showsUserLocation = false
         forceCenterOnUserLocation = true
         longPressOutlet.enabled = false
         longPressInstruction.hidden = true
+        textFieldOutlet.hidden = false
     }
+    
+    func saveOutletCurrentValues() {
+        let welcomeScreenOutletValues : [String: AnyObject] = [
+            "segmentedControlIsEnabled" : segmentedControlOutlet.enabled,
+            "segmentedControlSelectedIndex" : segmentedControlOutlet.selectedSegmentIndex,
+            "mapViewIsHidden" : mapView.hidden,
+            "mapViewShowsUserLocation" : mapView.showsUserLocation,
+            "forceCenterOnUserLocation" : forceCenterOnUserLocation!,
+            
+            "mapViewRegion" : [
+                "latitude" : mapView.region.center.latitude,
+                "longitude" : mapView.region.center.longitude,
+                "latitudeSpan" : mapView.region.span.latitudeDelta,
+                "longitudeSpan" : mapView.region.span.longitudeDelta
+            ],
+            
+            "longPressOutletIsEnabled" : longPressOutlet.enabled,
+            "longPressInstructionIsHidden" : longPressInstruction.hidden,
+            "textFieldOutletIsHidden" : textFieldOutlet.hidden,
+            "sliderValueLabelOutletText" : sliderValueLabelOutlet.text!,
+            "sliderOutletValue" : sliderOutlet.value
+        ]
+        defaults.setValue(welcomeScreenOutletValues, forKey: "welcomeScreenOutletValues")
+    }
+    
     
     /// MARK: IB Actions
     
@@ -71,9 +141,10 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
             
             // Prepare view elements for case 0
             mapView.hidden = false
-            mapView.removeAnnotations(mapView.annotations)
             locationManager.requestWhenInUseAuthorization()
-            displayCurrentUserLocation()
+            mapView.showsUserLocation = true
+            forceCenterOnUserLocation = true
+            centerMapOnCurrentUserLocation(0.007)
             
         case 1: // Search by Post Code
             // Remove view elements needed for case 0
@@ -81,7 +152,6 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
             
             // Remove view elements needed for case 2
             mapView.hidden = true
-            mapView.removeAnnotations(mapView.annotations)
             longPressOutlet.enabled = false
             longPressInstruction.hidden = true
             
@@ -90,15 +160,18 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
             
         case 2: // Search by selecting a location
             // Remove view elements needed for case 0
-            mapView.showsUserLocation = false
+            // none
             
             // Remove view elements needed for case 1
             textFieldOutlet.hidden = true
             textFieldOutlet.endEditing(true)
             
-            // Prepare view elements for case 3
+            // Prepare view elements for case 2
+            mapView.removeAnnotations(mapView.annotations)
+            mapView.showsUserLocation = false
             mapView.hidden = false
             forceCenterOnUserLocation = true
+            centerMapOnCurrentUserLocation(0.1)
             longPressInstruction.hidden = false
             longPressOutlet.enabled = true
             
@@ -198,10 +271,10 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func saveSearchAndSchools(postCode: String?, latitude: Double?, longitude: Double?, radius: Int, schoolsInfoArray: [[String: AnyObject]]) {
-        // Preparing to save the search (generating a basic string description for the search)
+        // Preparing to save the search (first: we generat a basic string description for the search)
         var textForTableCell = String()
         if let _ = postCode {
-            textForTableCell = postCode!
+            textForTableCell = postCode!.uppercaseString // Formatting the search in upper case
         } else {
             let formatter = NSNumberFormatter()
             formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
@@ -215,9 +288,11 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
         let newSearch = CoreDataStackManager.sharedInstance.saveNewSearch(postCode, latitude: latitude, longitude: longitude, radius: radius, textForTableCell: textForTableCell)
         self.search = newSearch
         
-        // If the search was done using GPS coordinates, start a geocoding process in a different thread to update the string description of the search.
+        // The search has been created with a basic description, but we will create a task in a seperate thread that will clean-up the description. This needs to be done a in seperate thread because a geocoding process will be used in the case of a search based on GPS Coordinates.
         if let _ = latitude {
-            self.geocodeSearchDescription(latitude!, longitude: longitude!)
+            if let _ = longitude {
+                self.geocodeSearchDescriptionInBackground(latitude!, longitude: longitude!)
+            }
         }
         
         // Save the schools retrieved from the Api that are associated with the search
@@ -228,12 +303,15 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
         self.performSegueWithIdentifier(ConstantStrings.sharedInstance.showMap, sender: self)
     }
     
-    /// MARK: Map delegate functions
+    /// MARK: Map functions
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        // Only displayCurrentUserLocation if we are on case 0, aka 'near me' case
         if segmentedControlOutlet.selectedSegmentIndex == 0 {
-            displayCurrentUserLocation()
+            centerMapOnCurrentUserLocation(0.007)
+            mapView.showsUserLocation = true
+        } else if segmentedControlOutlet.selectedSegmentIndex == 2 {
+            centerMapOnCurrentUserLocation(0.1)
+            mapView.showsUserLocation = false
         }
     }
     
@@ -243,16 +321,19 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         locationManager.startUpdatingLocation()
-        displayCurrentUserLocation()
+        if segmentedControlOutlet.selectedSegmentIndex == 0 {
+            centerMapOnCurrentUserLocation(0.007)
+        } else if segmentedControlOutlet.selectedSegmentIndex == 2 {
+            centerMapOnCurrentUserLocation(0.1)
+        }
     }
     
-    func displayCurrentUserLocation() {
-        mapView.showsUserLocation = true
+    func centerMapOnCurrentUserLocation(span: Double) {
         if let location = locationManager.location {
             if self.forceCenterOnUserLocation == true { // Allows to set the region only once. Then the user is free to change the region and zoom manually without the map refocusing around the user continuously.
                 self.forceCenterOnUserLocation = false
                 let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-                let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.007, longitudeDelta: 0.007))
+                let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: span, longitudeDelta: span))
                 mapView.setRegion(region, animated: true)
             }
         }
@@ -341,8 +422,8 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
     
     /// MARK: Background work dispatched on a different thread
     
-    func geocodeSearchDescription(latitude: Double, longitude: Double) {
-        var description = ""
+    func geocodeSearchDescriptionInBackground(latitude: Double, longitude: Double) {
+        var updatedDescription = ""
         let location = CLLocation(latitude: latitude, longitude: longitude)
         let geocoder = CLGeocoder()
         geocoder.reverseGeocodeLocation(location,
@@ -357,24 +438,24 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
                             } else {
                                 let place = places.first
                                 if let thoroughfare = place!.thoroughfare {
-                                    description = "\(thoroughfare)"
+                                    updatedDescription = "\(thoroughfare)"
                                     if let subLocality = place!.subLocality {
-                                        description += ", \(subLocality)"
+                                        updatedDescription += ", \(subLocality)"
                                     }
                                 } else if let subLocality = place!.subLocality {
-                                    description = "\(subLocality)"
+                                    updatedDescription = "\(subLocality)"
                                     if let locality = place!.locality {
-                                        description += ", \(locality)"
+                                        updatedDescription += ", \(locality)"
                                     }
                                 } else if let locality = place!.locality {
-                                    description += ", \(locality)"
+                                    updatedDescription += ", \(locality)"
                                 } else if let subAdministrativeArea = place!.subAdministrativeArea {
-                                    description = "\(subAdministrativeArea)"
+                                    updatedDescription = "\(subAdministrativeArea)"
                                     if let administrativeArea = place!.administrativeArea {
-                                        description += ", \(administrativeArea)"
+                                        updatedDescription += ", \(administrativeArea)"
                                     }
                                 } else if let administrativeArea = place!.administrativeArea {
-                                    description = "\(administrativeArea)"
+                                    updatedDescription = "\(administrativeArea)"
                                 } else {
                                     // No update, current description with coordinates will be used.
                                 }
@@ -383,8 +464,8 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
                             // No update, current description with coordinates will be used.
                         }
                     }
-                    if description != "" { // Only save the new description if the geocoder has provided useful information.
-                        CoreDataStackManager.sharedInstance.updateSearchDescription(self.search!, textForTableCell: description)
+                    if updatedDescription != "" { // Only save the new description if the geocoder has provided useful information.
+                        CoreDataStackManager.sharedInstance.updateSearchDescription(self.search!, textForTableCell: updatedDescription)
                     }
                 })
         })
