@@ -23,7 +23,6 @@ class ConstantStrings {
     let otherError = "Error, Please contact us"
     let parsingError = "Error while parsing the data, please contact us"
     
-    
     // Segues
     let showMap = "showMap"
     let showSchoolDetails = "showSchoolDetails"

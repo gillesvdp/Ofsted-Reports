@@ -137,7 +137,6 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
         defaults.setValue(welcomeScreenOutletValues, forKey: "welcomeScreenOutletValues")
     }
     
-    
     /// MARK: IB Actions
     
     @IBAction func segmentedControlPressed(sender: AnyObject) {
@@ -401,13 +400,11 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func updateCircleOverlay() {
-        
         var coordinates : CLLocationCoordinate2D?
         if segmentedControlOutlet.selectedSegmentIndex == 0 {
             if let _ = locationManager.location {
                 coordinates = locationManager.location?.coordinate
             }
-            
         }
         if segmentedControlOutlet.selectedSegmentIndex == 2 {
             if mapView.annotations.count > 0 {
@@ -416,12 +413,10 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
                 }
             }
         }
-        
         if let _ = coordinates {
             let updatedCircleOverlay = MKCircle(centerCoordinate: coordinates!, radius: Double(sliderOutlet.value))
             mapView.addOverlay(updatedCircleOverlay)
             mapView.removeOverlays([mapView.overlays.first!])
-            
         }
     }
     
@@ -462,13 +457,11 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
         }
     }
     
-    
     /// MARK: Text field delegate functions
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textFieldOutlet.resignFirstResponder()
         return true
     }
-    
     
     /// MARK: General UI Functions
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -504,7 +497,6 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
         let mapViewController = destinationVC.topViewController as! MapViewController
         mapViewController.search = search
     }
-    
     
     /// MARK: Background work dispatched on a different thread
     

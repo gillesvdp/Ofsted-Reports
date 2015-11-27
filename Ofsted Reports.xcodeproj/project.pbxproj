@@ -540,6 +540,7 @@
 				98B773331C03458200BC37E3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		98B773341C03458200BC37E3 /* Build configuration list for PBXNativeTarget "Ofsted ReportsTests" */ = {
 			isa = XCConfigurationList;
@@ -548,6 +549,7 @@
 				98B773361C03458200BC37E3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		98B773371C03458200BC37E3 /* Build configuration list for PBXNativeTarget "Ofsted ReportsUITests" */ = {
 			isa = XCConfigurationList;
@@ -556,6 +558,7 @@
 				98B773391C03458200BC37E3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

@@ -51,7 +51,6 @@ class AccessAPI {
                     }
                     return
                 }
-                    
                 let schoolsInfoArray = parsedResult["schools"] as! [[String : AnyObject]]
                 completionHandler(schoolsInfoArray: schoolsInfoArray, errorString: nil)
                     

@@ -45,15 +45,12 @@ class CoreDataStackManager {
             dict[NSUnderlyingErrorKey] = error as NSError
             let wrappedError = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
             // Replace this with code to handle the error appropriately.
-            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
             NSLog("Unresolved error \(wrappedError), \(wrappedError.userInfo)")
-            abort()
         }
         return coordinator
     }()
     
     lazy var managedObjectContext: NSManagedObjectContext = {
-        // Returns the managed object context for the application (which is already bound to the persistent store coordinator for the application.) This property is optional since there are legitimate error conditions that could cause the creation of the context to fail.
         let coordinator = self.persistentStoreCoordinator
         var managedObjectContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
         managedObjectContext.persistentStoreCoordinator = coordinator
@@ -67,11 +64,7 @@ class CoreDataStackManager {
             do {
                 try managedObjectContext.save()
             } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nserror = error as NSError
-                NSLog("Unresolved error \(nserror), \(nserror.userInfo)")
-                abort()
+                print("Error: Failed to save the context")
             }
         }
     }
@@ -84,6 +77,8 @@ class CoreDataStackManager {
         
         let request = NSFetchRequest(entityName: "Search")
         request.returnsObjectsAsFaults = false
+        request.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
+        
         do {
             let results = try managedObjectContext.executeFetchRequest(request) as! [Search]
             funcReturn = results
@@ -106,7 +101,6 @@ class CoreDataStackManager {
     }
     
     func saveNewSchools(search: Search, schoolsInfoArray: [[String: AnyObject]]) {
-        
         for school in schoolsInfoArray {
             let distanceMetres = school["distanceMetres"] as? Int
             let lastInspectionDate = school["lastInspectionDate"] as? String
@@ -127,7 +121,6 @@ class CoreDataStackManager {
         }
         saveContext()
     }
-    
     
     func deleteSearchAndItsSchools(search: Search) {
         for school in search.schools! {

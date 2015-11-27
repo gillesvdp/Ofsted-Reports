@@ -115,7 +115,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             mapView.showAnnotations(schoolPins, animated: true)
             mapView.addAnnotations(schoolPins)
         } else {
-            print("no search was given to load the map")
+            // Error: no search was given to load the map
+            showAlertViewController("Error", errorMessage: "Please try again with another search, or contact us if the problem persists")
         }
     }
     
@@ -137,7 +138,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             performSegueWithIdentifier(ConstantStrings.sharedInstance.showSchoolDetails, sender: view)
         }
     }
-    
     
     /// MARK: General UI Functions
     

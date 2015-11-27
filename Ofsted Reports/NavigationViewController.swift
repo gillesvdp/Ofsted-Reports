@@ -11,4 +11,5 @@ import UIKit
 class NavigationViewController: UINavigationController {
     
     // Note: Class required only to allow the WelcomeViewController to pass information to the MapViewController in the prepareForSegue method.
+    
 }

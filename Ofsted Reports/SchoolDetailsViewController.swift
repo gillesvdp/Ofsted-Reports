@@ -40,43 +40,48 @@ class SchoolDetailsViewController: UIViewController {
         btnOutlet.setTitle("Access Ofsted Report", forState: .Normal)
         
         // Customizing screen based on the school info to be displayed
-        schoolName.text = school!.schoolName
-        
-        if let phase = school!.phase {
-            label1.text = phase
-        }
-        
-        if let typeOfEstablishment = school!.typeOfEstablishment {
-            label2.text = typeOfEstablishment
-        }
-        
-        if let overallEffectiveness = school!.overallEffectiveness {
-            label3.text = ratingAsText(overallEffectiveness as Int)
-        }
-        
-        if let leadershipAndManagement = school!.leadershipAndManagement {
-            label4.text = ratingAsText(leadershipAndManagement as Int)
-        }
-        
-        if let qualityOfTeaching = school!.qualityOfTeaching {
-            label5.text = ratingAsText(qualityOfTeaching as Int)
-        }
-        
-        if let urn = school!.urn {
-            label6.text = String(urn)
-        }
-        
-        if let lastInspectionDate = school!.lastInspectionDate {
-            label7.text = lastInspectionDate
-        }
-        
-        if let url = school!.lastInspectionUrl {
-            if url.containsString("ofsted.gov.uk") {
-                self.schoolReportUrl = url
+        if let _ = school {
+            schoolName.text = school!.schoolName
+            
+            if let phase = school!.phase {
+                label1.text = phase
+            }
+            
+            if let typeOfEstablishment = school!.typeOfEstablishment {
+                label2.text = typeOfEstablishment
+            }
+            
+            if let overallEffectiveness = school!.overallEffectiveness {
+                label3.text = ratingAsText(overallEffectiveness as Int)
+            }
+            
+            if let leadershipAndManagement = school!.leadershipAndManagement {
+                label4.text = ratingAsText(leadershipAndManagement as Int)
+            }
+            
+            if let qualityOfTeaching = school!.qualityOfTeaching {
+                label5.text = ratingAsText(qualityOfTeaching as Int)
+            }
+            
+            if let urn = school!.urn {
+                label6.text = String(urn)
+            }
+            
+            if let lastInspectionDate = school!.lastInspectionDate {
+                label7.text = lastInspectionDate
+            }
+            
+            if let url = school!.lastInspectionUrl {
+                if url.containsString("ofsted.gov.uk") {
+                    self.schoolReportUrl = url
+                }
+            } else {
+                btnOutlet.enabled = false
+                btnOutlet.setTitle("Report not available", forState: .Normal)
             }
         } else {
-            btnOutlet.enabled = false
-            btnOutlet.setTitle("Report not available", forState: .Normal)
+            // Error: No school was given to this class when it was created.
+            showAlertViewController("Error", errorMessage: "Please try with another school, or contact us if the problem persists")
         }
     }
     
@@ -100,5 +105,10 @@ class SchoolDetailsViewController: UIViewController {
         return funcReturn
     }
     
-    
+    func showAlertViewController(title: String, errorMessage: String) {
+        let alert = UIAlertController(title: title, message: errorMessage, preferredStyle: .Alert)
+        let okAction = UIAlertAction(title: ConstantStrings.sharedInstance.errorOk, style: .Cancel, handler: nil)
+        alert.addAction(okAction)
+        presentViewController(alert, animated: true, completion: nil)
+    }
 }
