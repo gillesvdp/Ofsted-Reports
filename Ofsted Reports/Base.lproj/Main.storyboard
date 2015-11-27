@@ -283,7 +283,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Filters" style="plain" id="qGk-R7-8h9">
                             <connections>
-                                <segue destination="wad-4p-KXM" kind="push" id="RQY-q4-8d3"/>
+                                <segue destination="wad-4p-KXM" kind="push" identifier="showSettings" id="RQY-q4-8d3"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -514,6 +514,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <toolbar key="tableFooterView" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="Q7K-wc-1Ci">
+                            <rect key="frame" x="0.0" y="136" width="600" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                            <animations/>
+                            <items>
+                                <barButtonItem style="plain" systemItem="flexibleSpace" id="rHc-02-DpR"/>
+                                <barButtonItem title="Item" id="i0d-nj-oI9"/>
+                                <barButtonItem style="plain" systemItem="flexibleSpace" id="qIP-s5-5ix"/>
+                            </items>
+                        </toolbar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="cell" textLabel="Cay-YF-z7s" detailTextLabel="Mv7-1q-x4W" style="IBUITableViewCellStyleValue1" id="kkG-ot-lCp">
                                 <rect key="frame" x="0.0" y="92" width="600" height="44"/>
@@ -551,6 +561,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Search Filters" id="FmD-Nw-LaK"/>
+                    <connections>
+                        <outlet property="toolbarButton" destination="i0d-nj-oI9" id="s2N-HX-icM"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sAR-nK-mX3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

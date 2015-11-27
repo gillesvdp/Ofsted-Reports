@@ -70,4 +70,49 @@ class School: NSManagedObject {
         self.photoLocalUrl = photoLocalUrl
         self.photoWebUrl = photoWebUrl
     }
+    
+    func matchesUserPreferences() -> Bool {
+        var funcReturn = true
+        let filterPrefs = NSUserDefaults.standardUserDefaults().valueForKey("filterPrefs") as! [[String]]
+        
+        // Filtering school as per the filter preferences
+        if filterPrefs[0][0] == "No" {
+            if self.phase == "Secondary" {
+                funcReturn = false
+            }
+        }
+        
+        if filterPrefs[0][1] == "No" {
+            if self.phase == "Primary" {
+                funcReturn = false
+            }
+        }
+        if filterPrefs[0][2] == "No" {
+            if self.phase != "Secondary" && self.phase != "Primary" {
+                funcReturn = false
+            }
+        }
+        if filterPrefs[1][0] == "No" {
+            if self.overallEffectiveness == 1 {
+                funcReturn = false
+            }
+        }
+        if filterPrefs[1][1] == "No" {
+            if self.overallEffectiveness == 2 {
+                funcReturn = false
+            }
+        }
+        if filterPrefs[1][2] == "No" {
+            if self.overallEffectiveness == 3 {
+                funcReturn = false
+            }
+        }
+        if filterPrefs[1][3] == "No" {
+            if self.overallEffectiveness == 4 {
+                funcReturn = false
+            }
+        }
+        
+        return funcReturn
+    }
 }

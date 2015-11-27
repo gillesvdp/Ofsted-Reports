@@ -10,7 +10,11 @@ import UIKit
 
 class SettingsTableViewController: UITableViewController {
     
-    /// MARK: Variables & related function
+    /// MARK: IBOutlets, Variables & related function
+    
+    var search: Search?
+    
+    @IBOutlet weak var toolbarButton: UIBarButtonItem!
     
     var filterPrefs : [[String]]!
     func saveFilterPrefs(filterPrefs: [[String]]) {
@@ -21,12 +25,16 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .Plain, target: nil, action: nil)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "map"), style: .Plain , target: self, action: "popToRootController")
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        toolbarButton.enabled = false // The buttun is only used to display next, and never acts as a button: thus disabled.
         filterPrefs = NSUserDefaults.standardUserDefaults().valueForKey("filterPrefs") as! [[String]]
+        refreshNumberOfSchoolsThatMatchCriteria()
     }
     
     /// MARK: Table data & functions
-    
     let sectionTitles = ["School Phase","Latest Ofsted Rating"]
     let rowTitles = [["Secondary", "Primary", "Others"],["Outstanding", "Good", "Requires improvement", "Inadequate"]]
     
@@ -67,6 +75,27 @@ class SettingsTableViewController: UITableViewController {
             filterPrefs[indexPath.section][indexPath.row] = "Yes"
             saveFilterPrefs(filterPrefs)
             cell!.detailTextLabel!.textColor = UIColor.greenColor()
-       }
+        }
+        refreshNumberOfSchoolsThatMatchCriteria()
+    }
+    
+    /// MARK: General UI Functions
+    func refreshNumberOfSchoolsThatMatchCriteria() {
+        if let _ = search {
+            let schools = CoreDataStackManager.sharedInstance.retrieveSchoolsOfSearch(search!)
+            var counterOfSchoolsThatMatchUserPreferences = 0
+            for school in schools {
+                if school.matchesUserPreferences() == true {
+                    counterOfSchoolsThatMatchUserPreferences += 1
+                }
+            }
+            toolbarButton.title = "\(counterOfSchoolsThatMatchUserPreferences) schools match your criteria"
+        } else {
+            // Error: No Search was passed to this viewController
+        }
+    }
+    
+    func popToRootController() {
+        self.navigationController!.popToRootViewControllerAnimated(true)
     }
 }

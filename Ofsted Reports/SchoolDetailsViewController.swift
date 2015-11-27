@@ -30,8 +30,7 @@ class SchoolDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .Plain, target: nil, action: nil)
-        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "map"), style: .Plain , target: self, action: "popToRootController")
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -110,5 +109,9 @@ class SchoolDetailsViewController: UIViewController {
         let okAction = UIAlertAction(title: ConstantStrings.sharedInstance.errorOk, style: .Cancel, handler: nil)
         alert.addAction(okAction)
         presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func popToRootController() {
+        self.navigationController!.popToRootViewControllerAnimated(true)
     }
 }

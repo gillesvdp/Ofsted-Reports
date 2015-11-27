@@ -27,15 +27,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     override func viewWillAppear(animated: Bool) {
-        
-        // Setting standard filters if the map is launched for the first time
-        if NSUserDefaults.standardUserDefaults().valueForKey("filterPrefs") == nil {
-            let filterPrefsInit = [["Yes","Yes","Yes"],["Yes","Yes","Yes","Yes"]]
-            NSUserDefaults.standardUserDefaults().setValue(filterPrefsInit, forKey: "filterPrefs")
-            filterPrefs = filterPrefsInit
-        } else {
-            filterPrefs = NSUserDefaults.standardUserDefaults().valueForKey("filterPrefs") as! [[String]]
-        }
+        filterPrefs = NSUserDefaults.standardUserDefaults().valueForKey("filterPrefs") as! [[String]]
         mapView.removeAnnotations(mapView.annotations)
         loadPins()
     }
@@ -47,66 +39,28 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     /// MARK: MapView functions
-    
     func loadPins() {
         if let _ = search {
             let schools = CoreDataStackManager.sharedInstance.retrieveSchoolsOfSearch(search!)
             var schoolPins = [MKPointAnnotation]()
             for school in schools {
-                
-                // Filtering school as per the filter preferences
-                if filterPrefs[0][0] == "No" {
-                    if school.phase == "Secondary" {
-                        continue
+                if school.matchesUserPreferences() == true {
+                    // If a school passes all the above if statements, it matches the filteria.
+                    // A Pin for the school is creates.
+                    let pinLatitude = school.latitude as! Double
+                    let pinLongitude = school.longitude as! Double
+                    
+                    let coordinate = CLLocationCoordinate2D(latitude: pinLatitude, longitude: pinLongitude)
+                    let schoolPin = MKPointAnnotation()
+                    schoolPin.coordinate = coordinate
+                    schoolPin.title = school.schoolName
+                    if let typeOfEstablishment = school.typeOfEstablishment {
+                        if let phase = school.phase {
+                            schoolPin.subtitle = "\(phase), \(typeOfEstablishment)"
+                        }
                     }
+                    schoolPins.append(schoolPin)
                 }
-                
-                if filterPrefs[0][1] == "No" {
-                    if school.phase == "Primary" {
-                        continue
-                    }
-                }
-                if filterPrefs[0][2] == "No" {
-                    if school.phase != "Secondary" && school.phase != "Primary" {
-                        continue
-                    }
-                }
-                if filterPrefs[1][0] == "No" {
-                    if school.overallEffectiveness == 1 {
-                        continue
-                    }
-                }
-                if filterPrefs[1][1] == "No" {
-                    if school.overallEffectiveness == 2 {
-                        continue
-                    }
-                }
-                if filterPrefs[1][2] == "No" {
-                    if school.overallEffectiveness == 3 {
-                        continue
-                    }
-                }
-                if filterPrefs[1][3] == "No" {
-                    if school.overallEffectiveness == 4 {
-                        continue
-                    }
-                }
-                
-                // If a school passes all the above if statements, it matches the filteria.
-                // A Pin for the school is creates.
-                let pinLatitude = school.latitude as! Double
-                let pinLongitude = school.longitude as! Double
-                
-                let coordinate = CLLocationCoordinate2D(latitude: pinLatitude, longitude: pinLongitude)
-                let schoolPin = MKPointAnnotation()
-                schoolPin.coordinate = coordinate
-                schoolPin.title = school.schoolName
-                if let typeOfEstablishment = school.typeOfEstablishment {
-                    if let phase = school.phase {
-                        schoolPin.subtitle = "\(phase), \(typeOfEstablishment)"
-                    }
-                }
-                schoolPins.append(schoolPin)
             }
             self.title = "\(schoolPins.count) schools"
             if schoolPins.count == 1{
@@ -153,6 +107,13 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             let destinationVC = segue.destinationViewController as! SchoolDetailsViewController
             let selectedPin = sender as! MKPinAnnotationView
             destinationVC.school = CoreDataStackManager.sharedInstance.retrieveSchool(selectedPin.annotation!.coordinate.latitude, longitude: selectedPin.annotation!.coordinate.longitude)
+        }
+        if segue.identifier == ConstantStrings.sharedInstance.showSettings {
+            let destinationVC = segue.destinationViewController as! SettingsTableViewController
+            if let _ = search {
+                print(1)
+                destinationVC.search = self.search
+            }
         }
     }
 }
