@@ -20,11 +20,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _ = ConstantStrings()
         _ = CoreDataStackManager()
         
-        // Setting standard filters if the app is launched for the first time (useful on MapViewController, SettingsViewController, and School objects).
+        // Setting standard school filters if the app is launched for the first time (useful on MapViewController, SettingsViewController, and School objects).
         if NSUserDefaults.standardUserDefaults().valueForKey("filterPrefs") == nil {
             let filterPrefsInit = [["Yes","Yes","Yes"],["Yes","Yes","Yes","Yes"]]
             NSUserDefaults.standardUserDefaults().setValue(filterPrefsInit, forKey: "filterPrefs")
         }
+        
         return true
     }
 

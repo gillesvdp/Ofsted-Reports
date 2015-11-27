@@ -82,9 +82,8 @@ class CoreDataStackManager {
         do {
             let results = try managedObjectContext.executeFetchRequest(request) as! [Search]
             funcReturn = results
-            
         } catch {
-            print(error)
+            print("Error: Failed to execute the fetch request (fetchPreviousSearches)")
         }
         return funcReturn
     }
@@ -145,7 +144,7 @@ class CoreDataStackManager {
                 }
             }
         } catch {
-            print(error)
+            print("Error: Failed to execute the fetch request (retrieveSchoolsOfSearch)")
         }
         return funcReturn
     }
@@ -166,7 +165,7 @@ class CoreDataStackManager {
                 }
             }
         } catch {
-            print(error)
+            print("Failed to execute the fetch request (retrieveSchool)")
         }
         return funcReturn
     }

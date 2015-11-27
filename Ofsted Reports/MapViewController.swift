@@ -111,7 +111,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         if segue.identifier == ConstantStrings.sharedInstance.showSettings {
             let destinationVC = segue.destinationViewController as! SettingsTableViewController
             if let _ = search {
-                print(1)
                 destinationVC.search = self.search
             }
         }

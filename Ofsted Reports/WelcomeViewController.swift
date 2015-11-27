@@ -31,7 +31,8 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var sliderOutlet: UISlider!
     @IBOutlet weak var sliderValueLabelOutlet: UILabel!
-    @IBOutlet weak var buttonOutlet: UIButton!
+    @IBOutlet weak var previousSearchesButtonOutlet: UIButton!
+    @IBOutlet weak var newSearchButtonOutlet: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet var longPressOutlet: UILongPressGestureRecognizer!
     @IBOutlet weak var longPressInstruction: UILabel!
@@ -243,7 +244,8 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
         }
     }
     
-    @IBAction func buttonPressed(sender: AnyObject) {
+    
+    @IBAction func newSearchButtonPressed(sender: AnyObject) {
         defreezeScreen(false)
         activityIndicator.startAnimating()
         let radius = searchRadius
@@ -288,6 +290,20 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
             let longitude = mapView.annotations.first?.coordinate.longitude
             searchSchools(nil, latitude: latitude!, longitude: longitude!, radius: radius)
         }
+    }
+    
+    
+    @IBAction func previousSearchesButtonPressed(sender: AnyObject) {
+        UIView.animateWithDuration(0.5, animations: {
+            if self.previousSearchesButtonOutlet.titleLabel!.text == "Previous searches" {
+                self.previousSearchesButtonOutlet.setTitle("Hide previous searches", forState: .Normal)
+                self.view.bounds.offsetInPlace(dx: 0, dy: 200)
+                
+            } else {
+                self.previousSearchesButtonOutlet.setTitle("Previous searches", forState: .Normal)
+                self.view.bounds.offsetInPlace(dx: 0, dy: -200)
+            }
+        })
     }
     
     /// MARK: General functions
@@ -364,7 +380,7 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
-        print(error)
+        print("Location manager failed with error: \(error)")
     }
     
     func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
@@ -426,7 +442,7 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
             return CoreDataStackManager.sharedInstance.fetchPreviousSearches()
         }
     }
-
+    
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return "Previous Searches"
     }
@@ -479,7 +495,8 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
         segmentedControlOutlet.enabled = trueOrFalse
         longPressOutlet.enabled = trueOrFalse
         textFieldOutlet.enabled = trueOrFalse
-        buttonOutlet.enabled = trueOrFalse
+        previousSearchesButtonOutlet.enabled = trueOrFalse
+        newSearchButtonOutlet.enabled = trueOrFalse
         mapView.scrollEnabled = trueOrFalse
         tableView.scrollEnabled = trueOrFalse
         tableView.allowsSelection = trueOrFalse
