@@ -12,9 +12,10 @@ class SettingsTableViewController: UITableViewController {
     
     /// MARK: IBOutlets, Variables & related function
     
+    // Knowing the current search allows to pre-calculate the number of schools that match the search criteria
+    // and communicate that info on this screen to the user
     var search: Search?
-    
-    @IBOutlet weak var toolbarButton: UIBarButtonItem!
+    @IBOutlet weak var numberOfSchoolsMatchingUserPreferencesLabelOutlet: UILabel!
     
     var filterPrefs : [[String]]!
     func saveFilterPrefs(filterPrefs: [[String]]) {
@@ -29,7 +30,6 @@ class SettingsTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
-        toolbarButton.enabled = false // The buttun is only used to display next, and never acts as a button: thus disabled.
         filterPrefs = NSUserDefaults.standardUserDefaults().valueForKey("filterPrefs") as! [[String]]
         refreshNumberOfSchoolsThatMatchCriteria()
     }
@@ -89,10 +89,18 @@ class SettingsTableViewController: UITableViewController {
                     counterOfSchoolsThatMatchUserPreferences += 1
                 }
             }
-            toolbarButton.title = "\(counterOfSchoolsThatMatchUserPreferences) schools match your criteria"
+            numberOfSchoolsMatchingUserPreferencesLabelOutlet.text = "\(counterOfSchoolsThatMatchUserPreferences) schools match your criteria"
         } else {
             // Error: No Search was passed to this viewController
+            showAlertViewController(ConstantStrings.sharedInstance.noSearchGivenToSettingTableViewControllerErrorTitle, errorMessage: ConstantStrings.sharedInstance.noSearchGivenToSettingTableViewControllerErrorMessage)
         }
+    }
+    
+    func showAlertViewController(title: String, errorMessage: String) {
+        let alert = UIAlertController(title: title, message: errorMessage, preferredStyle: .Alert)
+        let okAction = UIAlertAction(title: ConstantStrings.sharedInstance.errorOk, style: .Cancel, handler: nil)
+        alert.addAction(okAction)
+        presentViewController(alert, animated: true, completion: nil)
     }
     
     func popToRootController() {

@@ -48,7 +48,17 @@ class ConstantStrings {
     
     /// MapViewController
     let mapAnnotationReuseIdentifier = "pin"
+    let noSchoolsMatchCurrentPrefsWarningTitle = "User Preferences"
+    let noSchoolsMatchCurrentPrefsWarningMessage = "There are schools in the location and search radius selected, but no schools match the current set of filters. Please adapt your filters to see schools in this area."
+    let noSearchGivenToMapViewControllerErrorTitle = "Error"
+    let noSearchGivenToMapViewControllerErrorMessage = "Please try again with another search, or contact us if the problem persists"
+    
+    /// SettingsTableViewController
+    let noSearchGivenToSettingTableViewControllerErrorTitle = "Error"
+    let noSearchGivenToSettingTableViewControllerErrorMessage = "Please try again with another search, or contact us if the problem persists"
     
     /// SchoolDetailTableViewController
     let tableReuseIdentifier = "cell"
+    let noSearchGivenToSchoolDetailTableViewControllerErrorTitle = "Error"
+    let noSearchGivenToSchoolDetailTableViewControllerErrorMessage = "Please try again with another search, or contact us if the problem persists"
 }

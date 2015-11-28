@@ -16,14 +16,14 @@ class SchoolDetailsViewController: UIViewController {
     var school: School?
     var schoolReportUrl = String()
     
-    @IBOutlet weak var schoolName: UILabel!
-    @IBOutlet weak var label1: UILabel!
-    @IBOutlet weak var label2: UILabel!
-    @IBOutlet weak var label3: UILabel!
-    @IBOutlet weak var label4: UILabel!
-    @IBOutlet weak var label5: UILabel!
-    @IBOutlet weak var label6: UILabel!
-    @IBOutlet weak var label7: UILabel!
+    @IBOutlet weak var schoolNameLabelOutlet: UILabel!
+    @IBOutlet weak var phaseLabelOutlet: UILabel!
+    @IBOutlet weak var typeOfEstablishmentLabelOutlet: UILabel!
+    @IBOutlet weak var overallEffectivenessLabelOutlet: UILabel!
+    @IBOutlet weak var leadershipAndManagementLabelOutlet: UILabel!
+    @IBOutlet weak var teachingQualityLabelOutlet: UILabel!
+    @IBOutlet weak var urnLabelOutlet: UILabel!
+    @IBOutlet weak var lastInspectionDateLabelOutlet: UILabel!
     @IBOutlet weak var btnOutlet: UIButton!
     
     // MARK: View LifeCycle
@@ -40,34 +40,33 @@ class SchoolDetailsViewController: UIViewController {
         
         // Customizing screen based on the school info to be displayed
         if let _ = school {
-            schoolName.text = school!.schoolName
+            schoolNameLabelOutlet.text = school!.schoolName
             
             if let phase = school!.phase {
-                label1.text = phase
+                phaseLabelOutlet.text = phase
             }
             
             if let typeOfEstablishment = school!.typeOfEstablishment {
-                label2.text = typeOfEstablishment
+                typeOfEstablishmentLabelOutlet.text = typeOfEstablishment
+            }
+            if let _ = school!.overallEffectivenessSchoolRating.text {
+                overallEffectivenessLabelOutlet.text = school!.overallEffectivenessSchoolRating.text
             }
             
-            if let overallEffectiveness = school!.overallEffectiveness {
-                label3.text = ratingAsText(overallEffectiveness as Int)
+            if let _ = school!.leadershipAndManagementSchoolRating.text {
+                leadershipAndManagementLabelOutlet.text = school!.leadershipAndManagementSchoolRating.text
             }
             
-            if let leadershipAndManagement = school!.leadershipAndManagement {
-                label4.text = ratingAsText(leadershipAndManagement as Int)
-            }
-            
-            if let qualityOfTeaching = school!.qualityOfTeaching {
-                label5.text = ratingAsText(qualityOfTeaching as Int)
+            if let _ = school!.qualityOfTeachingSchoolRating.text {
+                teachingQualityLabelOutlet.text = school!.qualityOfTeachingSchoolRating.text
             }
             
             if let urn = school!.urn {
-                label6.text = String(urn)
+                urnLabelOutlet.text = String(urn)
             }
             
             if let lastInspectionDate = school!.lastInspectionDate {
-                label7.text = lastInspectionDate
+                lastInspectionDateLabelOutlet.text = lastInspectionDate
             }
             
             if let url = school!.lastInspectionUrl {
@@ -80,30 +79,16 @@ class SchoolDetailsViewController: UIViewController {
             }
         } else {
             // Error: No school was given to this class when it was created.
-            showAlertViewController("Error", errorMessage: "Please try with another school, or contact us if the problem persists")
+            showAlertViewController(ConstantStrings.sharedInstance.noSearchGivenToSchoolDetailTableViewControllerErrorTitle, errorMessage: ConstantStrings.sharedInstance.noSearchGivenToSchoolDetailTableViewControllerErrorMessage)
         }
     }
     
     /// MARK: IB Actions
-    
     @IBAction func btnPressed(sender: AnyObject) {
         UIApplication.sharedApplication().openURL(NSURL(string: schoolReportUrl)!)
     }
     
     /// MARK: General Functions
-    
-    func ratingAsText(rating: Int) -> String {
-        var funcReturn = String()
-        switch rating {
-            case 1: funcReturn = "Outstanding"
-            case 2: funcReturn = "Good"
-            case 3: funcReturn = "Requires improvement"
-            case 4: funcReturn = "Inadequate"
-            default: funcReturn = "Error: Please contact us"
-        }
-        return funcReturn
-    }
-    
     func showAlertViewController(title: String, errorMessage: String) {
         let alert = UIAlertController(title: title, message: errorMessage, preferredStyle: .Alert)
         let okAction = UIAlertAction(title: ConstantStrings.sharedInstance.errorOk, style: .Cancel, handler: nil)

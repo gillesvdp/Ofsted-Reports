@@ -17,7 +17,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     var viewTitle = String()
     var filterPrefs = [[String]]()
     var search : Search?
-    var selectedSchool : School?
+    var schools : [School]?
     
     /// MARK: View LifeCycle
     
@@ -29,17 +29,19 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     override func viewWillAppear(animated: Bool) {
         filterPrefs = NSUserDefaults.standardUserDefaults().valueForKey("filterPrefs") as! [[String]]
         mapView.removeAnnotations(mapView.annotations)
-        loadPins()
+        prepareMapAnnotations()
     }
     
     override func viewDidAppear(animated: Bool) {
         if self.title == "0 schools" {
-            showAlertViewController("Warning", errorMessage: "There are schools in the location and search radius selected, but no schools match the current set of filters. Please adapt your filters to see schools in this area.")
+            // Showing a warning: no schools appear on the map because no schools in this search match the user preferences
+            // Title is set in loadPins method, and if is equal to 0 schools, there are no schools to show on the map.
+            showAlertViewController(ConstantStrings.sharedInstance.noSchoolsMatchCurrentPrefsWarningTitle, errorMessage: ConstantStrings.sharedInstance.noSchoolsMatchCurrentPrefsWarningMessage)
         }
     }
     
     /// MARK: MapView functions
-    func loadPins() {
+    func prepareMapAnnotations() {
         if let _ = search {
             let schools = CoreDataStackManager.sharedInstance.retrieveSchoolsOfSearch(search!)
             var schoolPins = [MKPointAnnotation]()
@@ -51,7 +53,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                     let pinLongitude = school.longitude as! Double
                     let coordinate = CLLocationCoordinate2D(latitude: pinLatitude, longitude: pinLongitude)
                     
-                    let schoolPin = MKPointAnnotation()
+                    let schoolPin = MapCustomPointAnnotation()
+                    schoolPin.school = school
                     schoolPin.coordinate = coordinate
                     schoolPin.title = school.schoolName
                     if let typeOfEstablishment = school.typeOfEstablishment {
@@ -63,17 +66,20 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 }
             }
             
+            // Setting title of MapViewController based on number of pins
             if schoolPins.count == 1 {
                 self.title = "1 school"
             } else {
                 self.title = "\(schoolPins.count) schools"
             }
             
-            mapView.showAnnotations(schoolPins, animated: true)
             mapView.addAnnotations(schoolPins)
+            dispatch_async(dispatch_get_main_queue(), {
+                self.mapView.showAnnotations(self.mapView.annotations, animated: true)
+            })
         } else {
             // Error: no search was given to load the map
-            showAlertViewController("Error", errorMessage: "Please try again with another search, or contact us if the problem persists")
+            showAlertViewController(ConstantStrings.sharedInstance.noSearchGivenToMapViewControllerErrorTitle, errorMessage: ConstantStrings.sharedInstance.noSearchGivenToMapViewControllerErrorMessage)
         }
     }
     
@@ -97,7 +103,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     /// MARK: General UI Functions
-    
     func showAlertViewController(title: String, errorMessage: String) {
         let alert = UIAlertController(title: title, message: errorMessage, preferredStyle: .Alert)
         let okAction = UIAlertAction(title: ConstantStrings.sharedInstance.errorOk, style: .Cancel, handler: nil)
@@ -106,17 +111,15 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        // If going to the SchoolDetailsViewController
         if segue.identifier == ConstantStrings.sharedInstance.showSchoolDetails {
             let destinationVC = segue.destinationViewController as! SchoolDetailsViewController
             let selectedPin = sender as! MKPinAnnotationView
-            
-            // Finding the school based on GPS Coordinates, and if the school name is available we will use it as well.
-            if let _ = selectedPin.annotation!.title {
-                destinationVC.school = CoreDataStackManager.sharedInstance.retrieveSchool(selectedPin.annotation!.coordinate.latitude, longitude: selectedPin.annotation!.coordinate.longitude, name: selectedPin.annotation!.title!)
-            } else {
-                destinationVC.school = CoreDataStackManager.sharedInstance.retrieveSchool(selectedPin.annotation!.coordinate.latitude, longitude: selectedPin.annotation!.coordinate.longitude, name: nil)
-            }
+            let annotation = selectedPin.annotation as! MapCustomPointAnnotation
+            destinationVC.school = annotation.school
         }
+        
+        // If going to the SettingsTableViewController
         if segue.identifier == ConstantStrings.sharedInstance.showSettings {
             let destinationVC = segue.destinationViewController as! SettingsTableViewController
             if let _ = search {

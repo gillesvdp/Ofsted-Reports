@@ -21,13 +21,14 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
         }
     }
     var circleOverlay : MKCircle?
-    var forceCenterOnUserLocation : Bool!
-    var search : Search?
+    var forceCenterOnUserLocation : Bool?
+    var searchToSendToMapViewController : Search?
+    var previousSearches : [Search]?
     let defaults = NSUserDefaults.standardUserDefaults()
-    
     @IBOutlet weak var segmentedControlOutlet: UISegmentedControl!
+    @IBOutlet weak var previousSearchesLabelOutlet: UILabel!
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var textFieldOutlet: UITextField!
+    @IBOutlet weak var postCodeTextFieldOutlet: UITextField!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var sliderOutlet: UISlider!
     @IBOutlet weak var sliderValueLabelOutlet: UILabel!
@@ -45,11 +46,12 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
         tableView.delegate = self
         locationManager.delegate = self
         mapView.delegate = self
-        textFieldOutlet.delegate = self
+        postCodeTextFieldOutlet.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
     }
     
     override func viewWillAppear(animated: Bool) {
+        previousSearches = CoreDataStackManager.sharedInstance.fetchPreviousSearches()
         setOutletValues()
     }
     
@@ -73,9 +75,9 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
             
             // Note the map content is upated upon reload the screen:
             // If showing user location: the map refocuses on the user location, and draws a circle.
-            // If showing the map to select a location, the map is shown empty: no pins and no circle.
+            // If showing the map to select a location, the map is shown empty: no pins and no circle, but instruction to long-press is on.
             forceCenterOnUserLocation = false
-            if segmentedControlOutlet.selectedSegmentIndex == 0 {
+            if segmentedControlOutlet.selectedSegmentIndex == searchBy.userLocation {
                 if let _ = locationManager.location {
                     forceCenterOnUserLocation = true
                     let coordinates = locationManager.location!.coordinate
@@ -97,8 +99,7 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
             
             longPressOutlet.enabled = savedOutledValues["longPressOutletIsEnabled"] as! Bool
             longPressInstruction.hidden = savedOutledValues["longPressInstructionIsHidden"] as! Bool
-            
-            textFieldOutlet.hidden = savedOutledValues["textFieldOutletIsHidden"] as! Bool
+            postCodeTextFieldOutlet.hidden = savedOutledValues["postCodeTextFieldOutletIsHidden"] as! Bool
             sliderValueLabelOutlet.text = savedOutledValues["sliderValueLabelOutletText"] as? String
             sliderOutlet.value = savedOutledValues["sliderOutletValue"] as! Float
             return
@@ -112,7 +113,7 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
         forceCenterOnUserLocation = true
         longPressOutlet.enabled = false
         longPressInstruction.hidden = true
-        textFieldOutlet.hidden = false
+        postCodeTextFieldOutlet.hidden = false
     }
     
     func saveOutletCurrentValues() {
@@ -131,7 +132,7 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
             
             "longPressOutletIsEnabled" : longPressOutlet.enabled,
             "longPressInstructionIsHidden" : longPressInstruction.hidden,
-            "textFieldOutletIsHidden" : textFieldOutlet.hidden,
+            "postCodeTextFieldOutletIsHidden" : postCodeTextFieldOutlet.hidden,
             "sliderValueLabelOutletText" : sliderValueLabelOutlet.text!,
             "sliderOutletValue" : sliderOutlet.value
         ]
@@ -140,21 +141,29 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
     
     /// MARK: IB Actions
     
+    struct segmentedControlIndexes {
+        let userLocation    = 0
+        let postCode        = 1
+        let setLocation     = 2
+    }
+    let searchBy = segmentedControlIndexes()
+    
     @IBAction func segmentedControlPressed(sender: AnyObject) {
+        
         switch segmentedControlOutlet.selectedSegmentIndex {
-        case 0: // Search based on my location
             
-            // Remove view elements needed for case 1
-            textFieldOutlet.hidden = true
-            textFieldOutlet.endEditing(true)
+        case searchBy.userLocation:
+            // Remove view elements needed for search by post code
+            postCodeTextFieldOutlet.hidden = true
+            postCodeTextFieldOutlet.endEditing(true)
             
-            // Remove view elements needed for case 2
+            // Remove view elements needed for search by set location
             mapView.removeAnnotations(mapView.annotations)
             mapView.removeOverlays(mapView.overlays)
             longPressOutlet.enabled = false
             longPressInstruction.hidden = true
             
-            // Prepare view elements for case 0
+            // Prepare view elements for search by user location
             mapView.hidden = false
             locationManager.requestWhenInUseAuthorization()
             
@@ -171,31 +180,32 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
                 mapView.addOverlay(circleOverlay!)
             }
             
-        case 1: // Search by Post Code
-            // Remove view elements needed for case 0 and 2
+        case searchBy.postCode:
+            // Remove view elements needed for search by user location and set location
             mapView.removeOverlays(mapView.overlays)
             
-            // Remove view elements needed for case 0 only
+            // Remove view elements needed for search by user location only
             mapView.hidden = true
             
-            // Remove view elements needed for case 2 only
+            // Remove view elements needed for search by set location only
             mapView.removeAnnotations(mapView.annotations)
             mapView.hidden = true
             longPressOutlet.enabled = false
             longPressInstruction.hidden = true
             
-            // Prepare view elements for case 1
-            textFieldOutlet.hidden = false
+            // Prepare view elements for search by post code
+            postCodeTextFieldOutlet.hidden = false
+            postCodeTextFieldOutlet.becomeFirstResponder()
             
-        case 2: // Search by selecting a location
-            // Remove view elements needed for case 0
+        case searchBy.setLocation:
+            // Remove view elements needed for search by user location
             mapView.showsUserLocation = false
             
-            // Remove view elements needed for case 1
-            textFieldOutlet.hidden = true
-            textFieldOutlet.endEditing(true)
+            // Remove view elements needed for search by post code
+            postCodeTextFieldOutlet.hidden = true
+            postCodeTextFieldOutlet.endEditing(true)
             
-            // Prepare view elements for case 2
+            // Prepare view elements for search by set location
             mapView.removeAnnotations(mapView.annotations)
             mapView.removeOverlays(mapView.overlays)
             mapView.hidden = false
@@ -224,6 +234,9 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
             // Add the circle on the map
             circleOverlay = MKCircle(centerCoordinate: coordinates, radius: Double(sliderOutlet.value))
             mapView.addOverlay(circleOverlay!)
+            
+            // Hide instruction to do a long-press
+            longPressInstruction.hidden = true
         }
     }
     
@@ -231,12 +244,12 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
         sliderValueLabelOutlet.text = String(searchRadius) + " m"
         if let _ = circleOverlay {
             // If showing the user location
-            if segmentedControlOutlet.selectedSegmentIndex == 0 {
+            if segmentedControlOutlet.selectedSegmentIndex == searchBy.userLocation {
                 updateCircleOverlay()
             }
             
             // If showing a selected location, show the circle only if there is an annotation already.
-            if segmentedControlOutlet.selectedSegmentIndex == 2 {
+            if segmentedControlOutlet.selectedSegmentIndex == searchBy.setLocation {
                 if mapView.annotations.count > 0 {
                     updateCircleOverlay()
                 }
@@ -244,66 +257,58 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
         }
     }
     
-    
     @IBAction func newSearchButtonPressed(sender: AnyObject) {
-        defreezeScreen(false)
+        defreezeScreen(false) // = disable screen outlets
         activityIndicator.startAnimating()
         let radius = searchRadius
         
-        // Search by Current Location
-        if segmentedControlOutlet.selectedSegmentIndex == 0 {
+        if segmentedControlOutlet.selectedSegmentIndex == searchBy.userLocation {
             guard locationManager.location != nil else {
                 defreezeScreen(true)
                 showAlertViewController(ConstantStrings.sharedInstance.noUserLocationErrorTitle, errorMessage: ConstantStrings.sharedInstance.noUserLocationErrorMessage)
                 return
             }
             
-            // Search schools for this search
             let latitude = locationManager.location!.coordinate.latitude
             let longitude = locationManager.location!.coordinate.longitude
-            
             searchSchools(nil, latitude: latitude, longitude: longitude, radius: radius)
         }
         
-        // Search by Post Code
-        if segmentedControlOutlet.selectedSegmentIndex == 1 {
-            guard textFieldOutlet.text != "" else {
+        if segmentedControlOutlet.selectedSegmentIndex == searchBy.postCode {
+            guard postCodeTextFieldOutlet.text != "" else {
                 defreezeScreen(true)
                 showAlertViewController(ConstantStrings.sharedInstance.noPostCodeErrorTitle, errorMessage: ConstantStrings.sharedInstance.noPostCodeErrorMessage)
                 return
             }
             
-            // Search schools for this search
-            searchSchools(textFieldOutlet.text!, latitude: nil, longitude: nil, radius: radius)
+            searchSchools(postCodeTextFieldOutlet.text!, latitude: nil, longitude: nil, radius: radius)
         }
         
-        // Search by other location
-        if segmentedControlOutlet.selectedSegmentIndex == 2 {
+        if segmentedControlOutlet.selectedSegmentIndex == searchBy.setLocation {
             guard mapView.annotations.count != 0 else {
                 self.defreezeScreen(true)
                 showAlertViewController(ConstantStrings.sharedInstance.noSelectedLocationErrorTitle, errorMessage: ConstantStrings.sharedInstance.noSelectedLocationErrorMessage)
                 return
             }
             
-            // Search schools for this search
             let latitude = mapView.annotations.first?.coordinate.latitude
             let longitude = mapView.annotations.first?.coordinate.longitude
             searchSchools(nil, latitude: latitude!, longitude: longitude!, radius: radius)
         }
     }
     
-    
     @IBAction func previousSearchesButtonPressed(sender: AnyObject) {
-        UIView.animateWithDuration(0.5, animations: {
+        UIView.animateWithDuration(0.4, animations: {
             if self.previousSearchesButtonOutlet.titleLabel!.text == "Previous searches" {
-                self.previousSearchesButtonOutlet.setTitle("Hide previous searches", forState: .Normal)
-                self.view.bounds.offsetInPlace(dx: 0, dy: 200)
+                self.previousSearchesButtonOutlet.setTitle("Hide", forState: .Normal)
+                self.view.bounds.offsetInPlace(dx: 0, dy: 250)
                 
             } else {
                 self.previousSearchesButtonOutlet.setTitle("Previous searches", forState: .Normal)
-                self.view.bounds.offsetInPlace(dx: 0, dy: -200)
+                self.view.bounds.offsetInPlace(dx: 0, dy: -250)
             }
         })
+        // Moves by 250 because previousSearchesLabelOutlet height is set to 50, and tableView height is set to 200.
     }
     
     /// MARK: General functions
@@ -352,7 +357,7 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
         
         // Save the search in Core Data
         let newSearch = CoreDataStackManager.sharedInstance.saveNewSearch(postCode, latitude: latitude, longitude: longitude, radius: radius, textForTableCell: textForTableCell)
-        self.search = newSearch
+        self.searchToSendToMapViewController = newSearch
         
         // The search has been created with a String description, but we will create a task in a seperate thread that will update the search description using geocoding if the search was based on GPS Coordintes. This needs to be done a in seperate thread because of the nature of the geocoding process, plus this information will be needed only when the user comes back to the WelcomeViewController, so this does not need to block the main queue.
         if let _ = latitude {
@@ -439,37 +444,30 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
         }
     }
     
-    //// MARK: TableView Delegates Functions & Data
-    var previousSearches : [Search] {
-        get {
-            return CoreDataStackManager.sharedInstance.fetchPreviousSearches()
-        }
-    }
-    
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Previous Searches"
-    }
-    
+    //// MARK: TableView Functions
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return previousSearches.count
+        return previousSearches!.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as UITableViewCell
-        cell.textLabel!.text = previousSearches[indexPath.row].textForTableCell!
-        cell.detailTextLabel!.text = "\(previousSearches[indexPath.row].radius!) m"
+        cell.textLabel!.text = previousSearches![indexPath.row].textForTableCell!
+        cell.detailTextLabel!.text = "\(previousSearches![indexPath.row].radius!) m"
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        search = previousSearches[indexPath.row]
+        searchToSendToMapViewController = previousSearches![indexPath.row]
         performSegueWithIdentifier(ConstantStrings.sharedInstance.showMap, sender: tableView.cellForRowAtIndexPath(indexPath))
     }
     
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             // Deleting the search from the CoreDataStackManager
-            CoreDataStackManager.sharedInstance.deleteSearchAndItsSchools(previousSearches[indexPath.row])
+            CoreDataStackManager.sharedInstance.deleteSearchAndItsSchools(previousSearches![indexPath.row])
+            
+            // Refresh content of previousSearches variable in this class (required, as this is used to populate the table)
+            previousSearches = CoreDataStackManager.sharedInstance.fetchPreviousSearches()
             
             // Deleting the row from the table
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
@@ -478,7 +476,7 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
     
     /// MARK: Text field delegate functions
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        textFieldOutlet.resignFirstResponder()
+        postCodeTextFieldOutlet.resignFirstResponder()
         return true
     }
     
@@ -489,6 +487,9 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func defreezeScreen(trueOrFalse: Bool) {
+        // true = defreeze screen, i.e. enable outlets
+        // false = freeze screen, i.e. disable outlets
+        
         if trueOrFalse == true {
             activityIndicator.stopAnimating()
         } else {
@@ -497,7 +498,7 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
         sliderOutlet.enabled = trueOrFalse
         segmentedControlOutlet.enabled = trueOrFalse
         longPressOutlet.enabled = trueOrFalse
-        textFieldOutlet.enabled = trueOrFalse
+        postCodeTextFieldOutlet.enabled = trueOrFalse
         previousSearchesButtonOutlet.enabled = trueOrFalse
         newSearchButtonOutlet.enabled = trueOrFalse
         mapView.scrollEnabled = trueOrFalse
@@ -515,7 +516,7 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let destinationVC = segue.destinationViewController as! NavigationViewController
         let mapViewController = destinationVC.topViewController as! MapViewController
-        mapViewController.search = search
+        mapViewController.search = searchToSendToMapViewController
     }
     
     /// MARK: Background work dispatched on a different thread
@@ -563,10 +564,9 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
                         }
                     }
                     if updatedDescription != "" { // Only save the new description if the geocoder has provided useful information.
-                        CoreDataStackManager.sharedInstance.updateSearchDescription(self.search!, textForTableCell: updatedDescription)
+                        CoreDataStackManager.sharedInstance.updateSearchDescription(self.searchToSendToMapViewController!, textForTableCell: updatedDescription)
                     }
                 })
         })
     }
 }
-

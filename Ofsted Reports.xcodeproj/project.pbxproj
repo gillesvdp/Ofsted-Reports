@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9890B6D71C09CF7E00FB0C6E /* SchoolRatings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9890B6D61C09CF7E00FB0C6E /* SchoolRatings.swift */; };
+		9890B6D91C0A281E00FB0C6E /* MapCustomPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9890B6D81C0A281E00FB0C6E /* MapCustomPointAnnotation.swift */; };
 		98B7730A1C03458200BC37E3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B773091C03458200BC37E3 /* AppDelegate.swift */; };
 		98B7730C1C03458200BC37E3 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B7730B1C03458200BC37E3 /* WelcomeViewController.swift */; };
 		98B7730F1C03458200BC37E3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98B7730D1C03458200BC37E3 /* Main.storyboard */; };
@@ -44,6 +46,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9890B6D61C09CF7E00FB0C6E /* SchoolRatings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolRatings.swift; sourceTree = "<group>"; };
+		9890B6D81C0A281E00FB0C6E /* MapCustomPointAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapCustomPointAnnotation.swift; sourceTree = "<group>"; };
 		98B773061C03458200BC37E3 /* Ofsted Reports.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Ofsted Reports.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		98B773091C03458200BC37E3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		98B7730B1C03458200BC37E3 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
@@ -153,6 +157,7 @@
 				98B7730B1C03458200BC37E3 /* WelcomeViewController.swift */,
 				98B773501C04AEED00BC37E3 /* NavigationViewController.swift */,
 				98B7733A1C03467000BC37E3 /* MapViewController.swift */,
+				9890B6D81C0A281E00FB0C6E /* MapCustomPointAnnotation.swift */,
 				98B773521C04BE8D00BC37E3 /* SettingsTableViewController.swift */,
 				98B7734E1C0498B800BC37E3 /* SchoolDetailsViewController.swift */,
 			);
@@ -167,6 +172,7 @@
 				98B773441C034AAE00BC37E3 /* CoreDataStackManager.swift */,
 				98B7734B1C03661500BC37E3 /* Search.swift */,
 				98B773471C0358D300BC37E3 /* School.swift */,
+				9890B6D61C09CF7E00FB0C6E /* SchoolRatings.swift */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -311,6 +317,8 @@
 				98B7734F1C0498B800BC37E3 /* SchoolDetailsViewController.swift in Sources */,
 				98B773121C03458200BC37E3 /* Ofsted_Reports.xcdatamodeld in Sources */,
 				98B773531C04BE8D00BC37E3 /* SettingsTableViewController.swift in Sources */,
+				9890B6D91C0A281E00FB0C6E /* MapCustomPointAnnotation.swift in Sources */,
+				9890B6D71C09CF7E00FB0C6E /* SchoolRatings.swift in Sources */,
 				98B773491C0358D300BC37E3 /* School.swift in Sources */,
 				98B773401C034A5A00BC37E3 /* AccessAPI.swift in Sources */,
 				98B7733B1C03467000BC37E3 /* MapViewController.swift in Sources */,

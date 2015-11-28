@@ -115,15 +115,17 @@ class CoreDataStackManager {
             let urn = school["urn"] as? Int
             
             // Creating new School NSManagedObjects
-            let newSchool = School(photoWebUrl: "", distanceMetres: distanceMetres!, lastInspectionDate: lastInspectionDate!, lastInspectionUrl: lastInspectionUrl!, latitude: latitude!, leadershipAndManagement: leadershipAndManagement!, longitude: longitude!, overallEffectiveness: overallEffectiveness!, phase: phase!, photoLocalUrl: "", qualityOfTeaching: qualityOfTeaching!, schoolName: schoolName!, typeOfEstablishment: typeOfEstablishment!, urn: urn!, context: managedObjectContext)
+            let newSchool = School(photoWebUrl: nil, distanceMetres: distanceMetres, lastInspectionDate: lastInspectionDate, lastInspectionUrl: lastInspectionUrl, latitude: latitude, leadershipAndManagement: leadershipAndManagement, longitude: longitude, overallEffectiveness: overallEffectiveness, phase: phase, photoLocalUrl: nil, qualityOfTeaching: qualityOfTeaching, schoolName: schoolName, typeOfEstablishment: typeOfEstablishment, urn: urn, context: managedObjectContext)
             newSchool.search = search
         }
         saveContext()
     }
     
     func deleteSearchAndItsSchools(search: Search) {
-        for school in search.schools! {
-            managedObjectContext.deleteObject(school as! NSManagedObject)
+        if let _ = search.schools {
+            for school in search.schools! {
+                managedObjectContext.deleteObject(school as! NSManagedObject)
+            }
         }
         managedObjectContext.deleteObject(search)
         saveContext()
@@ -145,32 +147,6 @@ class CoreDataStackManager {
             }
         } catch {
             print("Error: Failed to execute the fetch request (retrieveSchoolsOfSearch)")
-        }
-        return funcReturn
-    }
-    
-    func retrieveSchool(latitude: Double, longitude: Double, name: String?) -> School? {
-        var funcReturn : School?
-        
-        let request = NSFetchRequest(entityName: "School")
-        request.returnsObjectsAsFaults = false
-        
-        do {
-            let allSchools = try managedObjectContext.executeFetchRequest(request) as! [School]
-            for school in allSchools {
-                if school.latitude == latitude && school.longitude == longitude {
-                    if let _ = name {
-                        if school.schoolName == name {
-                            funcReturn = school
-                        }
-                    } else {
-                        funcReturn = school
-                    }
-                    break
-                }
-            }
-        } catch {
-            print("Error: Failed to execute the fetch request (retrieveSchool)")
         }
         return funcReturn
     }

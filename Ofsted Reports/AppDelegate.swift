@@ -26,20 +26,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             NSUserDefaults.standardUserDefaults().setValue(filterPrefsInit, forKey: "filterPrefs")
         }
         
+        // Forgetting the welcomeScreenOutletValues.
+        // The welcome screen will be set-up with standard values.
+        // The welcome screen outlet values are kept in NSUserDefaults only within the same application run time.
+        let defaults = NSUserDefaults.standardUserDefaults()
+        if let _ = defaults.valueForKey("welcomeScreenOutletValues") {
+            defaults.removeObjectForKey("welcomeScreenOutletValues")
+        }
         return true
     }
-
+    
     func applicationWillTerminate(application: UIApplication) {
         
         // Saving the context
         CoreDataStackManager.sharedInstance.saveContext()
         
-        // Forgetting the welcomeScreenOutletValues. 
-        // The next time the app launches, it will have a fresh welcomeScreen.
-        let defaults = NSUserDefaults.standardUserDefaults()
-        if let _ = defaults.valueForKey("welcomeScreenOutletValues") {
-            defaults.removeObjectForKey("welcomeScreenOutletValues")
-        }
     }
 }
 

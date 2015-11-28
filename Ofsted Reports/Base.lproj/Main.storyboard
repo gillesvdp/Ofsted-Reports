@@ -27,8 +27,18 @@
                                     <action selector="newSearchButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4Kq-Ah-Zzr"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Previous Searches" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="9TO-e8-DUC">
+                                <rect key="frame" x="20" y="600" width="560" height="50"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="WGE-bz-3CJ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="XwH-M9-QOk">
-                                <rect key="frame" x="0.0" y="600" width="600" height="200"/>
+                                <rect key="frame" x="0.0" y="650" width="600" height="200"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -194,6 +204,7 @@
                             <constraint firstItem="uZE-mi-1rF" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="2wx-li-S66"/>
                             <constraint firstItem="Na0-be-gDQ" firstAttribute="leading" secondItem="OM6-nK-J8y" secondAttribute="leading" id="5zp-pS-jqH"/>
                             <constraint firstAttribute="leadingMargin" secondItem="MgW-2o-iHS" secondAttribute="leading" id="9ER-Jy-alF"/>
+                            <constraint firstItem="XwH-M9-QOk" firstAttribute="top" secondItem="9TO-e8-DUC" secondAttribute="bottom" constant="289" id="9WG-6c-8rj"/>
                             <constraint firstItem="XwH-M9-QOk" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="9cD-4O-ibY"/>
                             <constraint firstItem="jH1-Ln-8Rg" firstAttribute="centerY" secondItem="Dlv-zO-mAG" secondAttribute="centerY" id="9cd-pm-D4E"/>
                             <constraint firstAttribute="trailingMargin" secondItem="PLC-zg-dZh" secondAttribute="trailing" id="9fy-KY-MNs"/>
@@ -214,12 +225,17 @@
                             <constraint firstItem="39W-OL-3oH" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="10" id="cQY-HB-mTC"/>
                             <constraint firstItem="y9X-vS-vmM" firstAttribute="centerY" secondItem="PLC-zg-dZh" secondAttribute="centerY" id="cXR-51-9Ve"/>
                             <constraint firstItem="Dlv-zO-mAG" firstAttribute="centerX" secondItem="OM6-nK-J8y" secondAttribute="centerX" id="cdF-l8-Mza"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="9TO-e8-DUC" secondAttribute="trailing" id="cfH-wf-Qo3"/>
                             <constraint firstAttribute="trailingMargin" secondItem="39W-OL-3oH" secondAttribute="trailing" id="eS2-nq-Pgp"/>
                             <constraint firstItem="y9X-vS-vmM" firstAttribute="top" secondItem="OM6-nK-J8y" secondAttribute="bottom" constant="25" id="fmk-2z-C22"/>
                             <constraint firstAttribute="leadingMargin" secondItem="3ed-DC-dXz" secondAttribute="leading" id="i9q-ZG-LFq"/>
                             <constraint firstItem="Na0-be-gDQ" firstAttribute="trailing" secondItem="OM6-nK-J8y" secondAttribute="trailing" id="iqP-xB-Xed"/>
                             <constraint firstItem="y9X-vS-vmM" firstAttribute="top" secondItem="ogd-EQ-i1S" secondAttribute="bottom" constant="25" id="kJ9-IB-fAm"/>
                             <constraint firstItem="Dlv-zO-mAG" firstAttribute="leading" secondItem="jH1-Ln-8Rg" secondAttribute="trailing" constant="20" id="lgX-Nm-XCR"/>
+                            <constraint firstItem="9TO-e8-DUC" firstAttribute="top" secondItem="Dlv-zO-mAG" secondAttribute="bottom" constant="10" id="md6-ms-BzD"/>
+                            <constraint firstItem="9TO-e8-DUC" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="nHQ-c6-fQZ"/>
+                            <constraint firstItem="9TO-e8-DUC" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="psq-Uh-Qb5"/>
+                            <constraint firstItem="XwH-M9-QOk" firstAttribute="top" secondItem="9TO-e8-DUC" secondAttribute="bottom" id="s4N-l0-Fq2"/>
                             <constraint firstItem="Dlv-zO-mAG" firstAttribute="top" secondItem="uZE-mi-1rF" secondAttribute="bottom" constant="10" id="sMj-9h-5gO"/>
                             <constraint firstItem="XwH-M9-QOk" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="txE-q9-JnG"/>
                             <constraint firstItem="OM6-nK-J8y" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="uo0-5X-riC"/>
@@ -228,17 +244,21 @@
                             <constraint firstItem="3ed-DC-dXz" firstAttribute="centerY" secondItem="Dlv-zO-mAG" secondAttribute="centerY" id="yV6-pW-HGV"/>
                             <constraint firstItem="Dlv-zO-mAG" firstAttribute="centerX" secondItem="XwH-M9-QOk" secondAttribute="centerX" id="yhS-AS-PN3"/>
                             <constraint firstAttribute="trailingMargin" secondItem="OM6-nK-J8y" secondAttribute="trailing" id="zcg-g7-wd9"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="9TO-e8-DUC" secondAttribute="top" id="zlg-VD-nVq"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="5zp-pS-jqH"/>
                                 <exclude reference="iqP-xB-Xed"/>
                                 <exclude reference="kJ9-IB-fAm"/>
-                                <exclude reference="txE-q9-JnG"/>
                                 <exclude reference="BPW-OS-gu4"/>
                                 <exclude reference="cdF-l8-Mza"/>
                                 <exclude reference="upi-TS-18J"/>
                                 <exclude reference="yhS-AS-PN3"/>
+                                <exclude reference="O08-m4-wT6"/>
+                                <exclude reference="9WG-6c-8rj"/>
+                                <exclude reference="Wbs-Ap-My0"/>
+                                <exclude reference="txE-q9-JnG"/>
                             </mask>
                         </variation>
                     </view>
@@ -249,12 +269,13 @@
                         <outlet property="longPressOutlet" destination="glN-gD-j58" id="XyL-Ye-zJ8"/>
                         <outlet property="mapView" destination="ogd-EQ-i1S" id="nDD-Ec-E9a"/>
                         <outlet property="newSearchButtonOutlet" destination="Dlv-zO-mAG" id="QU2-kl-DJj"/>
+                        <outlet property="postCodeTextFieldOutlet" destination="vs1-ee-vng" id="ICF-zb-TUw"/>
                         <outlet property="previousSearchesButtonOutlet" destination="3ed-DC-dXz" id="AH8-KA-Aae"/>
+                        <outlet property="previousSearchesLabelOutlet" destination="9TO-e8-DUC" id="Xgs-cn-Z6P"/>
                         <outlet property="segmentedControlOutlet" destination="Na0-be-gDQ" id="qkX-ET-QHa"/>
                         <outlet property="sliderOutlet" destination="uZE-mi-1rF" id="uTQ-Oq-aSI"/>
                         <outlet property="sliderValueLabelOutlet" destination="PLC-zg-dZh" id="rna-hA-SoL"/>
                         <outlet property="tableView" destination="XwH-M9-QOk" id="opA-d2-Gu4"/>
-                        <outlet property="textFieldOutlet" destination="vs1-ee-vng" id="U2i-gx-op2"/>
                         <segue destination="LvU-ja-roy" kind="presentation" identifier="showMap" modalTransitionStyle="flipHorizontal" id="VVW-50-l03"/>
                     </connections>
                 </viewController>
@@ -509,14 +530,14 @@
                     <navigationItem key="navigationItem" id="tit-4P-KuA"/>
                     <connections>
                         <outlet property="btnOutlet" destination="AZL-0W-pfq" id="191-it-jd0"/>
-                        <outlet property="label1" destination="B99-H6-EQO" id="tYq-sc-aFR"/>
-                        <outlet property="label2" destination="TwB-10-1hh" id="B3b-uQ-DHT"/>
-                        <outlet property="label3" destination="VqE-Qn-Dha" id="rTA-qM-t2u"/>
-                        <outlet property="label4" destination="F9E-C3-GGV" id="ivg-Eo-8QE"/>
-                        <outlet property="label5" destination="din-6d-pRd" id="0zJ-UQ-TcF"/>
-                        <outlet property="label6" destination="iiy-fi-C85" id="Y2U-ad-oEf"/>
-                        <outlet property="label7" destination="OAB-W1-U9I" id="nVM-OK-I7s"/>
-                        <outlet property="schoolName" destination="fOI-D2-3SG" id="KD1-PC-7KR"/>
+                        <outlet property="lastInspectionDateLabelOutlet" destination="OAB-W1-U9I" id="und-4l-AeG"/>
+                        <outlet property="leadershipAndManagementLabelOutlet" destination="F9E-C3-GGV" id="22L-Ou-o7d"/>
+                        <outlet property="overallEffectivenessLabelOutlet" destination="VqE-Qn-Dha" id="wLB-gi-6o4"/>
+                        <outlet property="phaseLabelOutlet" destination="B99-H6-EQO" id="8WB-Eb-r7o"/>
+                        <outlet property="schoolNameLabelOutlet" destination="fOI-D2-3SG" id="MbH-BF-gIa"/>
+                        <outlet property="teachingQualityLabelOutlet" destination="din-6d-pRd" id="xVR-bH-IgM"/>
+                        <outlet property="typeOfEstablishmentLabelOutlet" destination="TwB-10-1hh" id="0JM-FA-zpt"/>
+                        <outlet property="urnLabelOutlet" destination="iiy-fi-C85" id="Dav-fX-leD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FEN-w1-caP" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -532,19 +553,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <toolbar key="tableFooterView" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="Q7K-wc-1Ci">
-                            <rect key="frame" x="0.0" y="136" width="600" height="44"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <label key="tableHeaderView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pLR-nk-6gO">
+                            <rect key="frame" x="0.0" y="64" width="600" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <animations/>
-                            <items>
-                                <barButtonItem style="plain" systemItem="flexibleSpace" id="rHc-02-DpR"/>
-                                <barButtonItem title="Item" id="i0d-nj-oI9"/>
-                                <barButtonItem style="plain" systemItem="flexibleSpace" id="qIP-s5-5ix"/>
-                            </items>
-                        </toolbar>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="cell" textLabel="Cay-YF-z7s" detailTextLabel="Mv7-1q-x4W" style="IBUITableViewCellStyleValue1" id="kkG-ot-lCp">
-                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="136" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="kkG-ot-lCp" id="HbK-a0-TQS">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
@@ -580,7 +599,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Search Filters" id="FmD-Nw-LaK"/>
                     <connections>
-                        <outlet property="toolbarButton" destination="i0d-nj-oI9" id="s2N-HX-icM"/>
+                        <outlet property="numberOfSchoolsMatchingUserPreferencesLabelOutlet" destination="pLR-nk-6gO" id="ch1-Do-BCJ"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sAR-nK-mX3" userLabel="First Responder" sceneMemberID="firstResponder"/>
