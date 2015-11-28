@@ -12,6 +12,7 @@ import CoreData
 
 class School: NSManagedObject {
     
+    @NSManaged var id: NSDate?
     @NSManaged var distanceMetres: NSNumber?
     @NSManaged var lastInspectionDate: String?
     @NSManaged var lastInspectionUrl: String?
@@ -29,6 +30,7 @@ class School: NSManagedObject {
     @NSManaged var search: Search?
     
     struct Keys {
+        static let id = "id"
         static let distanceMetres = "distanceMetres"
         static let lastInspectionDate = "lastInspectionDate"
         static let lastInspectionUrl = "lastInspectionUrl"
@@ -55,6 +57,7 @@ class School: NSManagedObject {
         let entity = NSEntityDescription.entityForName("School", inManagedObjectContext: context)
         super.init(entity: entity!, insertIntoManagedObjectContext: context)
         
+        self.id = NSDate()
         self.distanceMetres = distanceMetres
         self.lastInspectionDate = lastInspectionDate
         self.lastInspectionUrl = lastInspectionUrl

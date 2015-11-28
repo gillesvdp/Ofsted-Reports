@@ -49,8 +49,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                     // A Pin for the school is creates.
                     let pinLatitude = school.latitude as! Double
                     let pinLongitude = school.longitude as! Double
-                    
                     let coordinate = CLLocationCoordinate2D(latitude: pinLatitude, longitude: pinLongitude)
+                    
                     let schoolPin = MKPointAnnotation()
                     schoolPin.coordinate = coordinate
                     schoolPin.title = school.schoolName
@@ -62,10 +62,13 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                     schoolPins.append(schoolPin)
                 }
             }
-            self.title = "\(schoolPins.count) schools"
-            if schoolPins.count == 1{
+            
+            if schoolPins.count == 1 {
                 self.title = "1 school"
+            } else {
+                self.title = "\(schoolPins.count) schools"
             }
+            
             mapView.showAnnotations(schoolPins, animated: true)
             mapView.addAnnotations(schoolPins)
         } else {
@@ -106,7 +109,13 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         if segue.identifier == ConstantStrings.sharedInstance.showSchoolDetails {
             let destinationVC = segue.destinationViewController as! SchoolDetailsViewController
             let selectedPin = sender as! MKPinAnnotationView
-            destinationVC.school = CoreDataStackManager.sharedInstance.retrieveSchool(selectedPin.annotation!.coordinate.latitude, longitude: selectedPin.annotation!.coordinate.longitude)
+            
+            // Finding the school based on GPS Coordinates, and if the school name is available we will use it as well.
+            if let _ = selectedPin.annotation!.title {
+                destinationVC.school = CoreDataStackManager.sharedInstance.retrieveSchool(selectedPin.annotation!.coordinate.latitude, longitude: selectedPin.annotation!.coordinate.longitude, name: selectedPin.annotation!.title!)
+            } else {
+                destinationVC.school = CoreDataStackManager.sharedInstance.retrieveSchool(selectedPin.annotation!.coordinate.latitude, longitude: selectedPin.annotation!.coordinate.longitude, name: nil)
+            }
         }
         if segue.identifier == ConstantStrings.sharedInstance.showSettings {
             let destinationVC = segue.destinationViewController as! SettingsTableViewController

@@ -80,8 +80,8 @@ class CoreDataStackManager {
         request.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
         
         do {
-            let results = try managedObjectContext.executeFetchRequest(request) as! [Search]
-            funcReturn = results
+            let allPreviousSearches = try managedObjectContext.executeFetchRequest(request) as! [Search]
+            funcReturn = allPreviousSearches
         } catch {
             print("Error: Failed to execute the fetch request (fetchPreviousSearches)")
         }
@@ -137,8 +137,8 @@ class CoreDataStackManager {
         request.returnsObjectsAsFaults = false
         
         do {
-            let results = try managedObjectContext.executeFetchRequest(request) as! [School]
-            for school in results {
+            let schoolsOfSearch = try managedObjectContext.executeFetchRequest(request) as! [School]
+            for school in schoolsOfSearch {
                 if school.search == search {
                     funcReturn.append(school)
                 }
@@ -149,7 +149,7 @@ class CoreDataStackManager {
         return funcReturn
     }
     
-    func retrieveSchool(latitude: Double, longitude: Double) -> School? {
+    func retrieveSchool(latitude: Double, longitude: Double, name: String?) -> School? {
         var funcReturn : School?
         
         let request = NSFetchRequest(entityName: "School")
@@ -157,15 +157,20 @@ class CoreDataStackManager {
         
         do {
             let allSchools = try managedObjectContext.executeFetchRequest(request) as! [School]
-            
             for school in allSchools {
                 if school.latitude == latitude && school.longitude == longitude {
-                    funcReturn = school
+                    if let _ = name {
+                        if school.schoolName == name {
+                            funcReturn = school
+                        }
+                    } else {
+                        funcReturn = school
+                    }
                     break
                 }
             }
         } catch {
-            print("Failed to execute the fetch request (retrieveSchool)")
+            print("Error: Failed to execute the fetch request (retrieveSchool)")
         }
         return funcReturn
     }

@@ -334,11 +334,14 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func saveSearchAndSchools(postCode: String?, latitude: Double?, longitude: Double?, radius: Int, schoolsInfoArray: [[String: AnyObject]]) {
-        // Preparing to save the search (first: we generat a basic string description for the search)
+        // Preparing to save the search (first: we generate a String description for the search)
         var textForTableCell = String()
         if let _ = postCode {
-            textForTableCell = postCode!.uppercaseString // Formatting the search in upper case
+            // PostCode search: Desctription will be the postcode in uppercase
+            textForTableCell = postCode!.uppercaseString
         } else {
+            // GPS Search: Description will be in the format 'Near 0.00, 0.00' 
+            // (otherwise there would be too many decimal digits to be displayed in a label)
             let formatter = NSNumberFormatter()
             formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
             formatter.maximumFractionDigits = 2
@@ -351,7 +354,7 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
         let newSearch = CoreDataStackManager.sharedInstance.saveNewSearch(postCode, latitude: latitude, longitude: longitude, radius: radius, textForTableCell: textForTableCell)
         self.search = newSearch
         
-        // The search has been created with a basic description, but we will create a task in a seperate thread that will clean-up the description. This needs to be done a in seperate thread because a geocoding process will be used in the case of a search based on GPS Coordinates.
+        // The search has been created with a String description, but we will create a task in a seperate thread that will update the search description using geocoding if the search was based on GPS Coordintes. This needs to be done a in seperate thread because of the nature of the geocoding process, plus this information will be needed only when the user comes back to the WelcomeViewController, so this does not need to block the main queue.
         if let _ = latitude {
             if let _ = longitude {
                 self.geocodeSearchDescriptionInBackground(latitude!, longitude: longitude!)
