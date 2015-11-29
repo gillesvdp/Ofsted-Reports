@@ -306,16 +306,13 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     @IBAction func previousSearchesButtonPressed(sender: AnyObject) {
-        UIView.animateWithDuration(0.4, animations: {
-            if self.previousSearchesButtonOutlet.titleLabel!.text == "Previous searches" {
-                self.previousSearchesButtonOutlet.setTitle("Hide", forState: .Normal)
-                self.view.bounds.offsetInPlace(dx: 0, dy: 250)
-                
-            } else {
-                self.previousSearchesButtonOutlet.setTitle("Previous searches", forState: .Normal)
-                self.view.bounds.offsetInPlace(dx: 0, dy: -250)
-            }
-        })
+        if self.previousSearchesButtonOutlet.titleLabel!.text == "Previous searches" {
+            self.previousSearchesButtonOutlet.setTitle("Hide", forState: .Normal)
+            UIView.animateWithDuration(0.4, animations: { self.view.bounds.offsetInPlace(dx: 0, dy: 250) })
+        } else {
+            self.previousSearchesButtonOutlet.setTitle("Previous searches", forState: .Normal)
+            UIView.animateWithDuration(0.4, animations: { self.view.bounds.offsetInPlace(dx: 0, dy: -250) })
+        }
         // Moves by 250 because previousSearchesLabelOutlet height is set to 50, and tableView height is set to 200.
     }
     
