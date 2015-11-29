@@ -5,6 +5,8 @@ Details about the latest Ofsted report are available within the app, as well as 
 
 Note: Ofsted is part of the English Government and reviews schools educational performance in England.
 
+##Video Preview##
+Link: https://youtu.be/pLwh2X_ANXs
 
 ##Installation##
 Download as .zip file or clone the repository to your computer using git; then open the workspace with XCode on a Mac. 
