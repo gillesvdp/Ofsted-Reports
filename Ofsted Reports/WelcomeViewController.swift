@@ -191,13 +191,13 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
         case searchBy.postCode:
             // Remove view elements needed for search by user location and set location
             mapView.removeOverlays(mapView.overlays)
+            mapView.hidden = true
             
             // Remove view elements needed for search by user location only
-            mapView.hidden = true
+            // None: already removed just above
             
             // Remove view elements needed for search by set location only
             mapView.removeAnnotations(mapView.annotations)
-            mapView.hidden = true
             longPressOutlet.enabled = false
             longPressInstruction.hidden = true
             

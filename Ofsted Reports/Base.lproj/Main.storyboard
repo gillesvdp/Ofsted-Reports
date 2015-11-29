@@ -134,11 +134,21 @@
                                     <constraint firstItem="vs1-ee-vng" firstAttribute="centerY" secondItem="OM6-nK-J8y" secondAttribute="centerY" id="Km4-PQ-eXC"/>
                                     <constraint firstItem="ogd-EQ-i1S" firstAttribute="leading" secondItem="OM6-nK-J8y" secondAttribute="leading" id="XDV-jC-ieL"/>
                                     <constraint firstItem="Foe-2K-5mD" firstAttribute="centerX" secondItem="OM6-nK-J8y" secondAttribute="centerX" id="YY4-wf-QCF"/>
+                                    <constraint firstItem="vs1-ee-vng" firstAttribute="centerY" secondItem="OM6-nK-J8y" secondAttribute="centerY" id="Zx6-9V-pUl"/>
                                     <constraint firstAttribute="bottom" secondItem="Foe-2K-5mD" secondAttribute="bottom" constant="25" id="bE2-GY-0Tm"/>
                                     <constraint firstItem="Foe-2K-5mD" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="OM6-nK-J8y" secondAttribute="leading" constant="25" id="bOw-ol-GU4"/>
                                     <constraint firstAttribute="bottom" secondItem="ogd-EQ-i1S" secondAttribute="bottom" id="gpY-9W-1DC"/>
                                     <constraint firstItem="vs1-ee-vng" firstAttribute="leading" secondItem="ogd-EQ-i1S" secondAttribute="leading" id="lfL-OA-MRU"/>
+                                    <constraint firstItem="vs1-ee-vng" firstAttribute="top" secondItem="OM6-nK-J8y" secondAttribute="top" id="mV4-k7-c62"/>
+                                    <constraint firstItem="vs1-ee-vng" firstAttribute="leading" secondItem="OM6-nK-J8y" secondAttribute="leading" id="nVA-Aa-gnm"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="Km4-PQ-eXC"/>
+                                        <exclude reference="mV4-k7-c62"/>
+                                        <exclude reference="nVA-Aa-gnm"/>
+                                    </mask>
+                                </variation>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Radius:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MgW-2o-iHS">
                                 <rect key="frame" x="20" y="501" width="53.5" height="19.5"/>
@@ -162,7 +172,7 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y9X-vS-vmM">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y9X-vS-vmM" userLabel="hiddenLabelUsedForAlignment">
                                 <rect key="frame" x="300" y="510" width="0.0" height="0.0"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -218,6 +228,7 @@
                             <constraint firstItem="39W-OL-3oH" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="Ge1-6m-pGn"/>
                             <constraint firstItem="uZE-mi-1rF" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="KjA-Dp-I7x"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="XwH-M9-QOk" secondAttribute="top" id="O08-m4-wT6"/>
+                            <constraint firstItem="jH1-Ln-8Rg" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="3ed-DC-dXz" secondAttribute="trailing" id="PYU-EE-0cD"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Dlv-zO-mAG" secondAttribute="trailing" id="TXL-kD-9h0"/>
                             <constraint firstItem="XwH-M9-QOk" firstAttribute="top" secondItem="Dlv-zO-mAG" secondAttribute="bottom" constant="10" id="Wbs-Ap-My0"/>
                             <constraint firstItem="y9X-vS-vmM" firstAttribute="centerY" secondItem="MgW-2o-iHS" secondAttribute="centerY" id="XWx-RB-lvJ"/>
@@ -231,7 +242,7 @@
                             <constraint firstAttribute="leadingMargin" secondItem="3ed-DC-dXz" secondAttribute="leading" id="i9q-ZG-LFq"/>
                             <constraint firstItem="Na0-be-gDQ" firstAttribute="trailing" secondItem="OM6-nK-J8y" secondAttribute="trailing" id="iqP-xB-Xed"/>
                             <constraint firstItem="y9X-vS-vmM" firstAttribute="top" secondItem="ogd-EQ-i1S" secondAttribute="bottom" constant="25" id="kJ9-IB-fAm"/>
-                            <constraint firstItem="Dlv-zO-mAG" firstAttribute="leading" secondItem="jH1-Ln-8Rg" secondAttribute="trailing" constant="20" id="lgX-Nm-XCR"/>
+                            <constraint firstItem="Dlv-zO-mAG" firstAttribute="leading" secondItem="jH1-Ln-8Rg" secondAttribute="trailing" priority="999" constant="20" id="lgX-Nm-XCR"/>
                             <constraint firstItem="9TO-e8-DUC" firstAttribute="top" secondItem="Dlv-zO-mAG" secondAttribute="bottom" constant="10" id="md6-ms-BzD"/>
                             <constraint firstItem="9TO-e8-DUC" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="nHQ-c6-fQZ"/>
                             <constraint firstItem="9TO-e8-DUC" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="psq-Uh-Qb5"/>
