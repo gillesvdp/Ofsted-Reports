@@ -40,8 +40,8 @@ class AccessAPI {
                 
                 // If the api returns errors
                 guard let noData = parsedResult["schools"] as? [AnyObject]? where noData != nil else {
-                    if let error = parsedResult["error"] as? String? {
-                        if error == "user key \(ConstantStrings.sharedInstance.cityContextApiKey) is invalid" {
+                    if let error = parsedResult["error"] as? String {
+                        if error == "user key \"\(ConstantStrings.sharedInstance.cityContextApiKey)\" is invalid" {
                             completionHandler(schoolsInfoArray: nil, errorString: ConstantStrings.sharedInstance.apiKeyError)
                         } else if error == "Postcode not found" {
                             completionHandler(schoolsInfoArray: nil, errorString: ConstantStrings.sharedInstance.unknownPostCodeError)
