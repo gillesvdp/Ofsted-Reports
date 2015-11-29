@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		987733871C0B39A600BE9741 /* SchoolDetailsCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987733861C0B39A600BE9741 /* SchoolDetailsCustomCell.swift */; };
 		9890B6D71C09CF7E00FB0C6E /* SchoolRatings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9890B6D61C09CF7E00FB0C6E /* SchoolRatings.swift */; };
 		9890B6D91C0A281E00FB0C6E /* MapCustomPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9890B6D81C0A281E00FB0C6E /* MapCustomPointAnnotation.swift */; };
 		98B7730A1C03458200BC37E3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B773091C03458200BC37E3 /* AppDelegate.swift */; };
@@ -46,6 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		987733861C0B39A600BE9741 /* SchoolDetailsCustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolDetailsCustomCell.swift; sourceTree = "<group>"; };
 		9890B6D61C09CF7E00FB0C6E /* SchoolRatings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolRatings.swift; sourceTree = "<group>"; };
 		9890B6D81C0A281E00FB0C6E /* MapCustomPointAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapCustomPointAnnotation.swift; sourceTree = "<group>"; };
 		98B773061C03458200BC37E3 /* Ofsted Reports.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Ofsted Reports.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -160,6 +162,7 @@
 				9890B6D81C0A281E00FB0C6E /* MapCustomPointAnnotation.swift */,
 				98B773521C04BE8D00BC37E3 /* SettingsTableViewController.swift */,
 				98B7734E1C0498B800BC37E3 /* SchoolDetailsViewController.swift */,
+				987733861C0B39A600BE9741 /* SchoolDetailsCustomCell.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -312,6 +315,7 @@
 				98B7734D1C03661500BC37E3 /* Search.swift in Sources */,
 				98B773421C034A6E00BC37E3 /* ConstantStrings.swift in Sources */,
 				98B773451C034AAE00BC37E3 /* CoreDataStackManager.swift in Sources */,
+				987733871C0B39A600BE9741 /* SchoolDetailsCustomCell.swift in Sources */,
 				98B7730C1C03458200BC37E3 /* WelcomeViewController.swift in Sources */,
 				98B7730A1C03458200BC37E3 /* AppDelegate.swift in Sources */,
 				98B7734F1C0498B800BC37E3 /* SchoolDetailsViewController.swift in Sources */,

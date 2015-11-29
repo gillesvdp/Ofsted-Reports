@@ -11,6 +11,9 @@ import Foundation
 class ConstantStrings {
     static var sharedInstance = ConstantStrings()
     
+    // Global
+    let tableReuseIdentifier = "cell"
+    
     // AccessApi
     let cityContextApiUrl = "http://api.citycontext.com/beta/"
     let cityContextApiByPostCode = "postcodes/"
@@ -58,7 +61,6 @@ class ConstantStrings {
     let noSearchGivenToSettingTableViewControllerErrorMessage = "Please try again with another search, or contact us if the problem persists"
     
     /// SchoolDetailTableViewController
-    let tableReuseIdentifier = "cell"
     let noSearchGivenToSchoolDetailTableViewControllerErrorTitle = "Error"
     let noSearchGivenToSchoolDetailTableViewControllerErrorMessage = "Please try again with another search, or contact us if the problem persists"
 }
