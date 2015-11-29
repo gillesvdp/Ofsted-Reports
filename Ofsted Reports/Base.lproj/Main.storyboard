@@ -251,14 +251,14 @@
                                 <exclude reference="5zp-pS-jqH"/>
                                 <exclude reference="iqP-xB-Xed"/>
                                 <exclude reference="kJ9-IB-fAm"/>
-                                <exclude reference="BPW-OS-gu4"/>
-                                <exclude reference="cdF-l8-Mza"/>
-                                <exclude reference="upi-TS-18J"/>
-                                <exclude reference="yhS-AS-PN3"/>
                                 <exclude reference="O08-m4-wT6"/>
                                 <exclude reference="9WG-6c-8rj"/>
                                 <exclude reference="Wbs-Ap-My0"/>
                                 <exclude reference="txE-q9-JnG"/>
+                                <exclude reference="BPW-OS-gu4"/>
+                                <exclude reference="cdF-l8-Mza"/>
+                                <exclude reference="upi-TS-18J"/>
+                                <exclude reference="yhS-AS-PN3"/>
                             </mask>
                         </variation>
                     </view>

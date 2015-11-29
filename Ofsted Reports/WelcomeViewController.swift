@@ -69,22 +69,8 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
             
             segmentedControlOutlet.enabled = savedOutledValues["segmentedControlIsEnabled"] as! Bool
             segmentedControlOutlet.selectedSegmentIndex = savedOutledValues["segmentedControlSelectedIndex"] as! Int
-            
             mapView.hidden = savedOutledValues["mapViewIsHidden"] as! Bool
             mapView.showsUserLocation = savedOutledValues["mapViewShowsUserLocation"] as! Bool
-            
-            // Note the map content is upated upon reload the screen:
-            // If showing user location: the map refocuses on the user location, and draws a circle.
-            // If showing the map to select a location, the map is shown empty: no pins and no circle, but instruction to long-press is on.
-            forceCenterOnUserLocation = false
-            if segmentedControlOutlet.selectedSegmentIndex == searchBy.userLocation {
-                if let _ = locationManager.location {
-                    forceCenterOnUserLocation = true
-                    let coordinates = locationManager.location!.coordinate
-                    circleOverlay = MKCircle(centerCoordinate: coordinates, radius: Double(sliderOutlet.value))
-                    mapView.addOverlay(circleOverlay!)
-                }
-            }
             
             let mapViewRegion = savedOutledValues["mapViewRegion"] as! [String: Double]
             let center = CLLocationCoordinate2D(
@@ -102,6 +88,28 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
             postCodeTextFieldOutlet.hidden = savedOutledValues["postCodeTextFieldOutletIsHidden"] as! Bool
             sliderValueLabelOutlet.text = savedOutledValues["sliderValueLabelOutletText"] as? String
             sliderOutlet.value = savedOutledValues["sliderOutletValue"] as! Float
+            
+            // All outlets are re-set at their previous value,
+            // But if we are on a search option with a map, we will override some parameters.
+            // Removing all overlays (= circles)
+            // If showing user location: the map refocuses on the user location, and draws a circle.
+            // If showing the map to select a location, the map is shown empty: no pins, and instruction to long-press is on.
+            mapView.removeOverlays(mapView.overlays)
+            if segmentedControlOutlet.selectedSegmentIndex == searchBy.userLocation {
+                if let _ = locationManager.location {
+                    forceCenterOnUserLocation = true
+                    let coordinates = locationManager.location!.coordinate
+                    circleOverlay = MKCircle(centerCoordinate: coordinates, radius: Double(sliderOutlet.value))
+                    mapView.addOverlay(circleOverlay!)
+                }
+            }
+            if segmentedControlOutlet.selectedSegmentIndex == searchBy.setLocation {
+                mapView.removeAnnotations(mapView.annotations)
+                forceCenterOnUserLocation = false
+                longPressOutlet.enabled = true
+                longPressInstruction.hidden = false
+            }
+            
             return
         }
         
