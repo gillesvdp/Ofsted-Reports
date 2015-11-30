@@ -146,6 +146,10 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
                 longPressOutlet.enabled = false
                 longPressOutlet.conformsToProtocol(MKMapViewDelegate)
                 
+                // Remove previous pins and circles, basically allows the user to update the pin location
+                mapView.removeAnnotations(mapView.annotations)
+                mapView.removeOverlays(mapView.overlays)
+                
                 // Add the pin annotation on the map
                 let touchPoint = longPressOutlet.locationInView(mapView)
                 let coordinates = mapView.convertPoint(touchPoint, toCoordinateFromView: mapView)
@@ -157,10 +161,12 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
                 circleOverlay = MKCircle(centerCoordinate: coordinates, radius: Double(sliderOutlet.value))
                 mapView.addOverlay(circleOverlay!)
                 forceCenterOnNewLocation = true
-                centerMapOnLocationWithSpan(CLLocation(latitude: coordinates.latitude, longitude: coordinates.longitude), span: 0.12)
                 
                 // Hide instruction to do a long-press
                 longPressInstruction.hidden = true
+                
+                // Reenable long-press
+                longPressOutlet.enabled = true
             }
         }
     }
@@ -304,10 +310,6 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
     /// MARK: Text field delegate functions
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         postCodeTextFieldOutlet.resignFirstResponder()
-        if mapView.annotations.count > 0 {
-            mapView.removeAnnotations(mapView.annotations)
-            mapView.removeOverlays(mapView.overlays)
-        }
         if textField.text != "" {
             getLocationForPostCode(textField.text!)
         }
@@ -315,7 +317,7 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func getLocationForPostCode(postCode: String) {
-        accessApi.getPostCodeLocation(postCode,
+        accessApi.getLocationForPostCode(postCode,
             completionHandler: {(latitude, longitude, errorString) -> Void in
                 dispatch_async(dispatch_get_main_queue(), {
                     // If there is an error returned from the accessApi class
@@ -325,6 +327,14 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
                         return
                     }
                     
+                    // If there is already an annotation on the map, remove it.
+                    // There can be only 1 annotation on the map at any time.
+                    if self.mapView.annotations.count > 0 {
+                        self.mapView.removeAnnotations(self.mapView.annotations)
+                        self.mapView.removeOverlays(self.mapView.overlays)
+                    }
+                    
+                    // Prepare and add the new annotation.
                     let pinAnnotation = MKPointAnnotation()
                     let coordinates = CLLocationCoordinate2D(latitude: latitude!, longitude: longitude!)
                     pinAnnotation.coordinate = coordinates
