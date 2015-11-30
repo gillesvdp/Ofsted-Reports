@@ -89,7 +89,13 @@ class SettingsTableViewController: UITableViewController {
                     counterOfSchoolsThatMatchUserPreferences += 1
                 }
             }
-            numberOfSchoolsMatchingUserPreferencesLabelOutlet.text = "\(counterOfSchoolsThatMatchUserPreferences) schools match your criteria"
+            
+            if counterOfSchoolsThatMatchUserPreferences == 1 {
+                numberOfSchoolsMatchingUserPreferencesLabelOutlet.text = "1 school match your criteria"
+            } else {
+                numberOfSchoolsMatchingUserPreferencesLabelOutlet.text = "\(counterOfSchoolsThatMatchUserPreferences) schools match your criteria"
+            }
+            
         } else {
             // Error: No Search was passed to this viewController
             showAlertViewController(ConstantStrings.sharedInstance.noSearchGivenToSettingTableViewControllerErrorTitle, errorMessage: ConstantStrings.sharedInstance.noSearchGivenToSettingTableViewControllerErrorMessage)
