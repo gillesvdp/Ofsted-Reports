@@ -43,6 +43,8 @@ class ConstantStrings {
     let noUserLocationErrorTitle = "Location error"
     let noUserLocationErrorMessage = "We could not determine your location. Please use another method."
     
+    let noLocationForPostCodeMessage = "This post code could not be located. Please try again with another postcode."
+    
     let noSelectedLocationErrorTitle = "Missing location"
     let noSelectedLocationErrorMessage = "Please choose a location on the map using a long-press over the map."
     

@@ -225,13 +225,13 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
             
             guard mapView.annotations.count != 0 else {
                 self.defreezeScreen(true)
-                showAlertViewController(ConstantStrings.sharedInstance.noSelectedLocationErrorTitle, errorMessage: ConstantStrings.sharedInstance.noSelectedLocationErrorMessage)
+                showAlertViewController(ConstantStrings.sharedInstance.noSelectedLocationErrorTitle, errorMessage: ConstantStrings.sharedInstance.noLocationForPostCodeMessage)
                 return
             }
             
-            let latitude = mapView.annotations.first?.coordinate.latitude
-            let longitude = mapView.annotations.first?.coordinate.longitude
-            searchSchools(postCodeTextFieldOutlet.text, latitude: latitude!, longitude: longitude!, radius: radius)
+            let latitude = mapView.annotations.first!.coordinate.latitude
+            let longitude = mapView.annotations.first!.coordinate.longitude
+            searchSchools(postCodeTextFieldOutlet.text, latitude: latitude, longitude: longitude, radius: radius)
         }
     }
     
@@ -354,6 +354,13 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
     
     /// MARK: General UI Functions
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        if postCodeTextFieldOutlet.editing {
+            if let _ = postCodeTextFieldOutlet.text {
+                if postCodeTextFieldOutlet.text != "" {
+                    getLocationForPostCode(postCodeTextFieldOutlet.text!)
+                }
+            }
+        }
         view.endEditing(true)
         super.touchesBegan(touches, withEvent: event)
     }
