@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		987733871C0B39A600BE9741 /* SchoolDetailsCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987733861C0B39A600BE9741 /* SchoolDetailsCustomCell.swift */; };
+		9877338B1C0CC26E00BE9741 /* WelcomeVCExtensionBackgroundTasks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9877338A1C0CC26E00BE9741 /* WelcomeVCExtensionBackgroundTasks.swift */; };
+		9877338D1C0CC32100BE9741 /* WelcomeVCExtensionSaveOutletValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9877338C1C0CC32100BE9741 /* WelcomeVCExtensionSaveOutletValues.swift */; };
+		9877338F1C0CC3B600BE9741 /* WelcomeVCExtensionTableViewFuncs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9877338E1C0CC3B600BE9741 /* WelcomeVCExtensionTableViewFuncs.swift */; };
+		987733911C0CC77E00BE9741 /* WelcomeVCExtensionMapFuncs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987733901C0CC77E00BE9741 /* WelcomeVCExtensionMapFuncs.swift */; };
 		9890B6D71C09CF7E00FB0C6E /* SchoolRatings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9890B6D61C09CF7E00FB0C6E /* SchoolRatings.swift */; };
 		9890B6D91C0A281E00FB0C6E /* MapCustomPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9890B6D81C0A281E00FB0C6E /* MapCustomPointAnnotation.swift */; };
 		98B7730A1C03458200BC37E3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B773091C03458200BC37E3 /* AppDelegate.swift */; };
@@ -48,6 +52,10 @@
 
 /* Begin PBXFileReference section */
 		987733861C0B39A600BE9741 /* SchoolDetailsCustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolDetailsCustomCell.swift; sourceTree = "<group>"; };
+		9877338A1C0CC26E00BE9741 /* WelcomeVCExtensionBackgroundTasks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeVCExtensionBackgroundTasks.swift; sourceTree = "<group>"; };
+		9877338C1C0CC32100BE9741 /* WelcomeVCExtensionSaveOutletValues.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeVCExtensionSaveOutletValues.swift; sourceTree = "<group>"; };
+		9877338E1C0CC3B600BE9741 /* WelcomeVCExtensionTableViewFuncs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeVCExtensionTableViewFuncs.swift; sourceTree = "<group>"; };
+		987733901C0CC77E00BE9741 /* WelcomeVCExtensionMapFuncs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeVCExtensionMapFuncs.swift; sourceTree = "<group>"; };
 		9890B6D61C09CF7E00FB0C6E /* SchoolRatings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolRatings.swift; sourceTree = "<group>"; };
 		9890B6D81C0A281E00FB0C6E /* MapCustomPointAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapCustomPointAnnotation.swift; sourceTree = "<group>"; };
 		98B773061C03458200BC37E3 /* Ofsted Reports.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Ofsted Reports.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -157,6 +165,10 @@
 			isa = PBXGroup;
 			children = (
 				98B7730B1C03458200BC37E3 /* WelcomeViewController.swift */,
+				987733901C0CC77E00BE9741 /* WelcomeVCExtensionMapFuncs.swift */,
+				9877338E1C0CC3B600BE9741 /* WelcomeVCExtensionTableViewFuncs.swift */,
+				9877338C1C0CC32100BE9741 /* WelcomeVCExtensionSaveOutletValues.swift */,
+				9877338A1C0CC26E00BE9741 /* WelcomeVCExtensionBackgroundTasks.swift */,
 				98B773501C04AEED00BC37E3 /* NavigationViewController.swift */,
 				98B7733A1C03467000BC37E3 /* MapViewController.swift */,
 				9890B6D81C0A281E00FB0C6E /* MapCustomPointAnnotation.swift */,
@@ -315,12 +327,16 @@
 				98B7734D1C03661500BC37E3 /* Search.swift in Sources */,
 				98B773421C034A6E00BC37E3 /* ConstantStrings.swift in Sources */,
 				98B773451C034AAE00BC37E3 /* CoreDataStackManager.swift in Sources */,
+				987733911C0CC77E00BE9741 /* WelcomeVCExtensionMapFuncs.swift in Sources */,
 				987733871C0B39A600BE9741 /* SchoolDetailsCustomCell.swift in Sources */,
 				98B7730C1C03458200BC37E3 /* WelcomeViewController.swift in Sources */,
 				98B7730A1C03458200BC37E3 /* AppDelegate.swift in Sources */,
 				98B7734F1C0498B800BC37E3 /* SchoolDetailsViewController.swift in Sources */,
 				98B773121C03458200BC37E3 /* Ofsted_Reports.xcdatamodeld in Sources */,
+				9877338F1C0CC3B600BE9741 /* WelcomeVCExtensionTableViewFuncs.swift in Sources */,
 				98B773531C04BE8D00BC37E3 /* SettingsTableViewController.swift in Sources */,
+				9877338D1C0CC32100BE9741 /* WelcomeVCExtensionSaveOutletValues.swift in Sources */,
+				9877338B1C0CC26E00BE9741 /* WelcomeVCExtensionBackgroundTasks.swift in Sources */,
 				9890B6D91C0A281E00FB0C6E /* MapCustomPointAnnotation.swift in Sources */,
 				9890B6D71C09CF7E00FB0C6E /* SchoolRatings.swift in Sources */,
 				98B773491C0358D300BC37E3 /* School.swift in Sources */,

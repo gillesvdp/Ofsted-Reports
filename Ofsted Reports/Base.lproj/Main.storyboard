@@ -80,25 +80,33 @@
                                 </connections>
                             </tableView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Na0-be-gDQ">
-                                <rect key="frame" x="20" y="72" width="560" height="26"/>
+                                <rect key="frame" x="20" y="72.5" width="560" height="26"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="25" id="kR4-vN-ajN"/>
                                 </constraints>
                                 <segments>
                                     <segment title="Near Me"/>
-                                    <segment title="Post Code"/>
                                     <segment title="Location"/>
+                                    <segment title="Post Code"/>
                                 </segments>
                                 <connections>
                                     <action selector="segmentedControlPressed:" destination="BYZ-38-t0r" eventType="valueChanged" id="6Hk-Ou-qeU"/>
                                 </connections>
                             </segmentedControl>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OM6-nK-J8y">
-                                <rect key="frame" x="20" y="107" width="560" height="378"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OM6-nK-J8y" userLabel="viewWithMapAndTextField">
+                                <rect key="frame" x="20" y="107.5" width="560" height="377.5"/>
                                 <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter a post code" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vs1-ee-vng">
-                                        <rect key="frame" x="0.0" y="164" width="560" height="50"/>
+                                    <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="ogd-EQ-i1S">
+                                        <rect key="frame" x="0.0" y="0.0" width="560" height="377.5"/>
+                                        <animations/>
+                                        <gestureRecognizers/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="glN-gD-j58" appends="YES" id="dwj-tD-Agk"/>
+                                        </connections>
+                                    </mapView>
+                                    <textField opaque="NO" clipsSubviews="YES" alpha="0.69999999999999996" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Enter a post code" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vs1-ee-vng">
+                                        <rect key="frame" x="0.0" y="0.0" width="560" height="50"/>
                                         <animations/>
                                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
@@ -107,16 +115,8 @@
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                     </textField>
-                                    <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="ogd-EQ-i1S">
-                                        <rect key="frame" x="0.0" y="0.0" width="560" height="378"/>
-                                        <animations/>
-                                        <gestureRecognizers/>
-                                        <connections>
-                                            <outletCollection property="gestureRecognizers" destination="glN-gD-j58" appends="YES" id="dwj-tD-Agk"/>
-                                        </connections>
-                                    </mapView>
                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="   Use a long-press to select a location on the map   " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.59999999999999998" translatesAutoresizingMaskIntoConstraints="NO" id="Foe-2K-5mD">
-                                        <rect key="frame" x="92" y="334" width="376" height="19.5"/>
+                                        <rect key="frame" x="92" y="333.5" width="376" height="19.5"/>
                                         <animations/>
                                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
@@ -129,8 +129,9 @@
                                 <constraints>
                                     <constraint firstItem="ogd-EQ-i1S" firstAttribute="trailing" secondItem="vs1-ee-vng" secondAttribute="trailing" id="2Lu-R0-cmK"/>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Foe-2K-5mD" secondAttribute="trailing" constant="25" id="5Uu-ju-ku8"/>
-                                    <constraint firstItem="ogd-EQ-i1S" firstAttribute="top" secondItem="OM6-nK-J8y" secondAttribute="top" id="GKR-9V-i2w"/>
+                                    <constraint firstItem="ogd-EQ-i1S" firstAttribute="height" secondItem="OM6-nK-J8y" secondAttribute="height" id="6WN-zc-QG5"/>
                                     <constraint firstAttribute="trailing" secondItem="ogd-EQ-i1S" secondAttribute="trailing" id="JYF-tD-p01"/>
+                                    <constraint firstItem="vs1-ee-vng" firstAttribute="top" secondItem="ogd-EQ-i1S" secondAttribute="top" id="JsX-bp-mhE"/>
                                     <constraint firstItem="vs1-ee-vng" firstAttribute="centerY" secondItem="OM6-nK-J8y" secondAttribute="centerY" id="Km4-PQ-eXC"/>
                                     <constraint firstItem="ogd-EQ-i1S" firstAttribute="leading" secondItem="OM6-nK-J8y" secondAttribute="leading" id="XDV-jC-ieL"/>
                                     <constraint firstItem="Foe-2K-5mD" firstAttribute="centerX" secondItem="OM6-nK-J8y" secondAttribute="centerX" id="YY4-wf-QCF"/>
@@ -141,10 +142,15 @@
                                     <constraint firstItem="vs1-ee-vng" firstAttribute="leading" secondItem="ogd-EQ-i1S" secondAttribute="leading" id="lfL-OA-MRU"/>
                                     <constraint firstItem="vs1-ee-vng" firstAttribute="top" secondItem="OM6-nK-J8y" secondAttribute="top" id="mV4-k7-c62"/>
                                     <constraint firstItem="vs1-ee-vng" firstAttribute="leading" secondItem="OM6-nK-J8y" secondAttribute="leading" id="nVA-Aa-gnm"/>
+                                    <constraint firstItem="ogd-EQ-i1S" firstAttribute="top" secondItem="OM6-nK-J8y" secondAttribute="top" id="rsx-Ic-kKN"/>
+                                    <constraint firstItem="ogd-EQ-i1S" firstAttribute="top" secondItem="OM6-nK-J8y" secondAttribute="top" identifier="mapViewTopSpace" id="xUq-Vd-yWl"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
+                                        <exclude reference="6WN-zc-QG5"/>
+                                        <exclude reference="xUq-Vd-yWl"/>
                                         <exclude reference="Km4-PQ-eXC"/>
+                                        <exclude reference="Zx6-9V-pUl"/>
                                         <exclude reference="mV4-k7-c62"/>
                                         <exclude reference="nVA-Aa-gnm"/>
                                     </mask>
@@ -287,6 +293,7 @@
                         <outlet property="sliderOutlet" destination="uZE-mi-1rF" id="uTQ-Oq-aSI"/>
                         <outlet property="sliderValueLabelOutlet" destination="PLC-zg-dZh" id="rna-hA-SoL"/>
                         <outlet property="tableView" destination="XwH-M9-QOk" id="opA-d2-Gu4"/>
+                        <outlet property="viewWithMapAndTextField" destination="OM6-nK-J8y" id="90m-vC-zOo"/>
                         <segue destination="LvU-ja-roy" kind="presentation" identifier="showMap" modalTransitionStyle="flipHorizontal" id="VVW-50-l03"/>
                     </connections>
                 </viewController>
