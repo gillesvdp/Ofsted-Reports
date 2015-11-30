@@ -37,9 +37,9 @@ extension WelcomeViewController {
                     mapView.addOverlay(circleOverlay!)
                 }
                 
-                longPressInstruction.hidden = false
+                longPressInstruction.hidden = true
                 
-                postCodeTextFieldOutlet.hidden = false
+                postCodeTextFieldOutlet.hidden = true
                 
             }
             if segmentedControlOutlet.selectedSegmentIndex == searchBy.setLocation {

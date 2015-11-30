@@ -280,7 +280,7 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
             // PostCode search: Desctription will be the postcode in uppercase
             textForTableCell = postCode!.uppercaseString
         } else {
-            // GPS Search: Description will be in the format 'Near 0.00, 0.00' 
+            // User or Set Location Search: Description will be in the format 'Near 0.00, 0.00'
             // (otherwise there would be too many decimal digits to be displayed in a label)
             let formatter = NSNumberFormatter()
             formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
@@ -317,12 +317,15 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func getLocationForPostCode(postCode: String) {
+        defreezeScreen(false)
         accessApi.getLocationForPostCode(postCode,
             completionHandler: {(latitude, longitude, errorString) -> Void in
                 dispatch_async(dispatch_get_main_queue(), {
+                    
+                    self.defreezeScreen(true)
+                    
                     // If there is an error returned from the accessApi class
                     guard errorString == nil else {
-                        //self.defreezeScreen(true)
                         self.showAlertViewController(ConstantStrings.sharedInstance.errorTitle, errorMessage: errorString!)
                         return
                     }
