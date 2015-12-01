@@ -50,6 +50,7 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
         postCodeTextFieldOutlet.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         postCodeTextFieldOutlet.returnKeyType = UIReturnKeyType.Search
+        
     }
     
     override func viewWillAppear(animated: Bool) {

@@ -82,18 +82,22 @@ class SettingsTableViewController: UITableViewController {
     /// MARK: General UI Functions
     func refreshNumberOfSchoolsThatMatchCriteria() {
         if let _ = search {
-            let schools = CoreDataStackManager.sharedInstance.retrieveSchoolsOfSearch(search!)
-            var counterOfSchoolsThatMatchUserPreferences = 0
-            for school in schools {
-                if school.matchesUserPreferences() == true {
-                    counterOfSchoolsThatMatchUserPreferences += 1
+            if let schools = search!.schools {
+                var counterOfSchoolsThatMatchUserPreferences = 0
+                for school in schools {
+                    if school.matchesUserPreferences() == true {
+                        counterOfSchoolsThatMatchUserPreferences += 1
+                    }
                 }
-            }
-            
-            if counterOfSchoolsThatMatchUserPreferences == 1 {
-                numberOfSchoolsMatchingUserPreferencesLabelOutlet.text = "1 school match your criteria"
+                if counterOfSchoolsThatMatchUserPreferences == 1 {
+                    numberOfSchoolsMatchingUserPreferencesLabelOutlet.text = "1 school match your criteria"
+                } else {
+                    numberOfSchoolsMatchingUserPreferencesLabelOutlet.text = "\(counterOfSchoolsThatMatchUserPreferences) schools match your criteria"
+                }
             } else {
-                numberOfSchoolsMatchingUserPreferencesLabelOutlet.text = "\(counterOfSchoolsThatMatchUserPreferences) schools match your criteria"
+                // Error: search.schools has a nil value
+                showAlertViewController(ConstantStrings.sharedInstance.noSearchGivenToSettingTableViewControllerErrorTitle, errorMessage: ConstantStrings.sharedInstance.noSchoolsAttachedToTheSearhErrorMessage)
+
             }
             
         } else {

@@ -18,7 +18,7 @@ class Search: NSManagedObject {
     @NSManaged var longitude: NSNumber?
     @NSManaged var radius: NSNumber?
     @NSManaged var textForTableCell: String?
-    @NSManaged var schools: NSOrderedSet?
+    @NSManaged var schools: [School]?
     
     struct Keys {
         static let date = "date"

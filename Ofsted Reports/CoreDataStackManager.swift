@@ -124,30 +124,10 @@ class CoreDataStackManager {
     func deleteSearchAndItsSchools(search: Search) {
         if let _ = search.schools {
             for school in search.schools! {
-                managedObjectContext.deleteObject(school as! NSManagedObject)
+                managedObjectContext.deleteObject(school as NSManagedObject)
             }
         }
         managedObjectContext.deleteObject(search)
         saveContext()
-    }
-    
-    /// Functions for MapView
-    func retrieveSchoolsOfSearch(search: Search) -> [School] {
-        var funcReturn = [School]()
-        
-        let request = NSFetchRequest(entityName: "School")
-        request.returnsObjectsAsFaults = false
-        
-        do {
-            let schoolsOfSearch = try managedObjectContext.executeFetchRequest(request) as! [School]
-            for school in schoolsOfSearch {
-                if school.search == search {
-                    funcReturn.append(school)
-                }
-            }
-        } catch {
-            print("Error: Failed to execute the fetch request (retrieveSchoolsOfSearch)")
-        }
-        return funcReturn
     }
 }

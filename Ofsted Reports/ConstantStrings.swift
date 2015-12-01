@@ -61,6 +61,7 @@ class ConstantStrings {
     /// SettingsTableViewController
     let noSearchGivenToSettingTableViewControllerErrorTitle = "Error"
     let noSearchGivenToSettingTableViewControllerErrorMessage = "Please try again with another search, or contact us if the problem persists"
+    let noSchoolsAttachedToTheSearhErrorMessage = "Schools related to this search could not be found. Please try with another search or contact us if the problem persists."
     
     /// SchoolDetailTableViewController
     let noSearchGivenToSchoolDetailTableViewControllerErrorTitle = "Error"

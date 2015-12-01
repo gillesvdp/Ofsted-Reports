@@ -43,40 +43,43 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     /// MARK: MapView functions
     func prepareMapAnnotations() {
         if let _ = search {
-            let schools = CoreDataStackManager.sharedInstance.retrieveSchoolsOfSearch(search!)
-            var schoolPins = [MKPointAnnotation]()
-            for school in schools {
-                if school.matchesUserPreferences() == true {
-                    // If a school passes all the above if statements, it matches the filteria.
-                    // A Pin for the school is creates.
-                    let pinLatitude = school.latitude as! Double
-                    let pinLongitude = school.longitude as! Double
-                    let coordinate = CLLocationCoordinate2D(latitude: pinLatitude, longitude: pinLongitude)
-                    
-                    let schoolPin = MapCustomPointAnnotation()
-                    schoolPin.school = school
-                    schoolPin.coordinate = coordinate
-                    schoolPin.title = school.schoolName
-                    if let typeOfEstablishment = school.typeOfEstablishment {
-                        if let phase = school.phase {
-                            schoolPin.subtitle = "\(phase), \(typeOfEstablishment)"
+            if let schools = search!.schools {
+                var schoolPins = [MKPointAnnotation]()
+                for school in schools {
+                    if school.matchesUserPreferences() == true {
+                        // If a school passes all the above if statements, it matches the filteria.
+                        // A Pin for the school is creates.
+                        let pinLatitude = school.latitude as! Double
+                        let pinLongitude = school.longitude as! Double
+                        let coordinate = CLLocationCoordinate2D(latitude: pinLatitude, longitude: pinLongitude)
+                        
+                        let schoolPin = MapCustomPointAnnotation()
+                        schoolPin.school = school
+                        schoolPin.coordinate = coordinate
+                        schoolPin.title = school.schoolName
+                        if let typeOfEstablishment = school.typeOfEstablishment {
+                            if let phase = school.phase {
+                                schoolPin.subtitle = "\(phase), \(typeOfEstablishment)"
+                            }
                         }
+                        schoolPins.append(schoolPin)
                     }
-                    schoolPins.append(schoolPin)
                 }
-            }
-            
-            // Setting title of MapViewController based on number of pins
-            if schoolPins.count == 1 {
-                self.title = "1 school"
+                // Setting title of MapViewController based on number of pins
+                if schoolPins.count == 1 {
+                    self.title = "1 school"
+                } else {
+                    self.title = "\(schoolPins.count) schools"
+                }
+                
+                mapView.addAnnotations(schoolPins)
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.mapView.showAnnotations(self.mapView.annotations, animated: true)
+                })
             } else {
-                self.title = "\(schoolPins.count) schools"
+                // Error: search.schools has a nil value 
+                showAlertViewController(ConstantStrings.sharedInstance.noSearchGivenToSettingTableViewControllerErrorTitle, errorMessage: ConstantStrings.sharedInstance.noSchoolsAttachedToTheSearhErrorMessage)
             }
-            
-            mapView.addAnnotations(schoolPins)
-            dispatch_async(dispatch_get_main_queue(), {
-                self.mapView.showAnnotations(self.mapView.annotations, animated: true)
-            })
         } else {
             // Error: no search was given to load the map
             showAlertViewController(ConstantStrings.sharedInstance.noSearchGivenToMapViewControllerErrorTitle, errorMessage: ConstantStrings.sharedInstance.noSearchGivenToMapViewControllerErrorMessage)
