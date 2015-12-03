@@ -250,7 +250,6 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     /// MARK: General functions
-    
     func searchSchools(postCode: String?, latitude: Double, longitude: Double, radius: Int) {
         accessApi.getSchoolsNearLocation(latitude, longitude: longitude, radius: radius,
             completionHandler: {(schoolsInfoArray, errorString) -> Void in
@@ -266,6 +265,7 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
                     guard schoolsInfoArray!.count != 0 else {
                         self.defreezeScreen(true)
                         self.mapView.removeAnnotations(self.mapView.annotations)
+                        self.mapView.removeOverlays(self.mapView.overlays)
                         self.showAlertViewController(ConstantStrings.sharedInstance.noSchoolsInAreaErrorTitle, errorMessage: ConstantStrings.sharedInstance.noSchoolsInAreaErrorMessage)
                         return
                     }

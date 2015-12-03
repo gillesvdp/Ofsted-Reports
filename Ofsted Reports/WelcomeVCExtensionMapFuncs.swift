@@ -20,12 +20,6 @@ extension WelcomeViewController {
                 mapView.showsUserLocation = true
                 updateCircleOverlay()
             }
-        } else if segmentedControlOutlet.selectedSegmentIndex == searchBy.setLocation {
-            if let location = locationManager.location {
-                centerMapOnLocationWithSpan(location, span: 0.12)
-                mapView.showsUserLocation = false
-                updateCircleOverlay()
-            }
         }
     }
     
@@ -38,10 +32,6 @@ extension WelcomeViewController {
         if segmentedControlOutlet.selectedSegmentIndex == searchBy.userLocation {
             if let location = locationManager.location {
                 centerMapOnLocationWithSpan(location, span: 0.06)
-            }
-        } else if segmentedControlOutlet.selectedSegmentIndex == searchBy.setLocation {
-            if let location = locationManager.location {
-                centerMapOnLocationWithSpan(location, span: 0.12)
             }
         }
     }
@@ -81,8 +71,14 @@ extension WelcomeViewController {
         }
         if let _ = coordinates {
             let updatedCircleOverlay = MKCircle(centerCoordinate: coordinates!, radius: Double(sliderOutlet.value))
+            // Add the new circle
             mapView.addOverlay(updatedCircleOverlay)
-            mapView.removeOverlays([mapView.overlays.first!])
+            
+            // Remove the previous circle
+            if mapView.overlays.count > 1 {
+                // Condition required to prevent bug when authorizing user location for the first time. Otherwise the circle is added, and then removed immediately.
+                mapView.removeOverlays([mapView.overlays.first!])
+            }
         }
     }
 }
