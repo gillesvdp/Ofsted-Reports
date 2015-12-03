@@ -5,8 +5,6 @@ Details about the latest Ofsted report are available within the app, as well as 
 
 Note: Ofsted is part of the English Government and reviews schools educational performance in England.
 
-##Video Preview##
-Link: https://youtu.be/pLwh2X_ANXs
 
 ##Installation##
 Download as .zip file or clone the repository to your computer using git; then open the workspace with XCode on a Mac. 
@@ -33,9 +31,9 @@ Tapping _'Near Me'_ will request the user to authorize the app to localize the p
 Tapping _'Post Code'_ will allow the user to type in a text field the postcode of his/her desired location.
 Tapping _'Location'_ will display a map, with an instruction for the user to do a long-press on the map to select a location.
 
-The _'Radius'_ area of the screen will define the size of the area in which the app will display schools. The values are minimum 100 meters, and maximum 4000 meters. A circle will be drawn on the map around the user location or the dropped pin (if there is one yet). The circle will be updated whenever the search radius value is updated.
+The _'Radius'_ area of the screen will define the size of the area in which the app will display schools. The values are minimum 100 meters, and maximum 4000 meters. A circle will be drawn on the map around the user location or the dropped pin (if there is one already). The circle will be updated whenever the search radius value is updated.
 
-The _'New Search'_ buttun will initiate a new search and access the network. All outlets on the screen should be frozen while the app connects to the API and fetches data. The view will unfreeze once the app is done fetching information from the network. If successful, a segue to the mapViewController will be executed. If unsuccessful, an error message will be displayed in an alerViewController.
+The _'New Search'_ button will initiate a new search and access the network. All outlets on the screen should be frozen while the app connects to the API and fetches data. The view will unfreeze once the app is done fetching information from the network. If successful, a segue to the mapViewController will be executed. If unsuccessful, an error message will be displayed in an alerViewController.
 
 The _'Previous Searches'_ buttun will make the whole view move up, and a table with previous searches will be displayed. The cell will display the description of the search, along with the radius used for that particular search. If the search was based on a postcode, the postcode is displayed on the left of the cell. If a GPS coordinate was used for the search, a geocoded string description of the place is displayed.
 
@@ -61,7 +59,7 @@ From this view, a user can do 2 things now:
 
 **3. SettingsViewController**
 
-On the first launch, all filters are set to 'Yes'. The user can simply tap on each cell to toggle the line's criteria to 'No'.
+On the first launch, all filters are set to 'Yes'. The user can simply tap on each cell to toggle the line's criteria to 'No'. The number of schools associated with the current search and matching these criteria is updated at the top of the table.
 
 Once the user is done, the user can navigate back to the map using the button on the left of the navigation bar. The schools shown on that map will now match the filters set by the user.
 
@@ -71,4 +69,4 @@ It is important to know that these filter settings are kept in memomry in NSUser
 
 This view shows basic information about the schools educational performance as measured by Ofsted, and button at the bottom of the view allows users to navigate to the official Ofsted report for the school.
 
-The left buttun in the navigation controllers allows users to navigate back to the map.
+The left button in the navigation controllers allows users to navigate back to the map.
