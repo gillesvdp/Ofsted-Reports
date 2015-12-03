@@ -12,12 +12,12 @@ import CoreData
 
 class Search: NSManagedObject {
 
-    @NSManaged var date: NSDate?
+    @NSManaged var date: NSDate
     @NSManaged var postCode: String?
-    @NSManaged var latitude: NSNumber?
-    @NSManaged var longitude: NSNumber?
-    @NSManaged var radius: NSNumber?
-    @NSManaged var textForTableCell: String?
+    @NSManaged var latitude: Double
+    @NSManaged var longitude: Double
+    @NSManaged var radius: Int
+    @NSManaged var textDescription: String
     @NSManaged var schools: [School]?
     
     struct Keys {
@@ -26,7 +26,7 @@ class Search: NSManagedObject {
         static let latitude = "latitude"
         static let longitude = "longitude"
         static let radius = "radius"
-        static let textForTableCell = "textForTableCell"
+        static let textDescription = "textDescription"
         static let schools = "schools"
     }
     
@@ -34,7 +34,7 @@ class Search: NSManagedObject {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
     }
     
-    init(postCode: String?, latitude: Double?, longitude: Double?, radius: Int?, textForTableCell: String?, context: NSManagedObjectContext) {
+    init(postCode: String?, latitude: Double, longitude: Double, radius: Int, description: String, context: NSManagedObjectContext) {
         let entity = NSEntityDescription.entityForName("Search", inManagedObjectContext: context)!
         super.init(entity: entity, insertIntoManagedObjectContext: context)
         
@@ -44,20 +44,9 @@ class Search: NSManagedObject {
             self.postCode = postCode
         }
         
-        if let _ = longitude {
-            self.longitude = longitude! as NSNumber
-        }
-        
-        if let _ = latitude {
-            self.latitude = latitude! as NSNumber
-        }
-        
-        if let _ = textForTableCell {
-            self.textForTableCell = textForTableCell
-        }
-        
-        self.radius = radius! as NSNumber
-        
-        self.schools = []
+        self.longitude = longitude
+        self.latitude = latitude
+        self.textDescription = description
+        self.radius = radius
     }
 }

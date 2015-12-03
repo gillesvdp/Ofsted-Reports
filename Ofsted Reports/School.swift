@@ -25,9 +25,7 @@ class School: NSManagedObject {
     @NSManaged var schoolName: String?
     @NSManaged var typeOfEstablishment: String?
     @NSManaged var urn: NSNumber?
-    @NSManaged var photoLocalUrl: String?
-    @NSManaged var photoWebUrl: String?
-    @NSManaged var search: Search?
+    @NSManaged var search: Search
     
     struct Keys {
         static let id = "id"
@@ -43,8 +41,6 @@ class School: NSManagedObject {
         static let schoolName = "schoolName"
         static let typeOfEstablishment = "typeOfEstablishment"
         static let urn = "urn"
-        static let photoLocalUrl = "photoLocalUrl"
-        static let photoWebUrl = "photoWebUrl"
         static let search = "search"
     }
     
@@ -52,7 +48,7 @@ class School: NSManagedObject {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
     }
     
-    init(photoWebUrl: String?, distanceMetres: Int?, lastInspectionDate: String?, lastInspectionUrl: String?, latitude: Double?, leadershipAndManagement: Int?, longitude: Double?, overallEffectiveness: Int?, phase: String?, photoLocalUrl: String?, qualityOfTeaching: Int?, schoolName: String?, typeOfEstablishment: String?, urn: Int?, context: NSManagedObjectContext) {
+    init(distanceMetres: Int?, lastInspectionDate: String?, lastInspectionUrl: String?, latitude: Double?, leadershipAndManagement: Int?, longitude: Double?, overallEffectiveness: Int?, phase: String?, qualityOfTeaching: Int?, schoolName: String?, typeOfEstablishment: String?, urn: Int?, search: Search, context: NSManagedObjectContext) {
         
         let entity = NSEntityDescription.entityForName("School", inManagedObjectContext: context)
         super.init(entity: entity!, insertIntoManagedObjectContext: context)
@@ -70,8 +66,7 @@ class School: NSManagedObject {
         if let _ = schoolName               {   self.schoolName                 = schoolName                }
         if let _ = typeOfEstablishment      {   self.typeOfEstablishment        = typeOfEstablishment       }
         if let _ = urn                      {   self.urn                        = urn                       }
-        if let _ = photoLocalUrl            {   self.photoLocalUrl              = photoLocalUrl             }
-        if let _ = photoWebUrl              {   self.photoWebUrl                = photoWebUrl               }
+        self.search = search
     }
     
     

@@ -88,14 +88,14 @@ class CoreDataStackManager {
         return funcReturn
     }
     
-    func saveNewSearch(postCode: String?, latitude: Double?, longitude: Double?, radius: Int, textForTableCell: String) -> Search {
-        let newSearch = Search(postCode: postCode, latitude: latitude, longitude: longitude, radius: radius, textForTableCell: textForTableCell, context: managedObjectContext)
+    func saveNewSearch(postCode: String?, latitude: Double, longitude: Double, radius: Int, description: String) -> Search {
+        let newSearch = Search(postCode: postCode, latitude: latitude, longitude: longitude, radius: radius, description: description, context: managedObjectContext)
         saveContext()
         return newSearch
     }
     
-    func updateSearchDescription(search: Search, textForTableCell: String) {
-        search.textForTableCell = textForTableCell
+    func updateSearchDescription(search: Search, description: String) {
+        search.textDescription = description
         saveContext()
     }
     
@@ -114,9 +114,8 @@ class CoreDataStackManager {
             let typeOfEstablishment = school["typeOfEstablishment"] as? String
             let urn = school["urn"] as? Int
             
-            // Creating new School NSManagedObjects
-            let newSchool = School(photoWebUrl: nil, distanceMetres: distanceMetres, lastInspectionDate: lastInspectionDate, lastInspectionUrl: lastInspectionUrl, latitude: latitude, leadershipAndManagement: leadershipAndManagement, longitude: longitude, overallEffectiveness: overallEffectiveness, phase: phase, photoLocalUrl: nil, qualityOfTeaching: qualityOfTeaching, schoolName: schoolName, typeOfEstablishment: typeOfEstablishment, urn: urn, context: managedObjectContext)
-            newSchool.search = search
+            // Creating new School
+            _ = School(distanceMetres: distanceMetres, lastInspectionDate: lastInspectionDate, lastInspectionUrl: lastInspectionUrl, latitude: latitude, leadershipAndManagement: leadershipAndManagement, longitude: longitude, overallEffectiveness: overallEffectiveness, phase: phase, qualityOfTeaching: qualityOfTeaching, schoolName: schoolName, typeOfEstablishment: typeOfEstablishment, urn: urn, search: search, context: managedObjectContext)
         }
         saveContext()
     }

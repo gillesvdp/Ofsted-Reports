@@ -81,10 +81,8 @@ class SchoolDetailsViewController: UIViewController, UITableViewDataSource, UITa
                 rowDetails["Last inspection date"] = lastInspectionDate
             }
             
-            if let url = school!.lastInspectionUrl {
-                if url.containsString("ofsted.gov.uk") {
-                    rowDetails["Report url"] = url
-                }
+            if let url = school!.lastInspectionUrl where url.containsString("ofsted.gov.uk") {
+                rowDetails["Report url"] = url
             } else {
                 rowDetails["Report url"] = "Report not available"
             }

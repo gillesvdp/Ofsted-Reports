@@ -20,8 +20,8 @@ extension WelcomeViewController {
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as UITableViewCell
-        cell.textLabel!.text = previousSearches![indexPath.row].textForTableCell!
-        cell.detailTextLabel!.text = "\(previousSearches![indexPath.row].radius!) m"
+        cell.textLabel!.text = previousSearches![indexPath.row].textDescription
+        cell.detailTextLabel!.text = "\(previousSearches![indexPath.row].radius) m"
         return cell
     }
     

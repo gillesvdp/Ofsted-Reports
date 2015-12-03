@@ -78,6 +78,7 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
         case searchBy.userLocation:
             // Remove view elements needed for search by post code
             postCodeTextFieldOutlet.hidden = true
+            postCodeTextFieldOutlet.text = ""
             postCodeTextFieldOutlet.endEditing(true)
             
             // Remove view elements needed for search by set location
@@ -108,6 +109,7 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
             
             // Remove view elements needed for search by post code
             postCodeTextFieldOutlet.hidden = true
+            postCodeTextFieldOutlet.text = ""
             postCodeTextFieldOutlet.endEditing(true)
             
             // Prepare view elements for search by set location
@@ -276,10 +278,10 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func saveSearchAndSchools(postCode: String?, latitude: Double, longitude: Double, radius: Int, schoolsInfoArray: [[String: AnyObject]]) {
         // Preparing to save the search (first: we generate a String description for the search)
-        var textForTableCell = String()
+        var description = String()
         if let _ = postCode {
             // PostCode search: Desctription will be the postcode in uppercase
-            textForTableCell = postCode!.uppercaseString
+            description = postCode!.uppercaseString
         } else {
             // User or Set Location Search: Description will be in the format 'Near 0.00, 0.00'
             // (otherwise there would be too many decimal digits to be displayed in a label)
@@ -288,11 +290,11 @@ class WelcomeViewController: UIViewController, UITableViewDataSource, UITableVie
             formatter.maximumFractionDigits = 2
             let latShortString = formatter.stringFromNumber(latitude)
             let lonShortString = formatter.stringFromNumber(longitude)
-            textForTableCell = "Near \(latShortString!), \(lonShortString!)"
+            description = "Near \(latShortString!), \(lonShortString!)"
         }
         
         // Save the search in Core Data
-        let newSearch = CoreDataStackManager.sharedInstance.saveNewSearch(postCode, latitude: latitude, longitude: longitude, radius: radius, textForTableCell: textForTableCell)
+        let newSearch = CoreDataStackManager.sharedInstance.saveNewSearch(postCode, latitude: latitude, longitude: longitude, radius: radius, description: description)
         self.searchToSendToMapViewController = newSearch
         
         // The search has been created with a String description, but we will create a task in a seperate thread that will update the search description using geocoding if the search was based on GPS Coordintes. This needs to be done a in seperate thread because of the nature of the geocoding process, plus this information will be needed only when the user comes back to the WelcomeViewController, so this does not need to block the main queue.

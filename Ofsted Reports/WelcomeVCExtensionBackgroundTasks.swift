@@ -55,7 +55,7 @@ extension WelcomeViewController {
                         }
                     }
                     if updatedDescription != "" { // Only save the new description if the geocoder has provided useful information.
-                        CoreDataStackManager.sharedInstance.updateSearchDescription(self.searchToSendToMapViewController!, textForTableCell: updatedDescription)
+                        CoreDataStackManager.sharedInstance.updateSearchDescription(self.searchToSendToMapViewController!, description: updatedDescription)
                     }
                 })
         })

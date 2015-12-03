@@ -19,27 +19,57 @@ class AccessAPI {
         let task = session.dataTaskWithRequest(request) {
             data, response, error in
             
+            // There was no error with the request
             guard error == nil else {
+                completionHandler(latitude: nil, longitude: nil, errorString: String(error))
                 return
             }
             
+            // Got a successful 2XX response from the server
+            guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
+                
+                var errorString : String
+                // 404 error means Unknown postcode error
+                if (response as? NSHTTPURLResponse)?.statusCode == 404 {
+                    errorString = ConstantStrings.sharedInstance.unknownPostCodeError
+                
+                // Handle other errors
+                } else if let response = response as? NSHTTPURLResponse {
+                    errorString = "Your request returned an invalid response! Status code: \(response.statusCode)!"
+                } else if let response = response {
+                    errorString = "Your request returned an invalid response! Response: \(response)!"
+                } else {
+                    errorString = "Your request returned an invalid response!"
+                }
+                completionHandler(latitude: nil, longitude: nil, errorString: errorString)
+                return
+            }
+            
+            // The data is not nil
+            guard let _ = data else {
+                completionHandler(latitude: nil, longitude: nil, errorString: ConstantStrings.sharedInstance.otherError)
+                return
+            }
+
+            // Let's the parse the data
             do {
                 let parsedResult = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments)
                 
-                // If the api returns errors
-                guard let noData = parsedResult["geo"] as? [String: AnyObject]? where noData != nil else {
-                    if let error = parsedResult["code"] as? Int {
-                        if error == 404 {
-                            completionHandler(latitude: nil, longitude: nil, errorString: ConstantStrings.sharedInstance.unknownPostCodeError)
-                        }
-                    } else {
-                        completionHandler(latitude: nil, longitude: nil, errorString: ConstantStrings.sharedInstance.otherError)
-                    }
+                // There is "geo" key in the dictionary
+                guard let geoData = parsedResult["geo"] as? [String: AnyObject] else {
+                    completionHandler(latitude: nil, longitude: nil, errorString: ConstantStrings.sharedInstance.otherError)
                     return
                 }
-                // Use SiftyJSON to check this
-                let latitude = parsedResult["geo"]!!["lat"] as! Double
-                let longitude = parsedResult["geo"]!!["lng"] as! Double
+                
+                // There are "lat" and "lng" keys in the dictionary
+                guard let latitude = geoData["lat"] as? Double,
+                      let longitude = geoData["lng"] as? Double else {
+                        
+                    completionHandler(latitude: nil, longitude: nil, errorString: ConstantStrings.sharedInstance.parsingError)
+                    
+                        return
+                }
+                
                 completionHandler(latitude: latitude, longitude: longitude, errorString: nil)
                 
             } catch {

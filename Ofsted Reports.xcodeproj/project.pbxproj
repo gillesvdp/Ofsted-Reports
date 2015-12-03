@@ -133,7 +133,6 @@
 			children = (
 				98B773091C03458200BC37E3 /* AppDelegate.swift */,
 				98B7730D1C03458200BC37E3 /* Main.storyboard */,
-				98B773101C03458200BC37E3 /* Ofsted_Reports.xcdatamodeld */,
 				98B773431C034A7800BC37E3 /* Data */,
 				98B7733E1C0346AC00BC37E3 /* ViewControllers */,
 				98B773131C03458200BC37E3 /* Assets.xcassets */,
@@ -182,6 +181,7 @@
 		98B773431C034A7800BC37E3 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				98B773101C03458200BC37E3 /* Ofsted_Reports.xcdatamodeld */,
 				98B7733F1C034A5A00BC37E3 /* AccessAPI.swift */,
 				98B773411C034A6E00BC37E3 /* ConstantStrings.swift */,
 				98B773441C034AAE00BC37E3 /* CoreDataStackManager.swift */,
